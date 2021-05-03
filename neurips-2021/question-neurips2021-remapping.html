@@ -45,13 +45,14 @@
         grid-template-columns: 30% 30% 40%;
         padding-bottom: 30px;
     }
+
     .clips-section {
         display: grid;
         grid-template-columns: 5% 30% 40%;
         padding-left: 10px;
     }
 
-    .clips-section span{
+    .clips-section span {
         padding-top: 20px;
     }
 
@@ -274,29 +275,36 @@
                 interpolate and smooth transitions from one end point of the clip to its other end point.
             </p>
 
-            <p style="padding-left: 10px;">Please select which clip is <u><b>more smooth</b></u> while transitioning from the start of the clip to its end, in comparison to the
+            <p style="padding-left: 10px;">Please select which clip is <u><b>more smooth</b></u> in quality while
+                transitioning from the start of the clip to its end, in comparison to the
                 other</b></u>.</p>
+
+            <p style="padding-left: 10px;">Please listen to all clips and click here to listen to some white noise if
+                you need to erase your tonal memory from previous tests.
+            </p>
+
 
 
         </div>
         <div class="clipbox-noborder">
 
             <div class="clips-section">
-                    <span>Clip 1:</span>
-                    <audio controls="" onended="listenedCheck('first_sound_listened_test')">
-                        <source src="combined_clips/oreilly-gan-pinned-test_spectset2snd_d1.0_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19.wav" type="audio/wav" />
-                    </audio>
+                <span>Clip 1:</span>
+                <audio controls="" onended="listenedCheck('first_sound_listened_test')">
+                    <source src="combined_clips/test_pitch_sweep_76_1_3_5_7_9_11_13_15_17_19.wav" type="audio/wav" />
+                </audio>
             </div>
             <div class="right">
-                <br/>
+                <br />
             </div>
             <div class="clips-section">
                 <span>Clip 2:</span>
                 <audio controls="" onended="listenedCheck('second_sound_listened_test')">
-                    <source src="combined_clips/oreilly-gan-test_2D4pt_d1.0_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19.wav" type="audio/wav" />
+                    <source src="combined_clips/test_spectset2snd_d1.d0.12_1_3_5_7_9_11_13_15_17_19.wav"
+                        type="audio/wav" />
                 </audio>
             </div>
-            
+
             <div class="right">
             </div>
         </div>

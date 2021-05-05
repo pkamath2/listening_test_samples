@@ -95,7 +95,8 @@
     }
 
     /* The Close Button */
-    .close {
+    .close,
+    .oneAudioOnlyClose {
         color: #aaa;
         float: right;
         font-size: 28px;
@@ -103,7 +104,9 @@
     }
 
     .close:hover,
-    .close:focus {
+    .close:focus,
+    .oneAudioOnlyClose:hover,
+    .oneAudioOnlyClose:focus {
         color: black;
         text-decoration: none;
         cursor: pointer;
@@ -134,9 +137,18 @@
 
 
     }
+    function playCheck(e) {
+        var allAudios = document.getElementsByTagName('audio');
+        for (var i = 0; i < allAudios.length; i++) {
+            if (allAudios[i].paused == false && allAudios[i] != e.target) {
+                e.target.pause();
+                oneAudioOnlyModal.style.display = "block";
+            }
+        }
+    }
 </script>
 <crowd-form>
-    <crowd-instructions link-text="View instructions" link-type="button">
+    <crowd-instructions link-text="View instructions" link-type="button" id='viewinstructions'>
         <short-summary>
             <p>Note: Please ‘accept’ this HIT only if you have access to a laptop or desktop with internal or external
                 speakers or headphones and if you are using Chrome or Firefox browser. This HIT involves listening and
@@ -182,12 +194,40 @@
 
         <detailed-instructions>
             <p>Please see summary tab for all instructions.</p>
+            <p>
+            <h4>Example</h4>
+            </p>
+            <p>This section shows two clips as you will see on the HIT page. Please listen to both clips.</p>
+            <p>
+
+            <div>
+
+                <span style="align-items: center;">Clip 1:</span><br /><br />
+                <span style="align-items: center;"><audio controls="">
+                        <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_grid/row_0.wav"
+                            type="audio/wav" />
+                    </audio></span>
+            </div>
+            <div class="right">
+                <br />
+            </div>
+            <div>
+                <span style="align-items: center;">Clip 2:</span><br /><br />
+                <span style="align-items: center;"><audio controls="">
+                        <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_remapped/row_0.wav"
+                            type="audio/wav" />
+                    </audio></span>
+            </div>
+            </p>
+
+            <p>In this case, <b>Clip 2</b> is more <b>smooth</b> and better in transitioning from its starting point to
+                its end. Notice that Clip 2 starts interpolating and moving towards the target sound immediately after the 1st
+                second. Clip 1 stays at the initial sound until atleast the 3rd or the 4th second before starting its transition.
+            </p>
         </detailed-instructions>
-
-
     </crowd-instructions>
 
-    <crowd-modal link-text="View Consent Details" link-type="button">
+    <crowd-modal link-text="View Consent Details" link-type="button" id="viewconsent">
         <div id="container" class="container">
             <div>
                 <table>
@@ -299,6 +339,18 @@
         </div>
 
     </div>
+    <div id="oneAudioOnlyModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="oneAudioOnlyClose">&times;</span>
+            <p>Your opinion on this HIT is of <b>great importance</b> to us.
+            </p>
+            <p>Please listen very closely to <b>one audio clip</b> at a time.
+            </p>
+        </div>
+
+    </div>
+
     <div class="container">
         <input type="hidden" value="No" name="first_sound_listened_test" id="first_sound_listened_test" />
         <input type="hidden" value="No" name="second_sound_listened_test" id="second_sound_listened_test" />
@@ -306,11 +358,16 @@
         <input type="hidden" value="${type_under_test}" name="type_under_test" id="type_under_test" />
         <!--nsynth or oreilly-->
 
+        <input type="hidden" value="${pitch_under_test}" name="pitch_under_test" id="pitch_under_test" />
+        <!--row under test-->
+
         <input type="hidden" value="${first_clip_type}" name="first_clip_type" id="first_clip_type" />
         <!-- 'gan' or 'gan_remapped'. If this is gan, the other should be gan_remapped-->
         <input type="hidden" value="${second_clip_type}" name="second_clip_type" id="second_clip_type" />
         <!-- 'gan' or 'gan_remapped'. If this is gan, the other should be gan_remapped-->
 
+        <input type="hidden" value="No" name="view_instructions_clicked" id="view_instructions_clicked" />
+        <input type="hidden" value="No" name="view_consent_clicked" id="view_consent_clicked" />
 
         <div class="clipbox-border margin-top">
             <p style="padding-left: 10px;"> Please read the instructions by clicking on 'View Instructions' and details
@@ -327,10 +384,11 @@
                 (e.g., sound made by a large crowd or sound made by water filling a container) by using two different
                 algorithms.
             </p>
-
-            <p style="padding-left: 10px;">Please select which audio clip is <u><b>more smooth</b></u> in quality while
+            <p style="padding-left: 10px;">Which of these sounds makes a <u><b>smoother</b></u> and
+                <u><b>steadier</b></u> morph or transition between its two endpoints?</p>
+            <!-- <p style="padding-left: 10px;">Please select which audio clip is <u><b>more smooth</b></u> in quality while
                 transitioning from the start of the clip to its end, in comparison to the
-                other</b></u>.</p>
+                other</b></u>.</p> -->
 
 
         </div>
@@ -339,12 +397,10 @@
             <div class="clips-section">
                 <span style="align-items: center;">Clip 1:</span>
                 <span style="align-items: center;"><audio controls=""
-                        onended="listenedCheck('first_sound_listened_test')">
-                        <!-- <source
-                        src="combined_clips/oreilly-gan-pinned-test_spectset2snd_d1.0_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19.wav"
-                        src="${audio_url_1}"
-                        type="audio/wav" /> -->
-                        <source src="${audio_url_1}" type="audio/wav" />
+                        onended="listenedCheck('first_sound_listened_test')" onplay="playCheck(event)">
+                        <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_grid/row_13.wav"
+                            type="audio/wav" />
+                        <!-- <source src="${audio_url_1}" type="audio/wav" /> -->
                     </audio></span>
             </div>
             <div class="right">
@@ -353,8 +409,10 @@
             <div class="clips-section">
                 <span style="align-items: center;">Clip 2:</span>
                 <span style="align-items: center;"><audio controls=""
-                        onended="listenedCheck('second_sound_listened_test')">
-                        <source src="${audio_url_2}" type="audio/wav" />
+                        onended="listenedCheck('second_sound_listened_test')" onplay="playCheck(event)">
+                        <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_remapped/row_13.wav"
+                            type="audio/wav" />
+                        <!-- <source src="${audio_url_2}" type="audio/wav" /> -->
                     </audio></span>
             </div>
 
@@ -377,15 +435,19 @@
         <p style="padding-left: 10px;"><i>Listen to all sound clips fully on this page before submitting your
                 response.</i></p>
 </crowd-form>
-</div>
-</div>
-</crowd-form>
 <script>
     var modal = document.getElementById("errorModal");
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function () {
         modal.style.display = "none";
     }
+
+    var oneAudioOnlyModal = document.getElementById("oneAudioOnlyModal");
+    var oneAudioOnlyCloseSpan = document.getElementsByClassName("oneAudioOnlyClose")[0];
+    oneAudioOnlyCloseSpan.onclick = function () {
+        oneAudioOnlyModal.style.display = "none";
+    }
+
     document.querySelector('crowd-form').onsubmit = function (e) {
         if (!validateForm()) {
             e.preventDefault();
@@ -396,5 +458,17 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
+        if (event.target == oneAudioOnlyModal) {
+            oneAudioOnlyModal.style.display = "none";
+        }
+    }
+
+    var viewinstructions = document.getElementById('viewinstructions')
+    viewinstructions.onclick = function () {
+        document.getElementById('view_instructions_clicked').value = 'Yes'
+    }
+    var viewconsent = document.getElementById('viewconsent')
+    viewconsent.onclick = function () {
+        document.getElementById('view_consent_clicked').value = 'Yes'
     }
 </script>

@@ -111,6 +111,27 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    .options-grid {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        padding-left: 10px;
+    }
+
+    .options-inner-grid {
+        display: grid;
+        grid-template-columns: 10% 90%;
+        padding-left: 10px;
+        padding-right: 50px;
+    }
+
+    input[type="radio"] {
+        -ms-transform: scale(1.5);
+        /* IE 9 */
+        -webkit-transform: scale(1.5);
+        /* Chrome, Safari, Opera */
+        transform: scale(1.5);
+    }
 </style>
 
 <script>
@@ -176,8 +197,19 @@
                 appluase from a crowd or sound of water filling a container), they use two different
                 algorithms to build the transition from the starting sound (fire crackling/engine running) to its ending
                 (crowd/water filling a container).</p>
-            <p>Although both clips may sound quite different from each other, you will need to select the clip which
-                sounds more 'smooth' in quality while transitioning from starting to its ending.</p>
+
+            <p>You are also provided with 4 visual options of how you think the sound transitions or morphs from one end
+                point to the other.</p>
+            <p><b><u>Direct & Jumpy transition or morph:</u></b> The transition from, say a sound of fire crackling to a sound
+                made by a large crowd of people, happens in a straight line though with significant variation or jumps in between.<br />
+                <img src="images/oreilly_direct.png" width="20%">
+            </p>
+            <p><b><u>Detour & Jumpy transition or morph:</u></b> The transition from, say a sound of fire crackling to a sound
+                made by a large crowd of people, happens via another class of sound. You will hear a totally different sound in
+                between the clip before the transition completes to the crowd sound.<br />
+                <img src="images/oreilly_detour.png" width="20%">
+            </p>
+
             <p>After you finish selecting an option you will need to submit the HIT.</p>
             <br />
             <br />
@@ -221,8 +253,10 @@
             </p>
 
             <p>In this case, <b>Clip 2</b> is more <b>smooth</b> and better in transitioning from its starting point to
-                its end. Notice that Clip 2 starts interpolating and moving towards the target sound immediately after the 1st
-                second. Clip 1 stays at the initial sound until atleast the 3rd or the 4th second before starting its transition.
+                its end. Notice that Clip 2 starts interpolating and moving towards the target sound immediately after
+                the 1st
+                second. Clip 1 stays at the initial sound until atleast the 3rd or the 4th second before starting its
+                transition.
             </p>
         </detailed-instructions>
     </crowd-instructions>
@@ -384,12 +418,16 @@
                 (e.g., sound made by a large crowd or sound made by water filling a container) by using two different
                 algorithms.
             </p>
-            <p style="padding-left: 10px;">Which of these sounds makes a <u><b>smoother</b></u> and
-                <u><b>steadier</b></u> morph or transition between its two endpoints?</p>
-            <!-- <p style="padding-left: 10px;">Please select which audio clip is <u><b>more smooth</b></u> in quality while
-                transitioning from the start of the clip to its end, in comparison to the
-                other</b></u>.</p> -->
-            <p style="padding-left: 10px;font-size: small;"><i>Please allow few seconds for the audio clips to load. Also see some examples on the detailed instructions tab. </i></p>
+
+            <p style="padding-left: 10px;">Please listen to both sounds before answering the question below.
+            </p>
+
+            <p style="padding-left: 10px;">Which of the options below, for each individual clip, best indicate the
+                <b><u>transition</u></b> or <b><u>morph</u></b> of the sounds from one end point to the other?
+            </p>
+
+            <p style="padding-left: 10px;font-size: small;"><i>Please allow few seconds for the audio clips to load.
+                    Also see some examples on the detailed instructions tab. </i></p>
 
 
         </div>
@@ -399,9 +437,9 @@
                 <span style="align-items: center;">Clip 1:</span>
                 <span style="align-items: center;"><audio controls=""
                         onended="listenedCheck('first_sound_listened_test')" onplay="playCheck(event)">
-                        <!-- <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_grid/row_13.wav"
-                            type="audio/wav" /> -->
-                        <source src="${audio_url_1}" type="audio/wav" />
+                        <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_grid/row_14.wav"
+                            type="audio/wav" />
+                        <!-- <source src="${audio_url_1}" type="audio/wav" /> -->
                     </audio></span>
             </div>
             <div class="right">
@@ -411,9 +449,9 @@
                 <span style="align-items: center;">Clip 2:</span>
                 <span style="align-items: center;"><audio controls=""
                         onended="listenedCheck('second_sound_listened_test')" onplay="playCheck(event)">
-                        <!-- <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_remapped/row_13.wav"
-                            type="audio/wav" /> -->
-                        <source src="${audio_url_2}" type="audio/wav" />
+                        <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_remapped/row_14.wav"
+                            type="audio/wav" />
+                        <!-- <source src="${audio_url_2}" type="audio/wav" /> -->
                     </audio></span>
             </div>
 
@@ -423,13 +461,30 @@
 
         <div class="pad-top">
             <crowd-radio-group>
-                <input type="radio" name="better_clip" id="first_clip_better" value="first_clip_better"><label
-                    for="first_clip_better">Clip 1 is more smooth than clip 2</label><br /><br />
-                <input type="radio" name="better_clip" id="second_clip_better" value="second_clip_better"><label
-                    for="second_clip_better">Clip 2 is more smooth than clip 1</label><br /><br />
-                <input type="radio" name="better_clip" id="both_similar" value="both_similar"><label
-                    for="both_similar">Cannot compare or No noticeable difference between the two
-                    clips</label>
+                <div class="options-grid">
+                    <div class="options-inner-grid">
+                        <span><input type="radio" name="timbre_selection" id="option_1" value="option_1"
+                                height='2em'></span>
+                        <span><img src='images/direct_jumpy_and_direct_jumpy.png' width="80%" /></span>
+                    </div>
+                    <div class="options-inner-grid">
+                        <span><input type="radio" name="timbre_selection" id="option_2" value="option_2"></span>
+                        <span><img src='images/direct_jumpy_and_detour_jumpy.png' width="80%" /></span>
+                        </input>
+                    </div>
+                </div>
+                <div class="options-grid">
+                    <div class="options-inner-grid">
+                        <span><input type="radio" name="timbre_selection" id="option_3" value="option_3"></span>
+                        <span><img src='images/detour_jumpy_and_direct_jumpy.png' width="80%" /></span>
+                        </input>
+                    </div>
+                    <div class="options-inner-grid">
+                        <span><input type="radio" name="timbre_selection" id="option_4" value="option_4"></span>
+                        <span><img src='images/detour_jumpy_and_detour_jumpy.png' width="80%" /></span>
+                        </input>
+                    </div>
+                </div>
             </crowd-radio-group>
         </div>
 

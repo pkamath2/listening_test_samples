@@ -1,4 +1,9 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+
 <style>
     .clipbox {
         border: solid black 1px;
@@ -132,9 +137,69 @@
         /* Chrome, Safari, Opera */
         transform: scale(1.5);
     }
+    .options-container{
+        display: grid;
+        grid-template-columns: 100%;
+    }
+
+    .parking-container{
+        display: grid;
+        grid-template-columns: 40% 5% 40% 5%;
+    }
+    .parking-container-1{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        border: solid #595959 2px;
+        padding: 10px;
+    }
+    .parking-container-2{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        border: solid #595959 2px;
+    }
+    .receiving-container{
+        display: grid;
+        grid-template-columns: 40% 5% 40% 5%;
+    }
+    .receiving-container-1{
+        display: grid;
+        grid-template-columns: 2% 46% 2% 46%;
+    }
+
+    .receiving-container-2{
+        display: grid;
+        grid-template-columns: 2% 46% 2% 46%;
+    }
+    
+    .receiver-direct-detour-box{
+        border: solid #595959 2px;
+        height: 200px;
+    }
+
+    .receiver-even-uneven-box{
+        border: solid #595959 2px;
+        height: 200px;
+    }
+
+    .draggable {
+        width: 150px;
+        height: 150px;
+        padding: 0.5em;
+        margin: 5px;
+        border: solid #595959 1px;
+    }
+
+    
 </style>
 
 <script>
+    $(function () {
+        $( "#draggable1" ).draggable({ snap: ".receiver-direct-detour-box", snapMode: "inner"  });
+        $( "#draggable2" ).draggable({ snap: ".receiver-direct-detour-box", snapMode: "inner"  });
+        $( "#draggable3" ).draggable({ snap: ".receiver-even-uneven-box", snapMode: "inner"  });
+        $( "#draggable4" ).draggable({ snap: ".receiver-even-uneven-box", snapMode: "inner"  });
+    });
+
     function listenedCheck(elementName) {
         var x = document.getElementById(elementName);
         x.value = 'Yes'
@@ -197,12 +262,12 @@
             <p>You are also provided with 4 visual options of how you think the sound transitions or morphs from one end
                 point to the other.</p>
             <p><b><u>Direct & Smooth transition or morph:</u></b> The transition from, say a Clarinet to a sound
-                made by Trumpet, happens monotonously or in a straight line with slight or no variation.<br/>
-                <img src="images/direct_smooth.png"  width="20%">
+                made by Trumpet, happens monotonously or in a straight line with slight or no variation.<br />
+                <img src="images/direct_smooth.png" width="20%">
             </p>
             <p><b><u>Detour & Smooth transition or morph:</u></b> The transition from, say a Clarinet to a sound
                 made by Trumpet, happens via another instrument, like say a Flute. You will hear a different pitch in
-                between the clip before the transition completes to Trumpet.<br/>
+                between the clip before the transition completes to Trumpet.<br />
                 <img src="images/detour_smooth.png" width="20%">
             </p>
             <p>After you finish selecting an option you will need to submit the HIT.</p>
@@ -457,7 +522,63 @@
         </div>
     </div>
 
-    <div class="pad-top">
+    <div class="pad-top options-container">
+        <div class="parking-container">
+            <div class="parking-container-1">
+                <div id='draggable1' class="draggable ui-widget-content">
+                    <span><img src='images/1_direct_smooth.png' width="100%" /></span>
+                </div>
+                <div id='draggable2' class="draggable ui-widget-content">
+                    <span><img src='images/1_detour_smooth.png' width="100%" /></span>
+                </div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="parking-container-1">
+                <div id='draggable3' class="draggable ui-widget-content">
+                    <span><img src='images/1_even_step.png' width="100%" /></span>
+                </div>
+                <div id='draggable4' class="draggable ui-widget-content">
+                    <span><img src='images/1_uneven_step.png' width="100%" /></span>
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+        <div class="receiving-container">
+            <div class="receiving-container-1">
+                <div>&nbsp;</div>
+                <div style='padding-left: 10%;'><b>Clip 1 - Direct/Detour</b></div>
+                <div>&nbsp;</div>
+                <div style='padding-left: 10%;'><b>Clip 2 - Direct/Detour</b></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="receiving-container-2">
+                <div>&nbsp;</div>
+                <div style='padding-left: 10%;'><b>Clip 1 - Even/Uneven</b></div>
+                <div>&nbsp;</div>
+                <div style='padding-left: 10%;'><b>Clip 2 - Even/Uneven</b></div>
+            </div>
+        </div>
+        <div class="receiving-container">
+            <div class="receiving-container-1">
+                <div>&nbsp;</div>
+                <div class="receiver-direct-detour-box"></div>
+                <div>&nbsp;</div>
+                <div class="receiver-direct-detour-box"></div>
+            </div>
+            <div>&nbsp;</div>
+            <div class="receiving-container-2">
+                <div>&nbsp;</div>
+                <div class="receiver-even-uneven-box"></div>
+                <div>&nbsp;</div>
+                <div class="receiver-even-uneven-box"></div>
+            </div>
+        </div>
+        
+
+
+    </div>
+
+    <!-- <div class="pad-top">
         <crowd-radio-group>
             <div class="options-grid">
                 <div class="options-inner-grid">
@@ -484,7 +605,7 @@
                 </div>
             </div>
         </crowd-radio-group>
-    </div>
+    </div> -->
 
     <p class="clipbox-noborder" style="padding-left: 10px;"><i>Listen to all sound clips fully on this page before
             submitting your

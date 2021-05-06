@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
@@ -117,7 +116,19 @@
         cursor: pointer;
     }
 
-    .options-grid {
+
+    .o-container {
+        display: grid;
+        grid-template-columns: 4% 5% 15% 20% 15%;
+    }
+
+    .o-parking-container {
+        display: grid;
+        grid-template-columns: 3% 30% 5% 30%;
+    }
+
+
+    /* .options-grid {
         display: grid;
         grid-template-columns: 50% 50%;
         padding-left: 10px;
@@ -130,74 +141,150 @@
         padding-right: 50px;
     }
 
-    input[type="radio"] {
-        -ms-transform: scale(1.5);
-        /* IE 9 */
-        -webkit-transform: scale(1.5);
-        /* Chrome, Safari, Opera */
-        transform: scale(1.5);
-    }
-    .options-container{
+    .options-container {
         display: grid;
         grid-template-columns: 100%;
-    }
+    } */
 
-    .parking-container{
+    /* .parking-container {
         display: grid;
         grid-template-columns: 40% 5% 40% 5%;
-    }
-    .parking-container-1{
+    } */
+
+    .parking-container-1 {
         display: grid;
         grid-template-columns: 50% 50%;
         border: solid #595959 2px;
         padding: 10px;
     }
-    .parking-container-2{
+
+    /* .parking-container-2 {
         display: grid;
         grid-template-columns: 50% 50%;
         border: solid #595959 2px;
-    }
-    .receiving-container{
+    } */
+
+    /* .receiving-container {
         display: grid;
         grid-template-columns: 40% 5% 40% 5%;
     }
-    .receiving-container-1{
+
+    .receiving-container-1 {
         display: grid;
         grid-template-columns: 2% 46% 2% 46%;
     }
 
-    .receiving-container-2{
+    .receiving-container-2 {
         display: grid;
         grid-template-columns: 2% 46% 2% 46%;
-    }
-    
-    .receiver-direct-detour-box{
+    } */
+
+    .receiver-direct-detour-box {
         border: solid #595959 2px;
-        height: 200px;
+        height: 170px;
     }
 
-    .receiver-even-uneven-box{
+    .receiver-even-uneven-box {
         border: solid #595959 2px;
-        height: 200px;
+        height: 170px;
+    }
+
+    .snapbox-direct-detour-box {
+        padding: 1px;
+        /* background-color: rgb(255,192,203, 0.3);; */
+        background-color: floralwhite;
+    }
+
+    .snapbox-even-uneven-box {
+        padding: 1px;
+        background-color: rgba(75, 139, 59, 0.1);
     }
 
     .draggable {
-        width: 150px;
-        height: 150px;
-        padding: 0.5em;
+        width: 80%;
+        height: 75%;
+        padding: 0.1em;
         margin: 5px;
         border: solid #595959 1px;
     }
 
-    
+    .draggable img {
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 <script>
+
     $(function () {
-        $( "#draggable1" ).draggable({ snap: ".receiver-direct-detour-box", snapMode: "inner"  });
-        $( "#draggable2" ).draggable({ snap: ".receiver-direct-detour-box", snapMode: "inner"  });
-        $( "#draggable3" ).draggable({ snap: ".receiver-even-uneven-box", snapMode: "inner"  });
-        $( "#draggable4" ).draggable({ snap: ".receiver-even-uneven-box", snapMode: "inner"  });
+        $("#draggable-direct").draggable({
+            snap: ".snapbox-direct-detour-box", snapMode: "inner",
+            revert: function (e) {console.log(e)
+                if (e && e[0].id.indexOf('-dd-') > -1) {
+                    return false
+                } else {
+                    return true
+                }
+            }
+        });
+        $("#draggable-detour").draggable({
+            snap: ".snapbox-direct-detour-box", snapMode: "inner", revert: function (e) {
+                if (e && e[0].id.indexOf('-dd-') > -1) {
+                    return false
+                } else {
+                    return true
+                }
+            }
+        });
+        $("#draggable-evenstep").draggable({
+            snap: ".snapbox-even-uneven-box", snapMode: "inner", revert: function (e) {
+                if (e && e[0].id.indexOf('-eue-') > -1) {
+                    return false
+                } else {
+                    return true
+                }
+            }
+        });
+        $("#draggable-unevenstep").draggable({
+            snap: ".snapbox-even-uneven-box", snapMode: "inner", revert: function (e) {
+                if (e && e[0].id.indexOf('-eue-') > -1) {
+                    return false
+                } else {
+                    return true
+                }
+            }
+        });
+
+        $("#droppable-dd-0").droppable({}) //home base
+        $("#droppable-eue-0").droppable({})
+
+        $("#droppable-dd-clip1").droppable({
+            drop: function (event, ui) {
+                var droppedValue = ui.draggable[0].id.split('-')[1];
+                document.getElementById('first_clip_direct_detour').value = droppedValue
+            }
+        });
+
+        $("#droppable-eue-clip1").droppable({
+            drop: function (event, ui) {
+                var droppedValue = ui.draggable[0].id.split('-')[1]
+                document.getElementById('first_clip_even_uneven').value = droppedValue
+            }
+        });
+
+        $("#droppable-dd-clip2").droppable({
+            drop: function (event, ui) {
+                var droppedValue = ui.draggable[0].id.split('-')[1]
+                document.getElementById('second_clip_direct_detour').value = droppedValue
+            }
+        });
+
+        $("#droppable-eue-clip2").droppable({
+            drop: function (event, ui) {
+                var droppedValue = ui.draggable[0].id.split('-')[1]
+                document.getElementById('second_clip_even_uneven').value = droppedValue
+            }
+        });
     });
 
     function listenedCheck(elementName) {
@@ -209,13 +296,13 @@
         firstListenedCheck = document.getElementById('first_sound_listened_test').value;
         secondListenedCheck = document.getElementById('second_sound_listened_test').value;
 
-        betterClip = document.getElementsByName('better_clip');
-        atleastOneSelected = false
-        for (i = 0; i < betterClip.length; i++) {
-            atleastOneSelected = atleastOneSelected || betterClip[i].checked
-        }
+        // betterClip = document.getElementsByName('better_clip');
+        // atleastOneSelected = false
+        // for (i = 0; i < betterClip.length; i++) {
+        //     atleastOneSelected = atleastOneSelected || betterClip[i].checked
+        // }
 
-        if (firstListenedCheck == 'Yes' && secondListenedCheck == 'Yes' && atleastOneSelected) {
+        if (firstListenedCheck == 'Yes' && secondListenedCheck == 'Yes' /*&& atleastOneSelected*/) {
             return true;
         } else {
             return false;
@@ -466,6 +553,14 @@
         <input type="hidden" value="No" name="view_instructions_clicked" id="view_instructions_clicked" />
         <input type="hidden" value="No" name="view_consent_clicked" id="view_consent_clicked" />
 
+        <!--actual form data-->
+        <input type="hidden" value="None" name="first_clip_direct_detour" id="first_clip_direct_detour" />
+        <input type="hidden" value="None" name="second_clip_direct_detour" id="second_clip_direct_detour" />
+        <input type="hidden" value="None" name="first_clip_even_uneven" id="first_clip_even_uneven" />
+        <input type="hidden" value="None" name="second_clip_even_uneven" id="second_clip_even_uneven" />
+
+        <!--actual form data ends -->
+
         <div class="clipbox-border margin-top">
             <p style="padding-left: 10px;"> Please read the instructions by clicking on 'View Instructions' and details
                 regarding your consent by clicking on 'View Consent Details'. <br />By accepting this HIT, you agree to
@@ -522,90 +617,64 @@
         </div>
     </div>
 
-    <div class="pad-top options-container">
-        <div class="parking-container">
-            <div class="parking-container-1">
-                <div id='draggable1' class="draggable ui-widget-content">
+
+
+
+
+
+    <div class="pad-top o-container">
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div style="padding-left: 25%; font-weight: bold;">Direct/Detour</div>
+        <div>&nbsp;</div>
+        <div style="padding-left: 25%; font-weight: bold;">Even/Uneven</div>
+    </div>
+    <div class="pad-top o-container">
+        <div style="padding-left: 5%; padding-top: 50%; font-weight: bold;">Clip 1</div>
+        <div>&nbsp;</div>
+        <div>
+            <div id="droppable-dd-clip1" class="receiver-direct-detour-box snapbox-direct-detour-box"></div>
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            <div id="droppable-eue-clip1" class="receiver-even-uneven-box snapbox-even-uneven-box"></div>
+        </div>
+    </div>
+    <div class="pad-top o-parking-container">
+        <div>&nbsp;</div>
+        <div>
+            <div id="droppable-dd-0" class="parking-container-1 snapbox-direct-detour-box">
+                <div id='draggable-direct' class="draggable ui-widget-content">
                     <span><img src='images/1_direct_smooth.png' width="100%" /></span>
                 </div>
-                <div id='draggable2' class="draggable ui-widget-content">
+                <div id='draggable-detour' class="draggable ui-widget-content">
                     <span><img src='images/1_detour_smooth.png' width="100%" /></span>
                 </div>
             </div>
-            <div>&nbsp;</div>
-            <div class="parking-container-1">
-                <div id='draggable3' class="draggable ui-widget-content">
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            <div id="droppable-eue-0" class="parking-container-1 snapbox-even-uneven-box">
+                <div id='draggable-evenstep' class="draggable ui-widget-content">
                     <span><img src='images/1_even_step.png' width="100%" /></span>
                 </div>
-                <div id='draggable4' class="draggable ui-widget-content">
+                <div id='draggable-unevenstep' class="draggable ui-widget-content">
                     <span><img src='images/1_uneven_step.png' width="100%" /></span>
                 </div>
             </div>
         </div>
-        <br/><br/>
-        <div class="receiving-container">
-            <div class="receiving-container-1">
-                <div>&nbsp;</div>
-                <div style='padding-left: 10%;'><b>Clip 1 - Direct/Detour</b></div>
-                <div>&nbsp;</div>
-                <div style='padding-left: 10%;'><b>Clip 2 - Direct/Detour</b></div>
-            </div>
-            <div>&nbsp;</div>
-            <div class="receiving-container-2">
-                <div>&nbsp;</div>
-                <div style='padding-left: 10%;'><b>Clip 1 - Even/Uneven</b></div>
-                <div>&nbsp;</div>
-                <div style='padding-left: 10%;'><b>Clip 2 - Even/Uneven</b></div>
-            </div>
-        </div>
-        <div class="receiving-container">
-            <div class="receiving-container-1">
-                <div>&nbsp;</div>
-                <div class="receiver-direct-detour-box"></div>
-                <div>&nbsp;</div>
-                <div class="receiver-direct-detour-box"></div>
-            </div>
-            <div>&nbsp;</div>
-            <div class="receiving-container-2">
-                <div>&nbsp;</div>
-                <div class="receiver-even-uneven-box"></div>
-                <div>&nbsp;</div>
-                <div class="receiver-even-uneven-box"></div>
-            </div>
-        </div>
-        
-
-
     </div>
-
-    <!-- <div class="pad-top">
-        <crowd-radio-group>
-            <div class="options-grid">
-                <div class="options-inner-grid">
-                    <span><input type="radio" name="timbre_selection" id="option_1" value="option_1"
-                            height='2em'></span>
-                    <span><img src='images/direct_smooth_and_direct_smooth.png' width="80%" /></span>
-                </div>
-                <div class="options-inner-grid">
-                    <span><input type="radio" name="timbre_selection" id="option_2" value="option_2"></span>
-                    <span><img src='images/direct_smooth_and_detour_smooth.png' width="80%" /></span>
-                    </input>
-                </div>
-            </div>
-            <div class="options-grid">
-                <div class="options-inner-grid">
-                    <span><input type="radio" name="timbre_selection" id="option_3" value="option_3"></span>
-                    <span><img src='images/detour_smooth_and_direct_smooth.png' width="80%" /></span>
-                    </input>
-                </div>
-                <div class="options-inner-grid">
-                    <span><input type="radio" name="timbre_selection" id="option_4" value="option_4"></span>
-                    <span><img src='images/detour_smooth_and_detour_smooth.png' width="80%" /></span>
-                    </input>
-                </div>
-            </div>
-        </crowd-radio-group>
-    </div> -->
+    <div class="pad-top o-container">
+        <div style="padding-left: 5%; padding-top: 50%; font-weight: bold;">Clip 2</div>
+        <div>&nbsp;</div>
+        <div>
+            <div id="droppable-dd-clip2" class="receiver-direct-detour-box snapbox-direct-detour-box"></div>
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            <div id="droppable-eue-clip2" class="receiver-even-uneven-box snapbox-even-uneven-box"></div>
+        </div>
+    </div>
 
     <p class="clipbox-noborder" style="padding-left: 10px;"><i>Listen to all sound clips fully on this page before
             submitting your

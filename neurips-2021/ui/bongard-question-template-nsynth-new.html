@@ -1,0 +1,863 @@
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<style>
+    .clipbox-noborder {
+        margin-left: 10px;
+        padding: 10px;
+        width: 70%;
+    }
+
+    .clipbox-border {
+        margin-left: 2%;
+        border: solid black 1px;
+        padding: 2px;
+        width: 70%;
+    }
+
+    .pad-top {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-left: 2%;
+        width: 70%;
+    }
+
+    .margin-top {
+        margin-top: 20px;
+    }
+
+    h3 {
+        margin-top: 0;
+    }
+
+    .clips-section {
+        display: grid;
+        grid-template-columns: 5% 30% 40%;
+        padding-left: 10px;
+    }
+
+    .clips-section span {
+        padding-top: 20px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 33%;
+        /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close,
+    .oneAudioOnlyClose {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus,
+    .oneAudioOnlyClose:hover,
+    .oneAudioOnlyClose:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Lonce CSS Begins */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(4, 100px);
+        grid-gap: 3px;
+        background-color: rgb(70, 70, 70);
+
+        /*For AMT*/
+        padding: 3px;
+        margin-left: 2%;
+        width: 70%;
+    }
+
+    .item {
+        /* PK: Empty but looks important. Dont Delete. Needed by JS code */
+    }
+
+    .item1 {
+        grid-column: span 7;
+        grid-row: span 2;
+    }
+
+    .item2 {
+        grid-column: span 2;
+
+    }
+
+    .item3 {
+        grid-column: span 2;
+
+    }
+
+    .item5 {
+        grid-column: span 2;
+
+    }
+
+    .item6 {
+        grid-column: span 2;
+    }
+
+    .item12 {
+        grid-column: span 2;
+    }
+
+    .item18 {
+        grid-column: span 2;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        text-align: center;
+        width: 50%;
+    }
+
+    /* Lonce CSS Ends */
+
+    .grid-inner-item {
+        display: grid;
+        grid-template-columns: 15% 5% 70%;
+        padding-top: 5%;
+    }
+
+    .grid-inner-item audio {
+        width: 100%;
+    }
+</style>
+
+<script>
+
+    function listenedCheck(elementName) {
+        var x = document.getElementById(elementName);
+        x.value = 'Yes'
+    }
+
+    function updateFields() {
+        if (document.getElementById("clip1DetourParking").children.length > 0) {
+            document.getElementById('first_clip_direct_detour').value = 'detour'
+        }
+        if (document.getElementById("clip1DirectParking").children.length > 0) {
+            document.getElementById('first_clip_direct_detour').value = 'direct'
+        }
+        if (document.getElementById("clip1JumpyParking").children.length > 0) {
+            document.getElementById('first_clip_even_uneven').value = 'uneven'
+        }
+        if (document.getElementById("clip1EvenParking").children.length > 0) {
+            document.getElementById('first_clip_even_uneven').value = 'even'
+        }
+
+
+        if (document.getElementById("clip2DetourParking").children.length > 0) {
+            document.getElementById('second_clip_direct_detour').value = 'detour'
+        }
+        if (document.getElementById("clip2DirectParking").children.length > 0) {
+            document.getElementById('second_clip_direct_detour').value = 'direct'
+        }
+        if (document.getElementById("clip2JumpyParking").children.length > 0) {
+            document.getElementById('second_clip_even_uneven').value = 'uneven'
+        }
+        if (document.getElementById("clip2EvenParking").children.length > 0) {
+            document.getElementById('second_clip_even_uneven').value = 'even'
+        }
+    }
+
+    function validateForm() {
+        firstListenedCheck = document.getElementById('first_sound_listened_test').value;
+        secondListenedCheck = document.getElementById('second_sound_listened_test').value;
+
+        firstClipDirectDetour = document.getElementById('first_clip_direct_detour').value;
+        firstClipEvenUneven = document.getElementById('first_clip_even_uneven').value;
+        secondClipDirectDetour = document.getElementById('second_clip_direct_detour').value;
+        secondClipEvenUneven = document.getElementById('second_clip_even_uneven').value;
+
+        fieldsUpdated = false
+        if (firstClipDirectDetour != 'None' && firstClipEvenUneven != 'None' && secondClipDirectDetour != 'None' && secondClipEvenUneven != 'None') {
+            fieldsUpdated = true;
+        }
+
+        if (firstListenedCheck == 'Yes' && secondListenedCheck == 'Yes' && fieldsUpdated) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function playCheck(e) {
+        var allAudios = document.getElementsByTagName('audio');
+        for (var i = 0; i < allAudios.length; i++) {
+            if (allAudios[i].paused == false && allAudios[i] != e.target) {
+                e.target.pause();
+                oneAudioOnlyModal.style.display = "block";
+            }
+        }
+    }
+</script>
+<crowd-form>
+    <crowd-instructions link-text="View instructions" link-type="button" id='viewinstructions'>
+        <short-summary>
+            <p>Note: Please ‘accept’ this HIT only if you have access to a laptop or desktop with internal or external
+                speakers or headphones and if you are using Chrome or Firefox browser. This HIT involves listening and
+                evaluating audio clips.</p>
+            <h3>Project Details:</h3>
+            <p>The purpose of this research is to evaluate the quality of synthetic audio clips generated using an
+                artificial neural network. The audio clips under test belong to the domain of audio textures (for e.g. a
+                series of popping sounds, the ticking sound made by a Geiger counter or the sound made by water filling
+                a container) or pitches made by musical instruments. The specific goal of this project is to ensure that
+                the synthetic outputs generated by these deep learning models are validated by human beings to test for
+                certain sound qualities like smoothness, naturalness or absence of noise etc.</p>
+
+            <h3>Consent:</h3>
+            <p>Before working on this HIT, please read the consent details on the 'View Consent Details' section of the
+                HIT page.
+                By accepting this HIT on Mechanical Turk, you will be indicating your consent to
+                participating in our study
+                as per the details outlined the consent details section.
+            </p>
+
+            <br />
+            <h3>Task Instructions:</h3>
+            <!--
+                <p style="padding-left: 10px;">Please listen to both sounds before attempting task below. After listening to both sounds, please use your mouse to <u>drop the right option in the requisite section</u>.</p>
+            <p style="padding-left: 10px;">
+            For direct/detour (green section): <br/>Please drag the appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end point to the other <i>directly</i> or via a <i>detour</i> either in pitch or type of instrument.
+            <br/>
+            For even/uneven (red section): <br/>Please drag the appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end point to the other either in <i>even step sizes</i> or in a <i>uneven or jumpy fashion</i>.
+            </p>
+            
+            <p style="padding-left: 10px;font-size: small;"><i>Please allow few seconds for the audio clips to load.
+                    Also see some examples on the detailed instructions tab. </i></p>
+
+
+            -->
+            <p>In this task you will be presented with two audio clips. While both clips start at one sound (like
+                sound of a Clarinet) and end at another sound (like sound of a Trumpet), they use two different
+                algorithms to build the transition from the starting sound (Clarinet) to its ending (Trumpet).</p>
+            
+            <p>
+                <ul>
+                    <li>Please listen to both clips fully.</li>
+                    <li><span style='background-color: hsl(170,75%,90%);'>For direct/detour (green section)</span>: <br/>
+                        <img src="images/1_direct_detour_combo.png" width="20%"><br/>Please drag the 'detour' option/image to the row for the clip which you think makes a detour in either 
+                        pitch or instrument type or any other variable while <b><u>transitioning</u></b> or <b><u>morphing</u></b> from one end point of the clip to the other. 
+                        <br/>Alternatively, you can drag the 'direct' option/image to the requisite row for the clip which you think makes a direct 
+                        <b><u>transition</u></b> or <b><u>morph</u></b> from one end point to the other.</li>
+                    <li><span style='background-color: hsl(25,75%,90%);'>For even/uneven (red section)</span>: <br/>
+                        <img src="images/1_even_uneven_combo.png" width="20%"><br/>Please drag the 'Uneven' option/image to the row for the clip which you think has an uneven step size or is jumpy
+                         while <b><u>transitioning</u></b> or <b><u>morphing</u></b> from one end point or instrument or pitch of the clip to the other. 
+                        <br/>Alternatively, you can drag the 'Even' option/image to the requisite row for the clip which you think has even steps while  
+                        <b><u>transitioning</u></b> or <b><u>morphing</u></b> from one end point to the other.</li>
+            </ul> 
+            </p>
+            
+            <p>After you finish dragging/dropping the images in the requisite section you will need to submit the HIT.</p>
+            <br />
+            <br />
+            <h3>For any questions:</h3>
+            <p>Please use the ‘Contact this requester’ link on the HIT details if you need further details or
+                clarifications on the task. The Principal Investigator (the person in charge of this research) or
+                his/her
+                representative will describe this research to you and answer all of your questions. <br />
+                Note: On using this
+                feature, your e-mail address and your name will automatically be visible to our research team so that we
+                can reply to you.
+            </p>
+        </short-summary>
+
+        <detailed-instructions>
+            <p>Please see summary tab for all instructions.</p>
+            <p>
+            <h4>Example</h4>
+            </p>
+            <p>This section shows two clips as you will see on the HIT page. Please listen to both clips.</p>
+            <p>
+
+            <div>
+
+                <span style="align-items: center;">Clip 1:</span><br /><br />
+                <span style="align-items: center;"><audio controls="">
+                        <source
+                            src="https://animatedsound.com/neurips2021/combined_data_shortened/nsynth_trumpinet/row_74.wav"
+                            type="audio/wav" />
+                    </audio></span>
+            </div>
+            <div>
+                <br />
+            </div>
+            <div>
+                <span style="align-items: center;">Clip 2:</span><br /><br />
+                <span style="align-items: center;"><audio controls="">
+                        <source
+                            src="https://animatedsound.com/neurips2021/combined_data_shortened/nsynth_trumpinet_pinnededges/row_10.wav"
+                            type="audio/wav" />
+                    </audio></span>
+            </div>
+            </p>
+            <p>The starting points for both clips is a pitch played on a Clarinet. Both clips end on a pitch played by a
+                trumpet. </p>
+            <p>In this case, <b>Clip 2</b> is <b>direct</b> in transitioning from its starting point to its end. Also, the transition in <b>Clip 2</b>
+                is happening in <b>Even step sizes</b>. Comparatively, <b>Clip 1</b> undergoes a <b>detour</b> in sound before transitioning and then suddenly 
+                <b>jumps unevenly</b> towards its end point.</p>
+            <p>
+                <img src="images/example_nsynth.png" width="100%"/>
+            </p>
+        </detailed-instructions>
+        <positive-example>
+
+        </positive-example>
+        <negative-example>
+            -
+        </negative-example>
+    </crowd-instructions>
+
+    <crowd-modal link-text="View Consent Details" link-type="button" id="viewconsent">
+        <div id="container" class="container">
+            <div>
+                <table>
+
+                    <tr>
+                        <td style="padding-left: 1%;width:10%"><img
+                                src='https://animatedsound.com/amt/ui/NUS_logo_full-vertical.jpg' width="75%"></td>
+                        <td>
+                            <h3>Welcome to the qualitative evaluation of
+                                artificially synthesized audio clips using deep neural networks&nbsp;&nbsp;</h3>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div>
+
+                <p><span style="font-family:Tahoma,Geneva,sans-serif;">Thank you for your interest in this audio
+                        evaluation
+                        task on Mechanical Turk. This page outlines the details with respect to your consent to
+                        participate in our study.</span></p>
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Protocol Title:</strong></u><br>
+                        Qualitative evaluation of artificially synthesized audio clips synthesized using
+                        deep neural networks</span>
+                </p>
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Purpose of this
+                                research:</strong></u><br>
+                        The purpose of this research is to evaluate the quality of synthetic audio clips
+                        generated using an artificial neural network. The audio clips under test belong to
+                        the domain of audio textures (for e.g. a series of popping sounds, the ticking
+                        sound made by a Geiger counter or the sound made by water filling a container) or pitches made
+                        by musical instruments. The specific goal of this project is to ensure that the synthetic
+                        outputs generated
+                        by these deep learning models are validated by human beings to test for certain
+                        sound qualities like smoothness, naturalness or absence of noise etc.</span>
+                </p>
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Contacting Us:</strong></u><br>
+                        Please use the ‘Contact this requester’ link on the Mechanical Turk's HIT details
+                        section if you need further details or clarifications on the task. The Principal
+                        Investigator (the person in charge of this research) or his/her representative will
+                        answer all of your questions.
+                        Note: On using this feature, your e-mail address and your name will
+                        automatically be visible to our research team so that we can reply to you.</span>
+                </p>
+
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Your personal data:</strong></u><br>
+                        Only the principal investigator and his/her representative has your worker ID and this will not
+                        be
+                        released to any other person. We will <u><strong>NOT</strong></u> request Amazon Mechanical Turk
+                        for
+                        your person identifying details. Also, this worker ID data will not be used in a publication or
+                        presentation. We will use this worker ID only for the purposes of correlating consent to HIT
+                        responses and distributing compensation via Mechanical Turk.<o:p></o:p></span>
+                </p>
+
+                <p><span style="font-family:Tahoma,Geneva,sans-serif;">All data collected will be kept in accordance to
+                        the
+                        National University of Singapore’s Research Data Management Policy. Research data used in any
+                        publication will be kept for a minimum of 10 years before being discarded.<o:p></o:p></span></p>
+            </div>
+
+            <div><br>
+                <span style="font-family:Tahoma,Geneva,sans-serif;">By accepting the HIT on Amazon's Mechanical Turk,
+                    you
+                    acknowledge that - </span>
+            </div>
+
+            <ol>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You have agreed to take part in
+                        this&nbsp;research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You have read the instructions on the mechanical
+                        turk website and details on this form which explains the use of the data you submit for this
+                        research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You can withdraw from this research at any point
+                        of
+                        time. If you want the data you already submitted to be deleted you will&nbsp;inform the
+                        Principal
+                        Investigator and all your data will be discarded.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You will not have any financial benefits that
+                        result
+                        from the commercial development of this research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You agree to be re-contacted for future related
+                        studies via&nbsp;Amazon's Mechanical Turk website. You understand that future studies will be
+                        subject to an Institutional Review Board's approval.&nbsp;<span lang="EN-US">
+                            <o:p></o:p>
+                        </span></span></li>
+            </ol>
+
+            <div>&nbsp;</div>
+
+
+        </div>
+    </crowd-modal>
+    <div id="errorModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Please listen to all sound clips <b>fully</b> and drag/drop all the options or images into the requisite sections before submitting the task.
+            </p>
+        </div>
+
+    </div>
+    <div id="oneAudioOnlyModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="oneAudioOnlyClose">&times;</span>
+            <p>Your opinion on this HIT is of <b>great importance</b> to us.
+            </p>
+            <p>Please listen very closely to <b>one audio clip</b> at a time.
+            </p>
+        </div>
+
+    </div>
+    <div class="container">
+        <input type="hidden" value="No" name="first_sound_listened_test" id="first_sound_listened_test" />
+        <input type="hidden" value="No" name="second_sound_listened_test" id="second_sound_listened_test" />
+
+        <input type="hidden" value="${type_under_test}" name="type_under_test" id="type_under_test" />
+        <!--nsynth or oreilly-->
+
+        <input type="hidden" value="${pitch_under_test}" name="pitch_under_test" id="pitch_under_test" />
+        <!--row under test-->
+
+        <input type="hidden" value="${first_clip_type}" name="first_clip_type" id="first_clip_type" />
+        <!-- 'gan' or 'gan_remapped'. If this is gan, the other should be gan_remapped-->
+        <input type="hidden" value="${second_clip_type}" name="second_clip_type" id="second_clip_type" />
+        <!-- 'gan' or 'gan_remapped'. If this is gan, the other should be gan_remapped-->
+
+        <input type="hidden" value="No" name="view_instructions_clicked" id="view_instructions_clicked" />
+        <input type="hidden" value="No" name="view_consent_clicked" id="view_consent_clicked" />
+
+        <!--actual form data-->
+        <input type="hidden" value="None" name="first_clip_direct_detour" id="first_clip_direct_detour" />
+        <input type="hidden" value="None" name="second_clip_direct_detour" id="second_clip_direct_detour" />
+        <input type="hidden" value="None" name="first_clip_even_uneven" id="first_clip_even_uneven" />
+        <input type="hidden" value="None" name="second_clip_even_uneven" id="second_clip_even_uneven" />
+
+        <!--actual form data ends -->
+
+        <div class="clipbox-border margin-top">
+            <p style="padding-left: 10px;">
+                <u>Note:</u><br />
+            <ul>
+                <li>Please accept this HIT only if you are on a laptop/desktop with Chrome/Firefox browsers</li>
+                <li>Please read the instructions by clicking on 'View Instructions' and details regarding your consent by clicking on 'View Consent Details'.</li>
+                <li>By accepting this HIT, you agree to the terms of this study outlined in the 'View Consent Details' section</li>
+            </ul>
+            </p>
+        </div>
+        <div class="clipbox-noborder">
+            <p style="padding-left: 12px;"><h3><b><u>Audio Smoothness Test</u></b></h3></p>
+
+            <p style="padding-left: 10px;"> This page outlines 2 audio clips. Both clips start at a pitch produced by
+                one instrument (e.g., a Clarinet) and slowly transitions or morphs towards the end to another instrument
+                (e.g., a
+                Trumpet) by using two different algorithms.
+            </p>
+
+            <p style="padding-left: 10px;">Please listen to both sounds before attempting task below and use your mouse to <u>drop the right option in the requisite section</u>.</p>
+            <p style="padding-left: 10px;">
+            <span style='background-color: hsl(170,75%,90%);'>For direct/detour (green section)</span>: Please drag the appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end point to the other <i>directly</i> or via a <i>detour</i> either in pitch or type of instrument.
+            <br/>
+            <span style='background-color: hsl(25,75%,90%);'>For even/uneven (red section)</span>: Please drag the appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end point to the other either in <i>even step sizes</i> or in a <i>uneven or jumpy fashion</i>.
+            </p>
+            
+            <p style="padding-left: 10px;font-size: small;"><i>Please allow few seconds for the audio clips to load.
+                    <b>Also see some examples on the <u>detailed instructions</u> tab.</b> </i></p>
+
+
+        </div>
+
+
+
+
+        <!-- <div class="clipbox-noborder">
+
+            <div class="clips-section">
+                <span style="align-items: center;">Clip 1:</span>
+                <span style="align-items: center;"><audio controls=""
+                        onended="listenedCheck('first_sound_listened_test')" onplay="playCheck(event)">
+                         <source src="${audio_url_1}" type="audio/wav" /> 
+                    </audio></span>
+            </div>
+            <div class="right">
+                <br />
+            </div>
+            <div class="clips-section">
+                <span style="align-items: center;">Clip 2:</span>
+                <span style="align-items: center;"><audio controls=""
+                        onended="listenedCheck('second_sound_listened_test')" onplay="playCheck(event)">
+                        <source src="${audio_url_2}" type="audio/wav" /> 
+                    </audio></span>
+            </div>
+        </div>
+
+        <div class="right">
+        </div> -->
+
+
+
+        <div class="grid">
+            <div class="item2 item">
+            </div>
+            <div class="item3 item center">
+                <b>detour/direct</b><br>
+                Drag icons to best match the clip differences
+            </div>
+            <div class="item4 item">
+
+            </div>
+            <div class="item5 item center">
+                <b>even/uneven</b><br>
+                Drag icons to best match the clip differences
+            </div>
+            <div class="item6 item grid-inner-item">
+                <span style="padding-top: 10px; padding-left: 10px;"><b>Clip 1</b></span>
+                <span>&nbsp;</span>
+                <span><audio controls="" onended="listenedCheck('second_sound_listened_test')"
+                        onplay="playCheck(event)">
+                        <source
+                            src="https://animatedsound.com/neurips2021/combined_data_shortened/nsynth_trumpinet/row_74.wav"
+                            type="audio/wav" />
+                    </audio>
+                </span>
+            </div>
+            <div class="item7 item" id="clip1DetourParking">
+            </div>
+            <div class="item8 item" id="clip1DirectParking">
+            </div>
+            <div class="item9 item">
+
+            </div>
+            <div class="item10 item" id="clip1JumpyParking">
+
+            </div>
+            <div class="item11 item" id="clip1EvenParking">
+
+            </div>
+            <div class="item12 item">
+
+            </div>
+            <div class="item13 item" id="neutralDetourParking">
+                <div id="detour">
+                    <img src="images/1_detour.png" height="95%" class="center">
+                </div>
+
+            </div>
+
+            <div class="item14 item" id="neutralDirectParking">
+                <div id="direct">
+                    <img src="images/1_direct.png" height="95%" class="center">
+                </div>
+
+            </div>
+            <div class="item15 item">
+
+            </div>
+            <div class="item16 item" id="neutralJumpyParking">
+                <div id="jumpy">
+                    <img src="images/1_uneven.png" height="95%" class="center">
+                </div>
+
+            </div>
+            <div class="item17 item" id="neutralEvenParking">
+                <div id="even">
+                    <img src="images/1_even.png" height="95%" class="center">
+                </div>
+
+            </div>
+            <div class="item18 item grid-inner-item">
+                <span style="padding-top: 10px; padding-left: 10px;"><b>Clip 2</b></span>
+                <span>&nbsp;</span>
+                <span><audio controls="" onended="listenedCheck('second_sound_listened_test')"
+                        onplay="playCheck(event)">
+                        <source
+                            src="https://animatedsound.com/neurips2021/combined_data_shortened/nsynth_trumpinet_pinnededges/row_10.wav"
+                            type="audio/wav" />
+                    </audio></span>
+            </div>
+            <div class="item19 item" id="clip2DetourParking">
+
+            </div>
+            <div class="item20 item" id="clip2DirectParking">
+
+            </div>
+            <div class="item21 item">
+            </div>
+            <div class="item22 item" id="clip2JumpyParking">
+
+            </div>
+            <div class="item23 item" id="clip2EvenParking">
+            </div>
+        </div>
+    </div>
+
+    <p class="clipbox-noborder" style="padding-left: 10px;"><i>Listen to all sound clips fully on this page before
+            submitting your
+            response.</i></p>
+</crowd-form>
+<script>
+    var modal = document.getElementById("errorModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    var oneAudioOnlyModal = document.getElementById("oneAudioOnlyModal");
+    var oneAudioOnlyCloseSpan = document.getElementsByClassName("oneAudioOnlyClose")[0];
+    oneAudioOnlyCloseSpan.onclick = function () {
+        oneAudioOnlyModal.style.display = "none";
+    }
+
+    document.querySelector('crowd-form').onsubmit = function (e) {
+        updateFields(); //Update form fields
+        if (!validateForm()) {
+            e.preventDefault();
+            modal.style.display = "block";
+        }
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        if (event.target == oneAudioOnlyModal) {
+            oneAudioOnlyModal.style.display = "none";
+        }
+    }
+
+    var viewinstructions = document.getElementById('viewinstructions')
+    viewinstructions.onclick = function () {
+        document.getElementById('view_instructions_clicked').value = 'Yes'
+    }
+    var viewconsent = document.getElementById('viewconsent')
+    viewconsent.onclick = function () {
+        document.getElementById('view_consent_clicked').value = 'Yes'
+    }
+</script>
+
+<!-- Lonce's grid script begins -->
+<script defer type="text/javascript">
+    let classes = document.getElementsByClassName("item")
+    for (let i = 0; i < classes.length; i++) {
+        classes[i].style.background = `hsl(${Math.floor(240)},10%,85%)`;
+        switch (i) {
+            case 5:
+            case 6:
+            case 11:
+            case 12:
+            case 17:
+            case 18:
+                classes[i].style.background = `hsl(${Math.floor(170)},75%,90%)`;
+                break;
+
+            case 8:
+            case 9:
+            case 14:
+            case 15:
+            case 20:
+            case 21:
+                classes[i].style.background = `hsl(${Math.floor(25)},75%,90%)`;
+                break;
+        }
+    }
+    let dragging = false;
+    let dragmousey;
+
+    //-------------------------------------------------------------
+
+    detour = document.getElementById("detour");
+    detour.parent = document.getElementById("neutralDetourParking");
+    detour.addEventListener("mousedown", function (ev) {
+        dragging = detour;
+        dragmouseY = ev.clientY
+        console.log(`mousedown, dragmouseY=${dragmouseY}`)
+        event.preventDefault();
+    })
+    document.addEventListener("mouseup", function (ev) {
+        console.log("mouseup")
+        event.preventDefault();
+        if (dragging == detour) {
+            dragOther = direct
+
+            dragging.parent.removeChild(dragging)
+            dragOther.parent.removeChild(dragOther)
+            if (ev.clientY < dragmouseY) {
+                console.log("movin on up")
+                dragging.parent = document.getElementById("clip1DetourParking")
+                dragOther.parent = document.getElementById("clip2DirectParking")
+
+            }
+            if (ev.clientY >= dragmouseY) {
+                console.log("movin on down")
+                dragging.parent = document.getElementById("clip2DetourParking")
+                dragOther.parent = document.getElementById("clip1DirectParking")
+            }
+            dragging.parent.appendChild(dragging)
+            dragOther.parent.appendChild(dragOther)
+
+            dragging = false;
+        }
+    })
+
+    //-------------------------------------------------------------
+    direct = document.getElementById("direct");
+    direct.parent = document.getElementById("neutralDirectParking");
+    direct.addEventListener("mousedown", function (ev) {
+        dragging = direct;
+        dragmouseY = ev.clientY
+        console.log(`mousedown, dragmouseY=${dragmouseY}`)
+        event.preventDefault();
+    })
+    document.addEventListener("mouseup", function (ev) {
+        console.log("mouseup")
+        event.preventDefault();
+        if (dragging == direct) {
+            dragOther = detour
+
+            dragging.parent.removeChild(dragging)
+            dragOther.parent.removeChild(dragOther)
+            if (ev.clientY < dragmouseY) {
+                console.log("movin on up")
+                dragging.parent = document.getElementById("clip1DirectParking")
+                dragOther.parent = document.getElementById("clip2DetourParking")
+            }
+            if (ev.clientY > dragmouseY) {
+                console.log("movin on down")
+                dragging.parent = document.getElementById("clip2DirectParking")
+                dragOther.parent = document.getElementById("clip1DetourParking")
+            }
+            dragging.parent.appendChild(dragging)
+            dragOther.parent.appendChild(dragOther)
+
+            dragging = false;
+        }
+    })
+    //========================================================================
+    jumpy = document.getElementById("jumpy");
+    jumpy.parent = document.getElementById("neutralJumpyParking");
+    jumpy.addEventListener("mousedown", function (ev) {
+        dragging = jumpy;
+        dragmouseY = ev.clientY
+        console.log(`mousedown, dragmouseY=${dragmouseY}`)
+        event.preventDefault();
+    })
+    document.addEventListener("mouseup", function (ev) {
+        console.log("mouseup")
+        event.preventDefault();
+        if (dragging == jumpy) {
+            dragOther = even
+
+            dragging.parent.removeChild(dragging)
+            dragOther.parent.removeChild(dragOther)
+            if (ev.clientY < dragmouseY) {
+                console.log("movin on up")
+                dragging.parent = document.getElementById("clip1JumpyParking")
+                dragOther.parent = document.getElementById("clip2EvenParking")
+
+            }
+            if (ev.clientY >= dragmouseY) {
+                console.log("movin on down")
+                dragging.parent = document.getElementById("clip2JumpyParking")
+                dragOther.parent = document.getElementById("clip1EvenParking")
+            }
+            dragging.parent.appendChild(dragging)
+            dragOther.parent.appendChild(dragOther)
+
+            dragging = false;
+        }
+    })
+
+    //-------------------------------------------------------------
+    even = document.getElementById("even");
+    even.parent = document.getElementById("neutralEvenParking");
+    even.addEventListener("mousedown", function (ev) {
+        dragging = even;
+        dragmouseY = ev.clientY
+        console.log(`mousedown, dragmouseY=${dragmouseY}`)
+        event.preventDefault();
+    })
+    document.addEventListener("mouseup", function (ev) {
+        console.log("mouseup")
+        event.preventDefault();
+        if (dragging == even) {
+            dragOther = jumpy
+
+            dragging.parent.removeChild(dragging)
+            dragOther.parent.removeChild(dragOther)
+            if (ev.clientY < dragmouseY) {
+                console.log("movin on up")
+                dragging.parent = document.getElementById("clip1EvenParking")
+                dragOther.parent = document.getElementById("clip2JumpyParking")
+            }
+            if (ev.clientY > dragmouseY) {
+                console.log("movin on down")
+                dragging.parent = document.getElementById("clip2EvenParking")
+                dragOther.parent = document.getElementById("clip1JumpyParking")
+            }
+            dragging.parent.appendChild(dragging)
+            dragOther.parent.appendChild(dragOther)
+
+            dragging = false;
+        }
+    })
+</script>
+<!-- Lonce's grid script ends -->

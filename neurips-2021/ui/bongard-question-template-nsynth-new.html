@@ -154,7 +154,7 @@
 
     .grid-inner-item {
         display: grid;
-        grid-template-columns: 15% 5% 70%;
+        grid-template-columns: 20% 5% 70%;
         padding-top: 5%;
     }
 
@@ -257,26 +257,37 @@
             <p>In this task you will be presented with two audio clips. While both clips start at one sound (like
                 sound of a Clarinet) and end at another sound (like sound of a Trumpet), they use two different
                 algorithms to build the transition from the starting sound (Clarinet) to its ending (Trumpet).</p>
-            
+
             <p>
-                <ul>
-                    <li>Please listen to both clips fully.</li>
-                    <li><span style='background-color: hsl(170,75%,90%);'>For direct/detour (green section)</span>: <br/>
-                        <img src="https://animatedsound.com/neurips2021/ui/images/1_direct_detour_combo.png" width="20%"><br/>Please drag the 'detour' option/image to the row for the clip which you think makes a detour in either 
-                        pitch or instrument type or any other variable while <b><u>transitioning</u></b> or <b><u>morphing</u></b> from one end point of the clip to the other. 
-                        <br/>Alternatively, you can drag the 'direct' option/image to the requisite row for the clip which you think makes a direct 
-                        <b><u>transition</u></b> or <b><u>morph</u></b> from one end point to the other.</li>
-                    <li><span style='background-color: hsl(25,75%,90%);'>For even/uneven (red section)</span>: <br/>
-                        <img src="https://animatedsound.com/neurips2021/ui/images/1_even_uneven_combo.png" width="20%"><br/>Please drag the 'Uneven' option/image to the row for the clip which you think has an uneven step size or is jumpy
-                         while <b><u>transitioning</u></b> or <b><u>morphing</u></b> from one end point or instrument or pitch of the clip to the other. 
-                        <br/>Alternatively, you can drag the 'Even' option/image to the requisite row for the clip which you think has even steps while  
-                        <b><u>transitioning</u></b> or <b><u>morphing</u></b> from one end point to the other.</li>
-            </ul> 
+            <ul>
+                <li>Please listen to both clips fully.</li>
+                <li><span style='background-color: hsl(170,75%,90%);'>For direct/detour (green section)</span>: <br />
+                    <img src="https://animatedsound.com/neurips2021/ui/images/1_direct_detour_combo.png"
+                        width="20%"><br />Please drag the 'detour' option/image to the row for the clip which you think
+                    makes a detour in either
+                    pitch or instrument type or any other variable while <b><u>transitioning</u></b> or
+                    <b><u>morphing</u></b> from one end point of the clip to the other.
+                    <br />Alternatively, you can drag the 'direct' option/image to the requisite row for the clip which
+                    you think makes a direct
+                    <b><u>transition</u></b> or <b><u>morph</u></b> from one end point to the other.
+                </li>
+                <li><span style='background-color: hsl(25,75%,90%);'>For even/uneven (red section)</span>: <br />
+                    <img src="https://animatedsound.com/neurips2021/ui/images/1_even_uneven_combo.png"
+                        width="20%"><br />Please drag the 'Uneven' option/image to the row for the clip which you think
+                    has an uneven step size or is jumpy
+                    while <b><u>transitioning</u></b> or <b><u>morphing</u></b> from one end point or instrument or
+                    pitch of the clip to the other.
+                    <br />Alternatively, you can drag the 'Even' option/image to the requisite row for the clip which
+                    you think has even steps while
+                    <b><u>transitioning</u></b> or <b><u>morphing</u></b> from one end point to the other.
+                </li>
+            </ul>
             </p>
-            
-            <p>After you finish dragging/dropping the images in the requisite section you will need to submit the HIT.</p>
+
+            <p>After you finish dragging/dropping the images in the requisite section you will need to submit the HIT.
+            </p>
             <p><i>
-                <b>Please see some examples on the <u>detailed instructions</u> tab.</b> </i></p>
+                    <b>Please see some examples on the <u>detailed instructions</u> tab.</b> </i></p>
             <br />
             <br />
             <h3>For any questions:</h3>
@@ -301,7 +312,7 @@
             <div>
 
                 <span style="align-items: center;">Clip 1:</span><br /><br />
-                <span style="align-items: center;"><audio controls="">
+                <span style="align-items: center;"><audio controls="" preload="auto">
                         <source
                             src="https://animatedsound.com/neurips2021/combined_data_shortened/nsynth_trumpinet/row_74.wav"
                             type="audio/wav" />
@@ -312,7 +323,7 @@
             </div>
             <div>
                 <span style="align-items: center;">Clip 2:</span><br /><br />
-                <span style="align-items: center;"><audio controls="">
+                <span style="align-items: center;"><audio controls="" preload="auto">
                         <source
                             src="https://animatedsound.com/neurips2021/combined_data_shortened/nsynth_trumpinet_pinnededges/row_10.wav"
                             type="audio/wav" />
@@ -321,11 +332,14 @@
             </p>
             <p>The starting points for both clips is a pitch played on a Clarinet. Both clips end on a pitch played by a
                 trumpet. </p>
-            <p>In this case, <b>Clip 2</b> is <b>direct</b> in transitioning from its starting point to its end. Also, the transition in <b>Clip 2</b>
-                is happening in <b>Even step sizes</b>. Comparatively, <b>Clip 1</b> undergoes a <b>detour</b> in sound before transitioning and then suddenly 
-                <b>jumps unevenly</b> towards its end point.</p>
+            <p>In this case, <b>Clip 2</b> is <b>direct</b> in transitioning from its starting point to its end. Also,
+                the transition in <b>Clip 2</b>
+                is happening in <b>Even step sizes</b>. Comparatively, <b>Clip 1</b> undergoes a <b>detour</b> in sound
+                before transitioning and then suddenly
+                <b>jumps unevenly</b> towards its end point.
+            </p>
             <p>
-                <img src="https://animatedsound.com/neurips2021/ui/images/example_nsynth.png" width="100%"/>
+                <img src="https://animatedsound.com/neurips2021/ui/images/example_nsynth.png" width="100%" />
             </p>
         </detailed-instructions>
         <positive-example>
@@ -440,7 +454,8 @@
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Please listen to all sound clips <b>fully</b> and drag/drop all the options or images into the requisite sections before submitting the task.
+            <p>Please listen to all sound clips <b>fully</b> and drag/drop all the options or images into the requisite
+                sections before submitting the task.
             </p>
         </div>
 
@@ -487,24 +502,33 @@
                 <u>Note:</u><br />
             <ul>
                 <li>Please accept this HIT only if you are on a laptop/desktop with Chrome/Firefox browsers</li>
-                <li>Please read the instructions by clicking on 'View Instructions' and details regarding your consent by clicking on 'View Consent Details'.</li>
-                <li>By accepting this HIT, you agree to the terms of this study outlined in the 'View Consent Details' section</li>
+                <li>Please read the instructions by clicking on 'View Instructions' and details regarding your consent
+                    by clicking on 'View Consent Details'.</li>
+                <li>By accepting this HIT, you agree to the terms of this study outlined in the 'View Consent Details'
+                    section</li>
             </ul>
             </p>
         </div>
         <div class="clipbox-noborder">
-            <p style="padding-left: 12px;"><h3><b><u>Audio Smoothness Test</u></b></h3></p>
+            <p style="padding-left: 12px;">
+            <h3><b><u>Audio Smoothness Test</u></b></h3>
+            </p>
 
             <p style="padding-left: 10px;"> This page outlines 2 audio clips. Both clips start at a pitch produced by
                 one instrument (e.g., a Clarinet) and slowly transitions or morphs towards the end to another instrument
                 (e.g., a
                 Trumpet) by using two different algorithms.
             </p>
-            <p style="padding-left: 10px;">Please listen to both sounds before attempting task below and use your mouse to <u>drag/drop the right option in the requisite section</u>.</p>
+            <p style="padding-left: 10px;">Please listen to both sounds before attempting task below and use your mouse
+                to <u>drag/drop the right option in the requisite section</u>.</p>
             <p style="padding-left: 10px;">
-            <span style='background-color: hsl(170,75%,90%);'>For direct/detour (green section)</span>: Please drag the appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end point to the other <i>directly</i> or via a <i>detour</i> either in pitch or type of instrument.
-            <br/>
-            <span style='background-color: hsl(25,75%,90%);'>For even/uneven (red section)</span>: Please drag the appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end point to the other either in <i>even step sizes</i> or in a <i>uneven or jumpy fashion</i>.
+                <span style='background-color: hsl(170,75%,90%);'>For direct/detour (green section)</span>: Please drag
+                the appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end
+                point to the other <i>directly</i> or via a <i>detour</i> either in pitch or type of instrument, in comparison with the other clip.
+                <br />
+                <span style='background-color: hsl(25,75%,90%);'>For even/uneven (red section)</span>: Please drag the
+                appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end point
+                to the other either in <i>even step sizes</i> or in a <i>uneven or jumpy fashion</i>, in comparison with the other clip.
             </p>
             <p style="padding-left: 10px;font-size: small;"><i>Please allow few seconds for the audio clips to load.
                     <b>Also see some examples on the <u>detailed instructions</u> tab.</b> </i></p>
@@ -549,12 +573,11 @@
             <div class="item6 item grid-inner-item">
                 <span style="padding-top: 10px; padding-left: 7px;"><b>Clip 1</b></span>
                 <span>&nbsp;</span>
-                <span><audio controls="" onended="listenedCheck('first_sound_listened_test')"
-                        onplay="playCheck(event)">
-                        <source
+                <span><audio controls="" onended="listenedCheck('first_sound_listened_test')" onplay="playCheck(event)" preload="auto">
+                        <!-- <source
                             src="https://animatedsound.com/neurips2021/combined_data_shortened/nsynth_trumpinet/row_74.wav"
-                            type="audio/wav" />
-                        <!-- <source src="${audio_url_1}" type="audio/wav" /> -->
+                            type="audio/wav" /> -->
+                        <source src="${audio_url_1}" type="audio/wav" />
                     </audio>
                 </span>
             </div>
@@ -606,11 +629,11 @@
                 <span style="padding-top: 10px; padding-left: 7px;"><b>Clip 2</b></span>
                 <span>&nbsp;</span>
                 <span><audio controls="" onended="listenedCheck('second_sound_listened_test')"
-                        onplay="playCheck(event)">
-                        <source
+                        onplay="playCheck(event)" preload="auto">
+                        <!-- <source
                             src="https://animatedsound.com/neurips2021/combined_data_shortened/nsynth_trumpinet_pinnededges/row_10.wav"
-                            type="audio/wav" />
-                        <!-- <source src="${audio_url_2}" type="audio/wav" /> -->
+                            type="audio/wav" /> -->
+                        <source src="${audio_url_2}" type="audio/wav" />
                     </audio></span>
             </div>
             <div class="item19 item" id="clip2DetourParking">
@@ -707,7 +730,6 @@
     detour.addEventListener("mousedown", function (ev) {
         dragging = detour;
         dragmouseY = ev.clientY
-        console.log(`mousedown, dragmouseY=${dragmouseY}`)
         event.preventDefault();
     })
     document.addEventListener("mouseup", function (ev) {
@@ -742,7 +764,6 @@
     direct.addEventListener("mousedown", function (ev) {
         dragging = direct;
         dragmouseY = ev.clientY
-        console.log(`mousedown, dragmouseY=${dragmouseY}`)
         event.preventDefault();
     })
     document.addEventListener("mouseup", function (ev) {
@@ -775,7 +796,6 @@
     jumpy.addEventListener("mousedown", function (ev) {
         dragging = jumpy;
         dragmouseY = ev.clientY
-        console.log(`mousedown, dragmouseY=${dragmouseY}`)
         event.preventDefault();
     })
     document.addEventListener("mouseup", function (ev) {
@@ -810,7 +830,6 @@
     even.addEventListener("mousedown", function (ev) {
         dragging = even;
         dragmouseY = ev.clientY
-        console.log(`mousedown, dragmouseY=${dragmouseY}`)
         event.preventDefault();
     })
     document.addEventListener("mouseup", function (ev) {

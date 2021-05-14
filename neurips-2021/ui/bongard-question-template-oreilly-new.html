@@ -154,7 +154,7 @@
 
     .grid-inner-item {
         display: grid;
-        grid-template-columns: 15% 5% 70%;
+        grid-template-columns: 20% 5% 70%;
         padding-top: 5%;
     }
 
@@ -311,7 +311,7 @@
             <div>
 
                 <span style="align-items: center;">Clip 1:</span><br /><br />
-                <span style="align-items: center;"><audio controls="">
+                <span style="align-items: center;"><audio controls="" preload="auto">
                         <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_grid/row_0.wav"
                             type="audio/wav" />
                     </audio></span>
@@ -321,7 +321,7 @@
             </div>
             <div>
                 <span style="align-items: center;">Clip 2:</span><br /><br />
-                <span style="align-items: center;"><audio controls="">
+                <span style="align-items: center;"><audio controls="" preload="auto">
                         <source src="https://animatedsound.com/neurips2021/combined_data/oreilly_remapped/row_0.wav"
                             type="audio/wav" />
                     </audio></span>
@@ -510,7 +510,7 @@
             <h3><b><u>Audio Smoothness Test</u></b></h3>
             </p>
 
-            <p style="padding-left: 10px;"> TThis page outlines 2 audio clips. Both clips start at one sound (e.g., sound
+            <p style="padding-left: 10px;"> This page outlines 2 audio clips. Both clips start at one sound (e.g., sound
                 of fire crackling or an engine running) and slowly transitions towards the end to another sound
                 (e.g., sound made by a large crowd or sound made by water filling a container) by using two different
                 algorithms.
@@ -520,11 +520,11 @@
             <p style="padding-left: 10px;">
                 <span style='background-color: hsl(170,75%,90%);'>For direct/detour (green section)</span>: Please drag
                 the appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end
-                point to the other <i>directly</i> or via a <i>detour</i> either in pitch or type of instrument.
+                point to the other <i>directly</i> or via a <i>detour</i> into a third type of sound, in comparison with the other clip.
                 <br />
                 <span style='background-color: hsl(25,75%,90%);'>For even/uneven (red section)</span>: Please drag the
                 appropriate image to the clip which <b><u>transitions</u></b> or <b><u>morphs</u></b> from one end point
-                to the other either in <i>even step sizes</i> or in a <i>uneven or jumpy fashion</i>.
+                to the other either in <i>even step sizes</i> or in a <i>uneven or jumpy fashion, in comparison with the other clip</i>.
             </p>
             <p style="padding-left: 10px;font-size: small;"><i>Please allow few seconds for the audio clips to load.
                     <b>Also see some examples on the <u>detailed instructions</u> tab.</b> </i></p>
@@ -569,11 +569,11 @@
             <div class="item6 item grid-inner-item">
                 <span style="padding-top: 10px; padding-left: 7px;"><b>Clip 1</b></span>
                 <span>&nbsp;</span>
-                <span><audio controls="" onended="listenedCheck('first_sound_listened_test')" onplay="playCheck(event)">
-                        <source
+                <span><audio controls="" onended="listenedCheck('first_sound_listened_test')" onplay="playCheck(event)" preload="auto">
+                        <!-- <source
                             src="https://animatedsound.com/neurips2021/combined_data/oreilly_grid/row_14.wav"
-                            type="audio/wav" />
-                        <!-- <source src="${audio_url_1}" type="audio/wav" /> -->
+                            type="audio/wav" /> -->
+                        <source src="${audio_url_1}" type="audio/wav" />
                     </audio>
                 </span>
             </div>
@@ -625,11 +625,11 @@
                 <span style="padding-top: 10px; padding-left: 7px;"><b>Clip 2</b></span>
                 <span>&nbsp;</span>
                 <span><audio controls="" onended="listenedCheck('second_sound_listened_test')"
-                        onplay="playCheck(event)">
-                        <source
+                        onplay="playCheck(event)" preload="auto">
+                        <!-- <source
                             src="https://animatedsound.com/neurips2021/combined_data/oreilly_remapped/row_14.wav"
-                            type="audio/wav" />
-                        <!-- <source src="${audio_url_2}" type="audio/wav" /> -->
+                            type="audio/wav" /> -->
+                        <source src="${audio_url_2}" type="audio/wav" />
                     </audio></span>
             </div>
             <div class="item19 item" id="clip2DetourParking">
@@ -726,7 +726,6 @@
     detour.addEventListener("mousedown", function (ev) {
         dragging = detour;
         dragmouseY = ev.clientY
-        console.log(`mousedown, dragmouseY=${dragmouseY}`)
         event.preventDefault();
     })
     document.addEventListener("mouseup", function (ev) {
@@ -761,7 +760,6 @@
     direct.addEventListener("mousedown", function (ev) {
         dragging = direct;
         dragmouseY = ev.clientY
-        console.log(`mousedown, dragmouseY=${dragmouseY}`)
         event.preventDefault();
     })
     document.addEventListener("mouseup", function (ev) {
@@ -794,7 +792,6 @@
     jumpy.addEventListener("mousedown", function (ev) {
         dragging = jumpy;
         dragmouseY = ev.clientY
-        console.log(`mousedown, dragmouseY=${dragmouseY}`)
         event.preventDefault();
     })
     document.addEventListener("mouseup", function (ev) {
@@ -829,7 +826,6 @@
     even.addEventListener("mousedown", function (ev) {
         dragging = even;
         dragmouseY = ev.clientY
-        console.log(`mousedown, dragmouseY=${dragmouseY}`)
         event.preventDefault();
     })
     document.addEventListener("mouseup", function (ev) {

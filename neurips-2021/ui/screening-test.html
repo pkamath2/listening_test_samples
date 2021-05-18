@@ -1,0 +1,744 @@
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<style>
+    .clipbox-noborder {
+        margin-left: 10px;
+        padding: 10px;
+        width: 70%;
+    }
+
+    .clipbox-border {
+        margin-left: 2%;
+        border: solid black 1px;
+        padding: 2px;
+        width: 70%;
+    }
+
+    .pad-top {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-left: 2%;
+        width: 70%;
+    }
+
+    .margin-top {
+        margin-top: 20px;
+    }
+
+    h3 {
+        margin-top: 0;
+    }
+
+    .clips-section {
+        display: grid;
+        grid-template-columns: 5% 30% 40%;
+        padding-left: 10px;
+    }
+
+    .clips-section span {
+        padding-top: 20px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 33%;
+        /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close,
+    .oneAudioOnlyClose {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus,
+    .oneAudioOnlyClose:hover,
+    .oneAudioOnlyClose:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .grid-50-percent {
+        display: grid;
+        grid-template-columns: 5% 45% 5% 45%;
+    }
+
+    /* Lonce CSS Begins */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(4, 100px);
+        grid-gap: 3px;
+        background-color: rgb(70, 70, 70);
+
+        /*For AMT*/
+        padding: 3px;
+        margin-left: 2%;
+        width: 70%;
+    }
+
+    .item {
+        /* PK: Empty but looks important. Dont Delete. Needed by JS code */
+    }
+
+    .item1 {
+        grid-column: span 7;
+        grid-row: span 2;
+    }
+
+    .item2 {
+        grid-column: span 2;
+
+    }
+
+    .item3 {
+        grid-column: span 2;
+
+    }
+
+    .item5 {
+        grid-column: span 2;
+
+    }
+
+    .item6 {
+        grid-column: span 2;
+    }
+
+    .item12 {
+        grid-column: span 2;
+    }
+
+    .item18 {
+        grid-column: span 2;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        text-align: center;
+        width: 50%;
+    }
+
+    /* Lonce CSS Ends */
+
+    .grid-inner-item {
+        display: grid;
+        grid-template-columns: 20% 5% 70%;
+        padding-top: 5%;
+    }
+
+    .grid-inner-item audio {
+        width: 100%;
+    }
+</style>
+
+<script>
+
+    function validateForm() {
+        firstListenedCheck = document.getElementById('first_sound_listened_test').value;
+        secondListenedCheck = document.getElementById('second_sound_listened_test').value;
+
+        firstClipDirectDetour = document.getElementById('first_clip_direct_detour').value;
+        firstClipEvenUneven = document.getElementById('first_clip_even_uneven').value;
+        secondClipDirectDetour = document.getElementById('second_clip_direct_detour').value;
+        secondClipEvenUneven = document.getElementById('second_clip_even_uneven').value;
+
+        fieldsUpdated = false
+        if (firstClipDirectDetour != 'None' && firstClipEvenUneven != 'None' && secondClipDirectDetour != 'None' && secondClipEvenUneven != 'None') {
+            fieldsUpdated = true;
+        }
+
+        if (firstListenedCheck == 'Yes' && secondListenedCheck == 'Yes' && fieldsUpdated) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function playCheck(e) {
+        var allAudios = document.getElementsByTagName('audio');
+        for (var i = 0; i < allAudios.length; i++) {
+            if (allAudios[i].paused == false && allAudios[i] != e.target) {
+                e.target.pause();
+                oneAudioOnlyModal.style.display = "block";
+            }
+        }
+    }
+</script>
+<crowd-form>
+    <crowd-instructions link-text="View instructions" link-type="button" id='viewinstructions'>
+        <short-summary>
+
+        </short-summary>
+
+        <detailed-instructions>
+
+        </detailed-instructions>
+        <positive-example>
+
+        </positive-example>
+        <negative-example>
+            -
+        </negative-example>
+    </crowd-instructions>
+
+    <crowd-modal link-text="View Consent Details" link-type="button" id="viewconsent">
+        <div id="container" class="container">
+            <div>
+                <table>
+
+                    <tr>
+                        <td style="padding-left: 1%;width:10%"><img
+                                src='https://animatedsound.com/amt/ui/NUS_logo_full-vertical.jpg' width="75%"></td>
+                        <td>
+                            <h3>Welcome to the qualitative evaluation of
+                                artificially synthesized audio clips using deep neural networks&nbsp;&nbsp;</h3>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <p><span style="font-family:Tahoma,Geneva,sans-serif;">Thank you for your interest in this audio
+                        evaluation
+                        task on Mechanical Turk. This page outlines the details with respect to your consent to
+                        participate in our study.</span></p>
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Protocol Title:</strong></u><br>
+                        Qualitative evaluation of artificially synthesized audio clips synthesized using
+                        deep neural networks</span>
+                </p>
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Purpose of this
+                                research:</strong></u><br>
+                        The purpose of this research is to evaluate the quality of synthetic audio clips
+                        generated using an artificial neural network. The audio clips under test belong to
+                        the domain of audio textures (for e.g. a series of popping sounds, the ticking
+                        sound made by a Geiger counter or the sound made by water filling a container) or pitches made
+                        by musical instruments. The specific goal of this project is to ensure that the synthetic
+                        outputs generated
+                        by these deep learning models are validated by human beings to test for certain
+                        sound qualities like smoothness, naturalness or absence of noise etc.</span>
+                </p>
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Contacting Us:</strong></u><br>
+                        Please use the ‘Contact this requester’ link on the Mechanical Turk's HIT details
+                        section if you need further details or clarifications on the task. The Principal
+                        Investigator (the person in charge of this research) or his/her representative will
+                        answer all of your questions.
+                        Note: On using this feature, your e-mail address and your name will
+                        automatically be visible to our research team so that we can reply to you.</span>
+                </p>
+
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Your personal data:</strong></u><br>
+                        Only the principal investigator and his/her representative has your worker ID and this will not
+                        be
+                        released to any other person. We will <u><strong>NOT</strong></u> request Amazon Mechanical Turk
+                        for
+                        your person identifying details. Also, this worker ID data will not be used in a publication or
+                        presentation. We will use this worker ID only for the purposes of correlating consent to HIT
+                        responses and distributing compensation via Mechanical Turk.<o:p></o:p></span>
+                </p>
+
+                <p><span style="font-family:Tahoma,Geneva,sans-serif;">All data collected will be kept in accordance to
+                        the
+                        National University of Singapore’s Research Data Management Policy. Research data used in any
+                        publication will be kept for a minimum of 10 years before being discarded.<o:p></o:p></span></p>
+            </div>
+
+            <div><br>
+                <span style="font-family:Tahoma,Geneva,sans-serif;">By accepting the HIT on Amazon's Mechanical Turk,
+                    you
+                    acknowledge that - </span>
+            </div>
+
+            <ol>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You have agreed to take part in
+                        this&nbsp;research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You have read the instructions on the mechanical
+                        turk website and details on this form which explains the use of the data you submit for this
+                        research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You can withdraw from this research at any point
+                        of
+                        time. If you want the data you already submitted to be deleted you will&nbsp;inform the
+                        Principal
+                        Investigator and all your data will be discarded.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You will not have any financial benefits that
+                        result
+                        from the commercial development of this research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You agree to be re-contacted for future related
+                        studies via&nbsp;Amazon's Mechanical Turk website. You understand that future studies will be
+                        subject to an Institutional Review Board's approval.&nbsp;<span lang="EN-US">
+                            <o:p></o:p>
+                        </span></span></li>
+            </ol>
+
+            <div>&nbsp;</div>
+
+
+        </div>
+    </crowd-modal>
+    <div id="errorModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Please listen to all sound clips <b>fully</b> and drag/drop all the options or images into the requisite
+                sections before submitting the task.
+            </p>
+        </div>
+
+    </div>
+    <div id="oneAudioOnlyModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="oneAudioOnlyClose">&times;</span>
+            <p>Your opinion on this HIT is of <b>great importance</b> to us.
+            </p>
+            <p>Please listen very closely to <b>one audio clip</b> at a time.
+            </p>
+        </div>
+
+    </div>
+    <div class="container">
+        <input type="hidden" value="No" name="first_sound_listened_test" id="first_sound_listened_test" />
+
+
+        <input type="hidden" value="No" name="view_instructions_clicked" id="view_instructions_clicked" />
+        <input type="hidden" value="No" name="view_consent_clicked" id="view_consent_clicked" />
+
+        <!--actual form data-->
+        <input type="hidden" value="None" name="first_clip_direct_detour" id="first_clip_direct_detour" />
+
+        <!--actual form data ends -->
+
+        <div class="clipbox-border margin-top">
+            <p style="padding-left: 10px;">
+                <u>Note:</u><br />
+            <ul>
+                <li>Please accept this HIT only if you are on a laptop/desktop with Chrome/Firefox browsers and are
+                    using headphones (not laptop speakers)</li>
+                <li>Please read the instructions by clicking on 'View Instructions' and details regarding your consent
+                    by clicking on 'View Consent Details'.</li>
+                <li>By accepting this HIT, you agree to the terms of this study outlined in the 'View Consent Details'
+                    section</li>
+            </ul>
+            </p>
+        </div>
+        <div class="clipbox-noborder">
+            <p style="padding-left: 12px;">
+            <h3><b><u>Audio Screening Tests</u></b></h3>
+            </p>
+
+            <p style="padding-left: 10px;"> This HIT is a screening or a qualifying test towards another group of HITs
+                to appear later during this week on Mechanical Turk.
+            </p>
+            <p style="padding-left: 10px;"> Please follow the instructions on each step below. You will need to listen
+                to few sounds and answer question regarding those sounds. <br /><b>It is important that you use a pair
+                    of
+                    headphone to listen to the sounds.</b>
+            </p>
+
+
+            <div style="padding: 15px; padding-left: 10px; border-bottom: solid black 1px;">
+                <span style="font-weight: bold;"><u>Step 1</u>:</span><br /><br />
+                Listen to this sound and adjust the volume on your laptop/headphones to a comfortable level.
+                After this, do not change the volume for the rest of the test.<br />
+                <div style="padding-top: 10px; align-items: center;"><audio controls=""
+                    onended="listenedCheck('first_sound_listened_test')" onplay="playCheck(event)">
+                     <source src="screening_sounds/step1.wav" type="audio/wav" /> 
+                </audio></div>
+            </div>
+
+
+
+            <div style="padding: 15px; padding-left: 10px; border-bottom: solid black 1px;"><br /><br />
+                <span style="font-weight: bold;"><u>Step 2</u>: </span>Answer these questions -<br /><br />
+                1. How would you describe your surrounding environment for this test?<br />
+                <div class="pad-top">
+                    <crowd-radio-group>
+                        <input type="radio" name="environment" id="office_env" value="office_env"><label
+                            for="environment">An office environment</label><br /><br />
+                            <input type="radio" name="environment" id="cafe_env" value="cafe_env"><label
+                            for="environment">A coffee shop or a restaurant</label><br /><br />
+                            <input type="radio" name="environment" id="quiet_room_env" value="quiet_room_env"><label
+                            for="environment">A quiet room</label><br /><br />
+                    </crowd-radio-group>
+                </div>
+                2. What device are you using for this test?<br />
+                <div class="pad-top">
+                    <crowd-radio-group>
+                        <input type="radio" name="which_device" id="laptop_device" value="laptop_device"><label
+                            for="which_device">A laptop with headphones</label><br /><br />
+                            <input type="radio" name="which_device" id="desktop_device" value="desktop_device"><label
+                            for="which_device">A desktop with headphones</label><br /><br />
+                            <input type="radio" name="which_device" id="mobile_device" value="mobile_device"><label
+                            for="which_device">A mobile device with headphones</label><br /><br />
+                    </crowd-radio-group>
+                </div>
+                3. What type of headphones are you using for this test?<br />
+                <div class="pad-top">
+                    <crowd-radio-group>
+                        <input type="radio" name="which_headphones" id="wired_headphones" value="wired_headphones"><label
+                            for="which_headphones">Wired headphones</label><br /><br />
+                            <input type="radio" name="which_headphones" id="wireless_headphones" value="wireless_headphones"><label
+                            for="which_headphones">Wireless headphones (like airpods)</label><br /><br />
+                            <input type="radio" name="which_headphones" id="noise_cancelling_headphones" value="noise_cancelling_headphones"><label
+                            for="which_headphones">Noise cancelling headphones</label><br /><br />
+                    </crowd-radio-group>
+                </div>
+            </div>
+
+
+            <div style="padding: 15px; padding-left: 10px; border-bottom: solid black 1px;">
+                <span style="font-weight: bold;"><u>Step 3</u>:</span><br /><br />
+                Listen to the sounds below and input the number of tones you hear in each sound in its corresponding text box.<br />
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step2_1')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step2_1.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step2_1_tones" name="step2_1_tones"/>  (PK Comment: 24Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step2_2')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step2_2.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step2_2_tones" name="step2_2_tones"/>  (PK Comment: 24Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+            </div>
+
+
+
+            <div style="padding: 15px; padding-left: 10px; border-bottom: solid black 1px;">
+                <span style="font-weight: bold;"><u>Step 4</u>:</span><br /><br />
+                Listen to all the sounds below and input the number of tones you hear in each sound in its corresponding text box.<br />
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step3_1')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step3_1.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step3_1_tones" name="step3_1_tones"/>  (PK Comment: 24Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step3_2')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step3_2.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step3_2_tones" name="step3_2_tones"/>  (PK Comment: 71.51Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step3_3')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step3_3.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step3_3_tones" name="step3_3_tones"/>  (PK Comment: 213.09Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step3_4')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step3_4.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step3_4_tones" name="step3_4_tones"/>  (PK Comment: 634.98Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step3_5')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step3_5.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step3_5_tones" name="step3_5_tones"/>  (PK Comment: 1892Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step3_6')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step3_6.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step3_6_tones" name="step3_6_tones"/>  (PK Comment: 5638Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+                <div style="padding-top: 10px; align-items: center;" class="grid-inner-item">
+                    <span><audio controls=""
+                        onended="listenedCheck('step3_7')" onplay="playCheck(event)">
+                        <source src="screening_sounds/step3_7.wav" type="audio/wav" /> 
+                    </audio></span>
+                    <span>&nbsp;</span>
+                    <span>
+                        <input type="text" id="step3_7_tones" name="step3_7_tones"/>  (PK Comment: 16800Hz at [-90, -75, -60, 0, -45, -30, 0, -15, 0, -75, -45, -15] dbFS each second)
+                    </span>
+                </div>
+            </div>
+
+
+            
+        </div>
+        
+        
+    </div>
+
+    
+</crowd-form>
+<script>
+    var modal = document.getElementById("errorModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    var oneAudioOnlyModal = document.getElementById("oneAudioOnlyModal");
+    var oneAudioOnlyCloseSpan = document.getElementsByClassName("oneAudioOnlyClose")[0];
+    oneAudioOnlyCloseSpan.onclick = function () {
+        oneAudioOnlyModal.style.display = "none";
+    }
+
+    document.querySelector('crowd-form').onsubmit = function (e) {
+        updateFields(); //Update form fields
+        if (!validateForm()) {
+            e.preventDefault();
+            modal.style.display = "block";
+        }
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        if (event.target == oneAudioOnlyModal) {
+            oneAudioOnlyModal.style.display = "none";
+        }
+    }
+
+    var viewinstructions = document.getElementById('viewinstructions')
+    viewinstructions.onclick = function () {
+        document.getElementById('view_instructions_clicked').value = 'Yes'
+    }
+    var viewconsent = document.getElementById('viewconsent')
+    viewconsent.onclick = function () {
+        document.getElementById('view_consent_clicked').value = 'Yes'
+    }
+</script>
+
+<!-- Lonce's grid script begins -->
+<script defer type="text/javascript">
+    let classes = document.getElementsByClassName("item")
+    for (let i = 0; i < classes.length; i++) {
+        classes[i].style.background = `hsl(${Math.floor(240)},10%,85%)`;
+        switch (i) {
+            case 5:
+            case 6:
+            case 11:
+            case 12:
+            case 17:
+            case 18:
+                classes[i].style.background = `hsl(${Math.floor(170)},75%,90%)`;
+                break;
+
+            case 8:
+            case 9:
+            case 14:
+            case 15:
+            case 20:
+            case 21:
+                classes[i].style.background = `hsl(${Math.floor(25)},75%,90%)`;
+                break;
+        }
+    }
+    let dragging = false;
+    let dragmousey;
+
+    //-------------------------------------------------------------
+
+    detour = document.getElementById("detour");
+    detour.parent = document.getElementById("neutralDetourParking");
+    detour.addEventListener("mousedown", function (ev) {
+        dragging = detour;
+        dragmouseY = ev.clientY
+        event.preventDefault();
+    })
+    document.addEventListener("mouseup", function (ev) {
+        console.log("mouseup")
+        event.preventDefault();
+        if (dragging == detour) {
+            dragOther = direct
+
+            dragging.parent.removeChild(dragging)
+            dragOther.parent.removeChild(dragOther)
+            if (ev.clientY < dragmouseY) {
+                console.log("movin on up")
+                dragging.parent = document.getElementById("clip1DetourParking")
+                dragOther.parent = document.getElementById("clip2DirectParking")
+
+            }
+            if (ev.clientY >= dragmouseY) {
+                console.log("movin on down")
+                dragging.parent = document.getElementById("clip2DetourParking")
+                dragOther.parent = document.getElementById("clip1DirectParking")
+            }
+            dragging.parent.appendChild(dragging)
+            dragOther.parent.appendChild(dragOther)
+
+            dragging = false;
+        }
+    })
+
+    //-------------------------------------------------------------
+    direct = document.getElementById("direct");
+    direct.parent = document.getElementById("neutralDirectParking");
+    direct.addEventListener("mousedown", function (ev) {
+        dragging = direct;
+        dragmouseY = ev.clientY
+        event.preventDefault();
+    })
+    document.addEventListener("mouseup", function (ev) {
+        console.log("mouseup")
+        event.preventDefault();
+        if (dragging == direct) {
+            dragOther = detour
+
+            dragging.parent.removeChild(dragging)
+            dragOther.parent.removeChild(dragOther)
+            if (ev.clientY < dragmouseY) {
+                console.log("movin on up")
+                dragging.parent = document.getElementById("clip1DirectParking")
+                dragOther.parent = document.getElementById("clip2DetourParking")
+            }
+            if (ev.clientY > dragmouseY) {
+                console.log("movin on down")
+                dragging.parent = document.getElementById("clip2DirectParking")
+                dragOther.parent = document.getElementById("clip1DetourParking")
+            }
+            dragging.parent.appendChild(dragging)
+            dragOther.parent.appendChild(dragOther)
+
+            dragging = false;
+        }
+    })
+    //========================================================================
+    jumpy = document.getElementById("jumpy");
+    jumpy.parent = document.getElementById("neutralJumpyParking");
+    jumpy.addEventListener("mousedown", function (ev) {
+        dragging = jumpy;
+        dragmouseY = ev.clientY
+        event.preventDefault();
+    })
+    document.addEventListener("mouseup", function (ev) {
+        console.log("mouseup")
+        event.preventDefault();
+        if (dragging == jumpy) {
+            dragOther = even
+
+            dragging.parent.removeChild(dragging)
+            dragOther.parent.removeChild(dragOther)
+            if (ev.clientY < dragmouseY) {
+                console.log("movin on up")
+                dragging.parent = document.getElementById("clip1JumpyParking")
+                dragOther.parent = document.getElementById("clip2EvenParking")
+
+            }
+            if (ev.clientY >= dragmouseY) {
+                console.log("movin on down")
+                dragging.parent = document.getElementById("clip2JumpyParking")
+                dragOther.parent = document.getElementById("clip1EvenParking")
+            }
+            dragging.parent.appendChild(dragging)
+            dragOther.parent.appendChild(dragOther)
+
+            dragging = false;
+        }
+    })
+
+    //-------------------------------------------------------------
+    even = document.getElementById("even");
+    even.parent = document.getElementById("neutralEvenParking");
+    even.addEventListener("mousedown", function (ev) {
+        dragging = even;
+        dragmouseY = ev.clientY
+        event.preventDefault();
+    })
+    document.addEventListener("mouseup", function (ev) {
+        console.log("mouseup")
+        event.preventDefault();
+        if (dragging == even) {
+            dragOther = jumpy
+
+            dragging.parent.removeChild(dragging)
+            dragOther.parent.removeChild(dragOther)
+            if (ev.clientY < dragmouseY) {
+                console.log("movin on up")
+                dragging.parent = document.getElementById("clip1EvenParking")
+                dragOther.parent = document.getElementById("clip2JumpyParking")
+            }
+            if (ev.clientY > dragmouseY) {
+                console.log("movin on down")
+                dragging.parent = document.getElementById("clip2EvenParking")
+                dragOther.parent = document.getElementById("clip1JumpyParking")
+            }
+            dragging.parent.appendChild(dragging)
+            dragOther.parent.appendChild(dragOther)
+
+            dragging = false;
+        }
+    })
+</script>
+<!-- Lonce's grid script ends -->

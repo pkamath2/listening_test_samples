@@ -1,0 +1,486 @@
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+<style>
+    .clipbox {
+        border: solid black 1px;
+        margin: 30px;
+        padding: 10px;
+        width: 30%;
+    }
+
+    .clipbox-noborder {
+        margin-left: 2%;
+        padding: 2px;
+        width: 70%;
+    }
+
+    .clipbox-hline {
+        border-bottom: solid grey 3px;
+    }
+
+    .clipbox-border {
+        margin-left: 2%;
+        border: solid black 1px;
+        padding: 2px;
+        width: 70%;
+    }
+
+    .pad-top {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-left: 2%;
+        width: 70%;
+    }
+
+    .margin-top {
+        margin-top: 20px;
+    }
+
+    h3 {
+        margin-top: 0;
+    }
+
+    .left {
+        width: 100%;
+        display: inline-block;
+    }
+
+    .references-section {
+        display: grid;
+        grid-template-columns: 30% 30% 40%;
+        padding-bottom: 30px;
+    }
+
+    .clips-section {
+        display: grid;
+        grid-template-columns: 13% 30%;
+        padding-left: 10px;
+    }
+
+    .clips-section span {
+        padding-top: 20px;
+    }
+
+    .right {
+        width: 50%;
+        display: inline-block;
+    }
+
+    .hide-sentinel {
+        visibility: hidden;
+        height: 0%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 33%;
+        /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(2, 100px);
+        grid-gap: 3px;
+        background-color: rgb(70, 70, 70);
+
+        /*For AMT*/
+        padding: 3px;
+        margin-left: 2%;
+        width: 70%;
+    }
+
+    .item {
+        background-color: white;
+        padding: 10px;
+    }
+
+    .item-label {
+        font-weight: bold;
+        padding-left: 20%;
+        padding-top: 20%;
+    }
+
+    .item-ref {
+        grid-column: span 2;
+        padding-left: 7%;
+        padding-top: 7%;
+    }
+
+    .item-answer{
+        grid-column: span 2;
+        padding-left: 50%;
+        padding-top: 10%;
+    }
+
+    .item-answer input[type='radio'] { 
+        transform: scale(1.5); 
+    }
+
+    .item-teal {
+        background-color: teal;
+        color: white;
+    }
+
+    .item-audio {
+        grid-column: span 2;
+        padding: 7%;
+        background-color: rgba(250, 250, 250, 0.5);
+    }
+
+    .item-drop-location {
+        grid-column: span 2;
+    }
+
+    
+</style>
+
+<script>
+    function listenedCheck(elementName) {
+        var x = document.getElementById(elementName);
+        x.value = 'Yes'
+    }
+
+    function validateForm() {
+        test_1_firstListenedCheck = document.getElementById('test_1_first_sound_listened_test').value;
+        test_1_secondListenedCheck = document.getElementById('test_1_second_sound_listened_test').value;
+        test_1_testListenedCheck = document.getElementById('test_1_test_sound_listened_test').value;
+        test_1_listened = false
+
+        if (test_1_firstListenedCheck == 'Yes' && test_1_secondListenedCheck == 'Yes' && test_1_testListenedCheck == 'Yes') {
+            test_1_listened = true;
+        }
+
+        test_2_firstListenedCheck = document.getElementById('test_2_first_sound_listened_test').value;
+        test_2_secondListenedCheck = document.getElementById('test_2_second_sound_listened_test').value;
+        test_2_testListenedCheck = document.getElementById('test_2_test_sound_listened_test').value;
+        test_2_listened = false
+
+        if (test_2_firstListenedCheck == 'Yes' && test_2_secondListenedCheck == 'Yes' && test_2_testListenedCheck == 'Yes') {
+            test_2_listened = true;
+        }
+
+        test_3_firstListenedCheck = document.getElementById('test_3_first_sound_listened_test').value;
+        test_3_secondListenedCheck = document.getElementById('test_3_second_sound_listened_test').value;
+        test_3_testListenedCheck = document.getElementById('test_3_test_sound_listened_test').value;
+        test_3_listened = false
+
+        if (test_3_firstListenedCheck == 'Yes' && test_3_secondListenedCheck == 'Yes' && test_3_testListenedCheck == 'Yes') {
+            test_3_listened = true;
+        }
+
+        return test_1_listened && test_2_listened && test_3_listened
+    }
+</script>
+<crowd-form>
+    <crowd-instructions link-text="View instructions" link-type="button">
+        <short-summary>
+            <p>Note: Please ‘accept’ this HIT only if you have access to a laptop or desktop with internal or external
+                speakers or headphones and if you are using Chrome or Firefox browser. This HIT involves listening and
+                evaluating audio clips.</p>
+            <h3>Project Details:</h3>
+            <p>-TBD---</p>
+
+            <h3>Consent:</h3>
+            <p>Before working on this HIT, please read the consent details on the 'View Consent Details' section of the
+                HIT page.
+                By accepting this HIT on Mechanical Turk, you will be indicating your consent to
+                participating in our study
+                as per the details outlined the consent details section.
+            </p>
+
+            <br />
+            <h3>Task Instructions:</h3>
+            <p>-TBD-</p>
+            <br />
+            <h3>For any questions:</h3>
+            <p>Please use the ‘Contact this requester’ link on the HIT details if you need further details or
+                clarifications on the task. The Principal Investigator (the person in charge of this research) or
+                his/her
+                representative will describe this research to you and answer all of your questions. <br />
+                Note: On using this
+                feature, your e-mail address and your name will automatically be visible to our research team so that we
+                can reply to you.
+            </p>
+        </short-summary>
+
+        <detailed-instructions>
+            <p>Please see summary tab for all instructions.</p>
+        </detailed-instructions>
+
+
+    </crowd-instructions>
+
+    <crowd-modal link-text="View Consent Details" link-type="button">
+        <div id="container" class="container">
+            <div>
+                <table>
+
+                    <tr>
+                        <td style="padding-left: 1%;width:10%"><img
+                                src='https://animatedsound.com/amt/ui/NUS_logo_full-vertical.jpg' width="75%"></td>
+                        <td>
+                            <h3>Welcome to the qualitative evaluation of
+                                artificially synthesized audio clips using deep neural networks&nbsp;&nbsp;</h3>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div>
+                <p><span style="font-family:Tahoma,Geneva,sans-serif;">Thank you for your interest in this audio
+                        evaluation
+                        task on Mechanical Turk. This page outlines the details with respect to your consent to
+                        participate in our study.</span></p>
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Protocol Title:</strong></u><br>
+                        Qualitative evaluation of artificially synthesized audio clips synthesized using
+                        deep neural networks</span>
+                </p>
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Purpose of this
+                                research:</strong></u><br>
+                        The purpose of this research is to evaluate the quality of synthetic audio clips
+                        generated using an artificial neural network. The audio clips under test belong to
+                        the domain of audio textures (for e.g. a series of popping sounds, the ticking
+                        sound made by a Geiger counter or the sound made by water filling a container) or pitches made
+                        by musical instruments. The specific goal of this project is to ensure that the synthetic
+                        outputs generated
+                        by these deep learning models are validated by human beings to test for certain
+                        sound qualities like smoothness, naturalness or absence of noise etc.</span>
+                </p>
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Contacting Us:</strong></u><br>
+                        Please use the "Contact this requester" link on the Mechanical Turk's HIT details
+                        section if you need further details or clarifications on the task. The Principal
+                        Investigator (the person in charge of this research) or his/her representative will
+                        answer all of your questions.
+                        Note: On using this feature, your e-mail address and your name will
+                        automatically be visible to our research team so that we can reply to you.</span>
+                </p>
+
+
+                <p><br>
+                    <span style="font-family:Tahoma,Geneva,sans-serif;"><u><strong>Your personal data:</strong></u><br>
+                        Only the principal investigator and his/her representative has your worker ID and this will not
+                        be
+                        released to any other person. We will <u><strong>NOT</strong></u> request Amazon Mechanical Turk
+                        for
+                        your person identifying details. Also, this worker ID data will not be used in a publication or
+                        presentation. We will use this worker ID only for the purposes of correlating consent to HIT
+                        responses and distributing compensation via Mechanical Turk.<o:p></o:p></span>
+                </p>
+
+                <p><span style="font-family:Tahoma,Geneva,sans-serif;">All data collected will be kept in accordance to
+                        the
+                        University's Research Data Management Policy. Research data used in any
+                        publication will be kept for a minimum of 10 years before being discarded.<o:p></o:p></span></p>
+            </div>
+
+            <div><br>
+                <span style="font-family:Tahoma,Geneva,sans-serif;">By accepting the HIT on Amazon's Mechanical Turk,
+                    you
+                    acknowledge that - </span>
+            </div>
+
+            <ol>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You have agreed to take part in
+                        this&nbsp;research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You have read the instructions on the mechanical
+                        turk website and details on this form which explains the use of the data you submit for this
+                        research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You can withdraw from this research at any point
+                        of
+                        time. If you want the data you already submitted to be deleted you will&nbsp;inform the
+                        Principal
+                        Investigator and all your data will be discarded.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You will not have any financial benefits that
+                        result
+                        from the commercial development of this research.</span></li>
+                <li><span style="font-family:Tahoma,Geneva,sans-serif;">You agree to be re-contacted for future related
+                        studies via&nbsp;Amazon's Mechanical Turk website. You understand that future studies will be
+                        subject to an Institutional Review Board's approval.&nbsp;<span lang="EN-US">
+                            <o:p></o:p>
+                        </span></span></li>
+            </ol>
+
+            <div>&nbsp;</div>
+
+
+        </div>
+    </crowd-modal>
+    <div id="errorModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Please listen to all sound clips <b>fully</b> before submitting the task.</p>
+        </div>
+
+    </div>
+    <div class="container">
+        <input type="hidden" value="${pitch_under_test}" name="pitch_under_test" id="pitch_under_test" /> <!-- midi -->
+        <input type="hidden" value="${instrument_under_test}" name="pitch_under_test" id="pitch_under_test" />
+        <!-- midi -->
+
+        <input type="hidden" value="${test_1_type}" name="test_1_type" id="test_1_type" />
+        <!-- 2gan-1smf or 2nsynth-1gan or 2nsynth-1smf or sentinel -->
+        <input type="hidden" value="${test_2_type}" name="test_2_type" id="test_2_type" />
+        <input type="hidden" value="${test_3_type}" name="test_3_type" id="test_3_type" />
+        <input type="hidden" value="${test_4_type}" name="test_4_type" id="test_4_type" />
+
+
+        <div class="clipbox-border margin-top">
+            <p style="padding-left: 10px;">
+                <u>Note:</u><br />
+            <ul>
+                <li>Please accept this HIT only if you are on a laptop/desktop with Chrome/Firefox browsers</li>
+                <li>Please read the instructions by clicking on 'View Instructions' and details regarding your consent
+                    by clicking on 'View Consent Details'.</li>
+                <li>By accepting this HIT, you agree to the terms of this study outlined in the 'View Consent Details'
+                    section</li>
+            </ul>
+            </p>
+        </div>
+        <div class="clipbox-noborder">
+            <p style="padding-left: 10px;"><b><u>Audio Timbre Similarity Test</u></b></p>
+
+            <p style="padding-left: 10px;"> This page outlines 2 reference audio clips and 4 test audio clips. Please
+                follow the instructions below to complete this task.</p>
+
+            <p style="padding-left: 10px;">
+            <ul style="line-height:150%">
+                <li>Listen to both the 'Reference' audio clips (in the <span
+                        style="background-color: teal;color: white; padding:0.2%">green row</span>) fully.</li>
+                <li>Next, listen to the 'Audio Sample Under Test' and select the Reference audio
+                    clip it sounds <u><b>more similar or closer</b></u> to in
+                    timbre (e.g., instrument used to play the note).</li>
+            </ul>
+            </p>
+
+            <p style="padding-left: 10px;">
+                Note: You need to listen to all audio clips and drag all the clips from the column in the center to be
+                able to submit this task.
+            </p>
+            <br />
+        </div>
+
+
+        <div class="grid">
+            <div class='item item-label item-teal'>
+                References
+            </div>
+            <div class='item item-ref item-teal'>
+                <br />
+            </div>
+            <div class='item item-ref item-teal'>
+                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
+                    <source src="samples/ICLRdata/nsynth_subset_train/brass_acoustic_018-060-127.wav"
+                        type="audio/wav" />
+                </audio>
+            </div>
+           
+            <div class='item item-ref item-teal'>
+                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
+                    <source src="samples/ICLRdata/nsynth_subset_train/reed_acoustic_027-060-127.wav" type="audio/wav" />
+                </audio>
+            </div>
+
+
+
+
+            <div class='item item-label'>
+                Audio Sample <br />
+                Under Test
+            </div>
+            <div class='item item-audio'>
+                <div id='clip-1'>
+                    <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
+                        <source src="samples/ICLRdata/RNNAudio2/inst_0_pitch_4.wav" type="audio/wav" />
+                    </audio>
+                </div>
+            </div>
+            <div class='item item-answer'>
+                <input type="radio" name="better_clip" id="ref1_better" value="ref1_better">
+            </div>
+            <div class='item item-answer'>
+                <input type="radio" name="better_clip" id="ref2_better" value="ref2_better">
+            </div>
+        </div>
+
+        <br />
+
+
+        <div class="clipbox-noborder">
+            <p style="padding-left: 10px;"><i>Listen to all sound clips fully and select a response 
+                    before submitting your
+                    response.</i></p>
+        </div>
+
+</crowd-form>
+</div>
+</div>
+</crowd-form>
+<script>
+    var modal = document.getElementById("errorModal");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+    document.querySelector('crowd-form').onsubmit = function (e) {
+        if (!validateForm()) {
+            e.preventDefault();
+            modal.style.display = "block";
+        }
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

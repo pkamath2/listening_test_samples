@@ -126,13 +126,24 @@
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         grid-template-rows: repeat(2, 100px);
-        grid-gap: 3px;
+        grid-gap: 1px;
         background-color: rgb(70, 70, 70);
 
         /*For AMT*/
         padding: 3px;
         margin-left: 2%;
-        width: 80%;
+        width: 85%;
+    }
+
+    .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(1, 60px);
+        grid-gap: 0px;
+        background-color: teal;
+
+        /*For AMT*/
+        width: 100%;
     }
 
     .item {
@@ -145,20 +156,28 @@
         padding-top: 20%;
     }
 
-    .item-ref {
+    .item-grid-span-2 {
         grid-column: span 2;
         padding: 7%;
         padding-top: 6%;
     }
 
-    .item-answer{
+    .item-grid-span-4 {
+        grid-column: span 4;
+        padding-top: 3%;
+        padding-bottom: 5%;
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    .item-answer {
         grid-column: span 2;
         padding-left: 50%;
         padding-top: 10%;
     }
 
-    .item-answer input[type='radio'] { 
-        transform: scale(1.5); 
+    .item-answer input[type='radio'] {
+        transform: scale(1.5);
     }
 
     .item-teal {
@@ -169,7 +188,6 @@
     .item-audio {
         grid-column: span 2;
         padding: 7%;
-        padding-top: 5%;
         background-color: rgba(250, 250, 250, 0.5);
     }
 
@@ -177,7 +195,23 @@
         grid-column: span 2;
     }
 
-    
+
+    .slider-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(1, 60px);
+        grid-gap: 0px;
+        background-color: white;
+
+        /*For AMT*/
+        width: 100%;
+    }
+
+    .slider-grid-item-span-4 {
+        padding-top: 10px;
+        grid-column: span 4;
+    }
+
 </style>
 
 <script>
@@ -186,22 +220,46 @@
         x.value = 'Yes'
     }
 
-    function validateForm() {
-        smf_ref1_listened_test = document.getElementById('smf_ref1_listened_test').value;
-        smf_ref2_listened_test = document.getElementById('smf_ref2_listened_test').value;
-        gan_ref_listened_test = document.getElementById('gan_ref_listened_test').value;
+    function sliderChanged(elementName) {
+        var x = document.getElementById(elementName);
+        x.value = 'Yes'
+    }
 
+    function validateForm() {
+        nsynth_ref1_listened_test = document.getElementById('nsynth_ref1_listened_test').value;
+        nsynth_ref2_listened_test = document.getElementById('nsynth_ref2_listened_test').value;
+        test1_listened_test = document.getElementById('test1_listened_test').value;
+        test2_listened_test = document.getElementById('test2_listened_test').value;
+        test3_listened_test = document.getElementById('test3_listened_test').value;
+        test4_listened_test = document.getElementById('test4_listened_test').value;
+        test5_listened_test = document.getElementById('test5_listened_test').value;
+        test6_listened_test = document.getElementById('test6_listened_test').value;
+        test7_listened_test = document.getElementById('test7_listened_test').value;
+        
+        // console.log(nsynth_ref1_listened_test, nsynth_ref2_listened_test, test1_listened_test, test2_listened_test,
+        // test3_listened_test,test4_listened_test,test5_listened_test,test6_listened_test, test7_listened_test)
         listened = false
-        if (smf_ref1_listened_test == 'Yes' && smf_ref2_listened_test == 'Yes' && gan_ref_listened_test == 'Yes') {
+        if (nsynth_ref1_listened_test == 'Yes' && nsynth_ref2_listened_test == 'Yes' 
+        && test1_listened_test == 'Yes' && test2_listened_test == 'Yes' && test3_listened_test == 'Yes' && test4_listened_test == 'Yes' && test5_listened_test == 'Yes' 
+        && test6_listened_test == 'Yes' && test7_listened_test == 'Yes') {
             listened = true;
         }
 
-        fieldsUpdated = false
-        var radios = document.querySelectorAll('input[type="radio"]:checked');
-        var value = radios.length>0? radios[0].value: null;
-        fieldsUpdated = value!= null
+        test1_slider_changed_test = document.getElementById('test1_slider_changed_test').value;
+        test2_slider_changed_test = document.getElementById('test2_slider_changed_test').value;
+        test3_slider_changed_test = document.getElementById('test3_slider_changed_test').value;
+        test4_slider_changed_test = document.getElementById('test4_slider_changed_test').value;
+        test5_slider_changed_test = document.getElementById('test5_slider_changed_test').value;
+        test6_slider_changed_test = document.getElementById('test6_slider_changed_test').value;
+        test7_slider_changed_test = document.getElementById('test7_slider_changed_test').value;
 
-        return listened && fieldsUpdated
+        sliderChangedTest = false
+        if (test1_slider_changed_test == 'Yes' && test2_slider_changed_test == 'Yes' && test3_slider_changed_test == 'Yes' && test4_slider_changed_test == 'Yes' &&
+        test5_slider_changed_test == 'Yes' && test6_slider_changed_test == 'Yes' && test7_slider_changed_test == 'Yes') {
+            sliderChangedTest = true;
+        }
+
+        return listened && sliderChangedTest
     }
 
     function playCheck(e) {
@@ -215,7 +273,7 @@
     }
 </script>
 <crowd-form>
-    <crowd-instructions link-text="View instructions" link-type="button" id='viewinstructions'>
+    <crowd-instructions link-text="View instructions" link-type="button"  id='viewinstructions'>
         <short-summary>
             <p>Note: Please ‘accept’ this HIT only if you have access to a laptop or desktop with internal or external
                 speakers or headphones and if you are using Chrome or Firefox browser. This HIT involves listening and
@@ -247,18 +305,19 @@
             <ul style="line-height:150%">
                 <li>Listen to both the 'Reference' audio clips (in the <span
                         style="background-color: teal;color: white; padding:0.2%">green row</span>) fully.</li>
-                <li>Next, listen to the 'Audio Sample Under Test' and select the Reference audio
-                    clip it sounds <u><b>more similar or closer</b></u> to in
-                    timbre (e.g., instrument used to play the note).</li>
+                <li>Next, listen to each of the 'Audio Sample Under Test 1/2/3/4/5/6/7' and and use the slider to indicate which Reference audio the 
+                    test audio is more similar or closer to in timbre (e.g., instrument used to play the note).</li>
             </ul>
             </p>
-            <p>Please ensure you have fully listened to all audio samples on the page and selecting an option before submitting the task.</p>
+            <p>Please ensure you have fully listened to all audio samples on the page and change the slider accordingly before submitting the task.</p>
             <p>
-                For e.g., if the 'Audio Sample Under Test' sounds similar or more closer in Timbre to the first Reference, then select the radio button as shown in the image below
-                and submit the task - 
+                For e.g., if the 'Audio Sample Under Test 1' sounds similar or more closer in Timbre to the first Reference, then move the slider towards the first Reference. 
+                Subsequently, if 'Audio Sample Under Test 2' sounds closer in Timbre to the first Reference than the first test sample, move the slider accordingly as shown in the 
+                image below  - 
                 <br/>
-                <img width='100%' src="images/gan_smf_example.png"/>
+                <img width='100%' src="images/nsynth_smf_gan_example.png"/>
             </p>
+            <br />
             <h3>For any questions:</h3>
             <p>Please use the ‘Contact this requester’ link on the HIT details if you need further details or
                 clarifications on the task. The Principal Investigator (the person in charge of this research) or
@@ -277,7 +336,7 @@
 
     </crowd-instructions>
 
-    <crowd-modal link-text="View Consent Details" link-type="button"  id="viewconsent">
+    <crowd-modal link-text="View Consent Details" link-type="button"  id='viewconsent'>
         <div id="container" class="container">
             <div>
                 <table>
@@ -383,7 +442,7 @@
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Please listen to all sound clips <b>fully</b> and select atleast <b>one option</b> before submitting the task.</p>
+            <p>Please listen to all sound clips <b>fully</b> and adjust/move the slider for each Audio Under Test accordingly before submitting the task.</p>
         </div>
 
     </div>
@@ -403,9 +462,24 @@
         <input type="hidden" value="${test_type}" name="test_type" id="test_type" />
 
         <!-- listened test -->
-        <input type="hidden" value="No" name="smf_ref1_listened_test" id="smf_ref1_listened_test" />
-        <input type="hidden" value="No" name="smf_ref2_listened_test" id="smf_ref2_listened_test" />
-        <input type="hidden" value="No" name="gan_ref_listened_test" id="gan_ref_listened_test" />
+        <input type="hidden" value="No" name="nsynth_ref1_listened_test" id="nsynth_ref1_listened_test" />
+        <input type="hidden" value="No" name="nsynth_ref2_listened_test" id="nsynth_ref2_listened_test" />
+        <input type="hidden" value="No" name="test1_listened_test" id="test1_listened_test" />
+        <input type="hidden" value="No" name="test2_listened_test" id="test2_listened_test" />
+        <input type="hidden" value="No" name="test3_listened_test" id="test3_listened_test" />
+        <input type="hidden" value="No" name="test4_listened_test" id="test4_listened_test" />
+        <input type="hidden" value="No" name="test5_listened_test" id="test5_listened_test" />
+        <input type="hidden" value="No" name="test6_listened_test" id="test6_listened_test" />
+        <input type="hidden" value="No" name="test7_listened_test" id="test7_listened_test" />
+
+        <!-- slider moved test -->
+        <input type="hidden" value="No" name="test1_slider_changed_test" id="test1_slider_changed_test" />
+        <input type="hidden" value="No" name="test2_slider_changed_test" id="test2_slider_changed_test" />
+        <input type="hidden" value="No" name="test3_slider_changed_test" id="test3_slider_changed_test" />
+        <input type="hidden" value="No" name="test4_slider_changed_test" id="test4_slider_changed_test" />
+        <input type="hidden" value="No" name="test5_slider_changed_test" id="test5_slider_changed_test" />
+        <input type="hidden" value="No" name="test6_slider_changed_test" id="test6_slider_changed_test" />
+        <input type="hidden" value="No" name="test7_slider_changed_test" id="test7_slider_changed_test" />
 
         <input type="hidden" value="No" name="view_instructions_clicked" id="view_instructions_clicked" />
         <input type="hidden" value="No" name="view_consent_clicked" id="view_consent_clicked" />
@@ -426,68 +500,203 @@
         <div class="clipbox-noborder">
             <p style="padding-left: 10px;"><b><u>Audio Timbre Similarity Test</u></b></p>
 
-            <p style="padding-left: 10px;"> This page outlines 2 reference audio clips and 4 test audio clips. Please
+            <p style="padding-left: 10px;"> This page outlines 2 reference audio clips and few test audio clips. Please
                 follow the instructions below to complete this task.</p>
 
             <p style="padding-left: 10px;">
             <ul style="line-height:150%">
                 <li>Listen to both the 'Reference' audio clips (in the <span
                         style="background-color: teal;color: white; padding:0.2%">green row</span>) fully.</li>
-                <li>Next, listen to the 'Audio Sample Under Test' and select the Reference audio
-                    clip it sounds <u><b>more similar or closer</b></u> to in
+                <li>Next, listen to each of 'Audio Samples Under Test' and use the slider to indicate which Reference audio the test audio is <u><b>more similar or closer</b></u> to in
                     timbre (e.g., instrument used to play the note).</li>
             </ul>
             </p>
 
             <p style="padding-left: 10px;">
-                Note: You need to listen to all audio clips and drag all the clips from the column in the center to be
-                able to submit this task.
+                For e.g., if you think a test audio sample sounds similar in timbre to the second reference clip, pull the slider towards the end.<br/>
+                Alternately, if you think the test audio sample sounds in-between the two reference timbre's, pull the slider towards the middle.
             </p>
+
             <br />
         </div>
 
+
         <div class="grid">
-            <div class='item-label item-teal'>
+            <div class='item item-label item-teal'>
                 References
             </div>
-            <div class='item-ref item-teal'>
-                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('smf_ref1_listened_test')" onplay="playCheck(event)">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_0_pitch_4.wav"
-                        type="audio/wav" />
-                </audio>
-            </div>
-            <div class='item-ref item-teal'>
+            <div class='item item-grid-span-2 item-teal'>
                 <br />
             </div>
-            <div class='item-ref item-teal'>
-                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('smf_ref2_listened_test')" onplay="playCheck(event)">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_2_pitch_4.wav" type="audio/wav" />
+            <div class='item item-grid-span-4 item-teal'>
+                <div class='mini-grid'>
+                    <audio style='width:100%' controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('nsynth_ref1_listened_test')"  onplay="playCheck(event)">
+                        <source src="${ref1}"
+                            type="audio/wav" />
+                    </audio>
+                    <div style='border: solid black 1px;height:1%;margin-top:25px;'>&nbsp;</div>
+                    <audio style='width:100%' controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('nsynth_ref2_listened_test')"  onplay="playCheck(event)">
+                        <source src="${ref2}"
+                            type="audio/wav" />
+                    </audio>
+                </div>
+
+            </div>
+            <div class='item item-label'>
+                Audio Sample <br />
+                Under Test 1
+            </div>
+            <div class='item item-grid-span-2'>
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test1_listened_test')"  onplay="playCheck(event)">
+                    <source src="${test_1_sample}" type="audio/wav" />
                 </audio>
             </div>
+            <div class='item item-grid-span-4'>
+                <div class='slider-grid'>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
+                    <div class='slider-grid-item-span-4'>
+                        <input name='test_1_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test1_slider_changed_test')"
+                            id="clip_1_slider" style='width: 100%;'>
+                    </div>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
+                </div>
+            </div>
+
 
             <div class='item item-label'>
                 Audio Sample <br />
-                Under Test
+                Under Test 2
             </div>
-            <div class='item item-answer'>
-                <input type="radio" name="similar_closer_clip" id="ref1_similar" value="ref1_similar">
+            <div class='item item-grid-span-2'>
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test2_listened_test')"  onplay="playCheck(event)">
+                    <source src="${test_2_sample}" type="audio/wav" />
+                </audio>
             </div>
-            <div class='item item-audio'>
-                <div id='clip-1'>
-                    <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('gan_ref_listened_test')" onplay="playCheck(event)">
-                        <source src="samples/ICLRdata/GANAudio2/test_spectset2snd_d1.0_d0.4_v.0.wav" type="audio/wav" />
-                    </audio>
+            <div class='item item-grid-span-4'>
+                <div class='slider-grid'>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
+                    <div class='slider-grid-item-span-4'>
+                        <input name='test_2_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test2_slider_changed_test')" 
+                            id="clip_2_slider" style='width: 100%;'>
+                    </div>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
                 </div>
             </div>
-            <div class='item item-answer'>
-                <input type="radio" name="similar_closer_clip" id="ref2_similar" value="ref2_similar">
+
+
+            <div class='item item-label'>
+                Audio Sample <br />
+                Under Test 3
             </div>
+            <div class='item item-grid-span-2'>
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test3_listened_test')"  onplay="playCheck(event)">
+                    <source src="${test_3_sample}" type="audio/wav" />
+                </audio>
+            </div>
+            <div class='item item-grid-span-4'>
+                <div class='slider-grid'>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
+                    <div class='slider-grid-item-span-4'>
+                        <input name='test_3_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test3_slider_changed_test')"
+                            id="clip_3_slider" style='width: 100%;'>
+                    </div>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
+                </div>
+            </div>
+
+
+            <div class='item item-label'>
+                Audio Sample <br />
+                Under Test 4
+            </div>
+            <div class='item item-grid-span-2'>
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test4_listened_test')"  onplay="playCheck(event)">
+                    <source src="${test_4_sample}" type="audio/wav" />
+                </audio>
+            </div>
+            <div class='item item-grid-span-4'>
+                <div class='slider-grid'>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
+                    <div class='slider-grid-item-span-4'>
+                        <input name='test_4_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test4_slider_changed_test')"
+                            id="clip_4_slider" style='width: 100%;'>
+                    </div>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
+                </div>
+            </div>
+
+
+
+            <div class='item item-label'>
+                Audio Sample <br />
+                Under Test 5
+            </div>
+            <div class='item item-grid-span-2'>
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test5_listened_test')"  onplay="playCheck(event)">
+                    <source src="${test_5_sample}" type="audio/wav" />
+                </audio>
+            </div>
+            <div class='item item-grid-span-4'>
+                <div class='slider-grid'>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
+                    <div class='slider-grid-item-span-4'>
+                        <input name='test_5_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test5_slider_changed_test')"
+                            id="clip_5_slider" style='width: 100%;'>
+                    </div>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
+                </div>
+            </div>
+
+
+            <div class='item item-label'>
+                Audio Sample <br />
+                Under Test 6
+            </div>
+            <div class='item item-grid-span-2'>
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test6_listened_test')"  onplay="playCheck(event)">
+                    <source src="${test_6_sample}" type="audio/wav" />
+                </audio>
+            </div>
+            <div class='item item-grid-span-4'>
+                <div class='slider-grid'>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
+                    <div class='slider-grid-item-span-4'>
+                        <input name='test_6_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test6_slider_changed_test')"
+                            id="clip_6_slider" style='width: 100%;'>
+                    </div>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
+                </div>
+            </div>
+
+
+
+            <div class='item item-label'>
+                Audio Sample <br />
+                Under Test 7
+            </div>
+            <div class='item item-grid-span-2'>
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test7_listened_test')"  onplay="playCheck(event)">
+                    <source src="${test_7_sample}" type="audio/wav" />
+                </audio>
+            </div>
+            <div class='item item-grid-span-4'>
+                <div class='slider-grid'>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
+                    <div class='slider-grid-item-span-4'>
+                        <input name='test_7_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test7_slider_changed_test')"
+                            id="clip_7_slider" style='width: 100%;'>
+                    </div>
+                    <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
+                </div>
+            </div>
+
         </div>
 
         <br />
 
+
         <div class="clipbox-noborder">
-            <p style="padding-left: 10px;"><i>Listen to all sound clips fully and select a response 
+            <p style="padding-left: 10px;"><i>Listen to all sound clips fully and select a response
                     before submitting your
                     response.</i></p>
         </div>
@@ -508,7 +717,7 @@
     oneAudioOnlyCloseSpan.onclick = function () {
         oneAudioOnlyModal.style.display = "none";
     }
-
+    
     document.querySelector('crowd-form').onsubmit = function (e) {
         if (!validateForm()) {
             e.preventDefault();
@@ -519,7 +728,6 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
-
         if (event.target == oneAudioOnlyModal) {
             oneAudioOnlyModal.style.display = "none";
         }

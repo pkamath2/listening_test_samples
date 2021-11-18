@@ -118,6 +118,9 @@
         cursor: pointer;
     }
 
+    audio {
+        width: 100%;
+    }
 
     .grid {
         display: grid;
@@ -129,7 +132,7 @@
         /*For AMT*/
         padding: 3px;
         margin-left: 2%;
-        width: 70%;
+        width: 85%;
     }
 
     .mini-grid {
@@ -145,25 +148,26 @@
 
     .item {
         background-color: white;
-        padding: 10px;
     }
 
     .item-label {
         font-weight: bold;
-        padding-left: 50px;
-        padding-top: 30px;
+        text-align: center;
+        padding-top: 20%;
     }
 
     .item-grid-span-2 {
         grid-column: span 2;
-        padding-left: 25px;
-        padding-top: 25px;
+        padding: 7%;
+        padding-top: 6%;
     }
 
     .item-grid-span-4 {
         grid-column: span 4;
-        padding-left: 25px;
-        padding-top: 25px;
+        padding-top: 3%;
+        padding-bottom: 5%;
+        padding-left: 3%;
+        padding-right: 3%;
     }
 
     .item-answer {
@@ -216,45 +220,71 @@
         x.value = 'Yes'
     }
 
+    function sliderChanged(elementName) {
+        var x = document.getElementById(elementName);
+        x.value = 'Yes'
+    }
+
     function validateForm() {
-        test_1_firstListenedCheck = document.getElementById('test_1_first_sound_listened_test').value;
-        test_1_secondListenedCheck = document.getElementById('test_1_second_sound_listened_test').value;
-        test_1_testListenedCheck = document.getElementById('test_1_test_sound_listened_test').value;
-        test_1_listened = false
-
-        if (test_1_firstListenedCheck == 'Yes' && test_1_secondListenedCheck == 'Yes' && test_1_testListenedCheck == 'Yes') {
-            test_1_listened = true;
+        nsynth_ref1_listened_test = document.getElementById('nsynth_ref1_listened_test').value;
+        nsynth_ref2_listened_test = document.getElementById('nsynth_ref2_listened_test').value;
+        test1_listened_test = document.getElementById('test1_listened_test').value;
+        test2_listened_test = document.getElementById('test2_listened_test').value;
+        test3_listened_test = document.getElementById('test3_listened_test').value;
+        test4_listened_test = document.getElementById('test4_listened_test').value;
+        test5_listened_test = document.getElementById('test5_listened_test').value;
+        test6_listened_test = document.getElementById('test6_listened_test').value;
+        test7_listened_test = document.getElementById('test7_listened_test').value;
+        
+        // console.log(nsynth_ref1_listened_test, nsynth_ref2_listened_test, test1_listened_test, test2_listened_test,
+        // test3_listened_test,test4_listened_test,test5_listened_test,test6_listened_test, test7_listened_test)
+        listened = false
+        if (nsynth_ref1_listened_test == 'Yes' && nsynth_ref2_listened_test == 'Yes' 
+        && test1_listened_test == 'Yes' && test2_listened_test == 'Yes' && test3_listened_test == 'Yes' && test4_listened_test == 'Yes' && test5_listened_test == 'Yes' 
+        && test6_listened_test == 'Yes' && test7_listened_test == 'Yes') {
+            listened = true;
         }
 
-        test_2_firstListenedCheck = document.getElementById('test_2_first_sound_listened_test').value;
-        test_2_secondListenedCheck = document.getElementById('test_2_second_sound_listened_test').value;
-        test_2_testListenedCheck = document.getElementById('test_2_test_sound_listened_test').value;
-        test_2_listened = false
+        test1_slider_changed_test = document.getElementById('test1_slider_changed_test').value;
+        test2_slider_changed_test = document.getElementById('test2_slider_changed_test').value;
+        test3_slider_changed_test = document.getElementById('test3_slider_changed_test').value;
+        test4_slider_changed_test = document.getElementById('test4_slider_changed_test').value;
+        test5_slider_changed_test = document.getElementById('test5_slider_changed_test').value;
+        test6_slider_changed_test = document.getElementById('test6_slider_changed_test').value;
+        test7_slider_changed_test = document.getElementById('test7_slider_changed_test').value;
 
-        if (test_2_firstListenedCheck == 'Yes' && test_2_secondListenedCheck == 'Yes' && test_2_testListenedCheck == 'Yes') {
-            test_2_listened = true;
+        sliderChangedTest = false
+        if (test1_slider_changed_test == 'Yes' && test2_slider_changed_test == 'Yes' && test3_slider_changed_test == 'Yes' && test4_slider_changed_test == 'Yes' &&
+        test5_slider_changed_test == 'Yes' && test6_slider_changed_test == 'Yes' && test7_slider_changed_test == 'Yes') {
+            sliderChangedTest = true;
         }
 
-        test_3_firstListenedCheck = document.getElementById('test_3_first_sound_listened_test').value;
-        test_3_secondListenedCheck = document.getElementById('test_3_second_sound_listened_test').value;
-        test_3_testListenedCheck = document.getElementById('test_3_test_sound_listened_test').value;
-        test_3_listened = false
+        return listened && sliderChangedTest
+    }
 
-        if (test_3_firstListenedCheck == 'Yes' && test_3_secondListenedCheck == 'Yes' && test_3_testListenedCheck == 'Yes') {
-            test_3_listened = true;
+    function playCheck(e) {
+        var allAudios = document.getElementsByTagName('audio');
+        for (var i = 0; i < allAudios.length; i++) {
+            if (allAudios[i].paused == false && allAudios[i] != e.target) {
+                e.target.pause();
+                oneAudioOnlyModal.style.display = "block";
+            }
         }
-
-        return test_1_listened && test_2_listened && test_3_listened
     }
 </script>
 <crowd-form>
-    <crowd-instructions link-text="View instructions" link-type="button">
+    <crowd-instructions link-text="View instructions" link-type="button"  id='viewinstructions'>
         <short-summary>
             <p>Note: Please ‘accept’ this HIT only if you have access to a laptop or desktop with internal or external
                 speakers or headphones and if you are using Chrome or Firefox browser. This HIT involves listening and
                 evaluating audio clips.</p>
             <h3>Project Details:</h3>
-            <p>-TBD---</p>
+            <p>The purpose of this research is to evaluate the quality of synthetic audio clips generated using an
+                artificial neural network. The audio clips under test belong to the domain of audio textures (for e.g. a
+                series of popping sounds, the ticking sound made by a Geiger counter or the sound made by water filling
+                a container) or pitches made by musical instruments. The specific goal of this project is to ensure that
+                the synthetic outputs generated by these deep learning models are validated by human beings to test for
+                certain timbral qualities.</p>
 
             <h3>Consent:</h3>
             <p>Before working on this HIT, please read the consent details on the 'View Consent Details' section of the
@@ -266,7 +296,27 @@
 
             <br />
             <h3>Task Instructions:</h3>
-            <p>-TBD-</p>
+            <p><b>Audio Timbre Similarity Test</b></p>
+            <p>In this task you will be presented with two audio clips called 'References' (displayed on the green bar).
+                Both clips belong to two different instruments (e.g. one might sound like a Clarinet, the other might
+                sound like a Trumpet).</p>
+
+            <p>
+            <ul style="line-height:150%">
+                <li>Listen to both the 'Reference' audio clips (in the <span
+                        style="background-color: teal;color: white; padding:0.2%">green row</span>) fully.</li>
+                <li>Next, listen to each of the 'Audio Sample Under Test 1/2/3/4/5/6/7' and and use the slider to indicate which Reference audio the 
+                    test audio is more similar or closer to in timbre (e.g., instrument used to play the note).</li>
+            </ul>
+            </p>
+            <p>Please ensure you have fully listened to all audio samples on the page and change the slider accordingly before submitting the task.</p>
+            <p>
+                For e.g., if the 'Audio Sample Under Test 1' sounds similar or more closer in Timbre to the first Reference, then move the slider towards the first Reference. 
+                Subsequently, if 'Audio Sample Under Test 2' sounds closer in Timbre to the first Reference than the first test sample, move the slider accordingly as shown in the 
+                image below  - 
+                <br/>
+                <img width='100%' src="images/nsynth_smf_gan_example.png"/>
+            </p>
             <br />
             <h3>For any questions:</h3>
             <p>Please use the ‘Contact this requester’ link on the HIT details if you need further details or
@@ -286,7 +336,7 @@
 
     </crowd-instructions>
 
-    <crowd-modal link-text="View Consent Details" link-type="button">
+    <crowd-modal link-text="View Consent Details" link-type="button"  id='viewconsent'>
         <div id="container" class="container">
             <div>
                 <table>
@@ -392,20 +442,47 @@
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Please listen to all sound clips <b>fully</b> before submitting the task.</p>
+            <p>Please listen to all sound clips <b>fully</b> and adjust/move the slider for each Audio Under Test accordingly before submitting the task.</p>
+        </div>
+
+    </div>
+    <div id="oneAudioOnlyModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="oneAudioOnlyClose">&times;</span>
+            <p>Your opinion on this HIT is of <b>great importance</b> to us.
+            </p>
+            <p>Please listen very closely to <b>one audio clip</b> at a time.
+            </p>
         </div>
 
     </div>
     <div class="container">
-        <input type="hidden" value="${pitch_under_test}" name="pitch_under_test" id="pitch_under_test" /> <!-- midi -->
-        <input type="hidden" value="${instrument_under_test}" name="pitch_under_test" id="pitch_under_test" />
-        <!-- midi -->
+        <input type="hidden" value="${pitch_under_test}" name="pitch_under_test" id="pitch_under_test" /> 
+        <input type="hidden" value="${test_type}" name="test_type" id="test_type" />
 
-        <input type="hidden" value="${test_1_type}" name="test_1_type" id="test_1_type" />
-        <!-- 2gan-1smf or 2nsynth-1gan or 2nsynth-1smf or sentinel -->
-        <input type="hidden" value="${test_2_type}" name="test_2_type" id="test_2_type" />
-        <input type="hidden" value="${test_3_type}" name="test_3_type" id="test_3_type" />
-        <input type="hidden" value="${test_4_type}" name="test_4_type" id="test_4_type" />
+        <!-- listened test -->
+        <input type="hidden" value="No" name="nsynth_ref1_listened_test" id="nsynth_ref1_listened_test" />
+        <input type="hidden" value="No" name="nsynth_ref2_listened_test" id="nsynth_ref2_listened_test" />
+        <input type="hidden" value="No" name="test1_listened_test" id="test1_listened_test" />
+        <input type="hidden" value="No" name="test2_listened_test" id="test2_listened_test" />
+        <input type="hidden" value="No" name="test3_listened_test" id="test3_listened_test" />
+        <input type="hidden" value="No" name="test4_listened_test" id="test4_listened_test" />
+        <input type="hidden" value="No" name="test5_listened_test" id="test5_listened_test" />
+        <input type="hidden" value="No" name="test6_listened_test" id="test6_listened_test" />
+        <input type="hidden" value="No" name="test7_listened_test" id="test7_listened_test" />
+
+        <!-- slider moved test -->
+        <input type="hidden" value="No" name="test1_slider_changed_test" id="test1_slider_changed_test" />
+        <input type="hidden" value="No" name="test2_slider_changed_test" id="test2_slider_changed_test" />
+        <input type="hidden" value="No" name="test3_slider_changed_test" id="test3_slider_changed_test" />
+        <input type="hidden" value="No" name="test4_slider_changed_test" id="test4_slider_changed_test" />
+        <input type="hidden" value="No" name="test5_slider_changed_test" id="test5_slider_changed_test" />
+        <input type="hidden" value="No" name="test6_slider_changed_test" id="test6_slider_changed_test" />
+        <input type="hidden" value="No" name="test7_slider_changed_test" id="test7_slider_changed_test" />
+
+        <input type="hidden" value="No" name="view_instructions_clicked" id="view_instructions_clicked" />
+        <input type="hidden" value="No" name="view_consent_clicked" id="view_consent_clicked" />
 
 
         <div class="clipbox-border margin-top">
@@ -453,13 +530,13 @@
             </div>
             <div class='item item-grid-span-4 item-teal'>
                 <div class='mini-grid'>
-                    <audio style='width:100%' controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                        <source src="samples/ICLRdata/nsynth.64.76.dl/reed_acoustic_000-064-a.90.wav"
+                    <audio style='width:100%' controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('nsynth_ref1_listened_test')"  onplay="playCheck(event)">
+                        <source src="samples/ICLRdata/nsynth.64.76.dl_1sec/reed_acoustic_000-064-a.90.wav"
                             type="audio/wav" />
                     </audio>
                     <div style='border: solid black 1px;height:1%;margin-top:25px;'>&nbsp;</div>
-                    <audio style='width:100%' controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                        <source src="samples/ICLRdata/nsynth.64.76.dl/brass_acoustic_018-064-a.90.wav"
+                    <audio style='width:100%' controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('nsynth_ref2_listened_test')"  onplay="playCheck(event)">
+                        <source src="samples/ICLRdata/nsynth.64.76.dl_1sec/brass_acoustic_018-064-a.90.wav"
                             type="audio/wav" />
                     </audio>
                 </div>
@@ -470,16 +547,16 @@
                 Under Test 1
             </div>
             <div class='item item-grid-span-2'>
-                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_12_pitch_4.wav" type="audio/wav" />
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test1_listened_test')"  onplay="playCheck(event)">
+                    <source src="samples/ICLRdata/RNNAudio2/inst_12_pitch_8.wav" type="audio/wav" />
                 </audio>
             </div>
             <div class='item item-grid-span-4'>
                 <div class='slider-grid'>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
                     <div class='slider-grid-item-span-4'>
-                        <input name='test-1-answer' type="range" min="0" max="10" value="0" class="slider"
-                            id="clip-1-slider" style='width: 100%;'>
+                        <input name='test_1_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test1_slider_changed_test')"
+                            id="clip_1_slider" style='width: 100%;'>
                     </div>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
                 </div>
@@ -491,16 +568,16 @@
                 Under Test 2
             </div>
             <div class='item item-grid-span-2'>
-                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_16_pitch_4.wav" type="audio/wav" />
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test2_listened_test')"  onplay="playCheck(event)">
+                    <source src="samples/ICLRdata/RNNAudio2/inst_16_pitch_8.wav" type="audio/wav" />
                 </audio>
             </div>
             <div class='item item-grid-span-4'>
                 <div class='slider-grid'>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
                     <div class='slider-grid-item-span-4'>
-                        <input name='test-1-answer' type="range" min="0" max="10" value="0" class="slider"
-                            id="clip-1-slider" style='width: 100%;'>
+                        <input name='test_2_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test2_slider_changed_test')" 
+                            id="clip_2_slider" style='width: 100%;'>
                     </div>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
                 </div>
@@ -512,16 +589,16 @@
                 Under Test 3
             </div>
             <div class='item item-grid-span-2'>
-                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_20_pitch_4.wav" type="audio/wav" />
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test3_listened_test')"  onplay="playCheck(event)">
+                    <source src="samples/ICLRdata/RNNAudio2/inst_20_pitch_8.wav" type="audio/wav" />
                 </audio>
             </div>
             <div class='item item-grid-span-4'>
                 <div class='slider-grid'>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
                     <div class='slider-grid-item-span-4'>
-                        <input name='test-1-answer' type="range" min="0" max="10" value="0" class="slider"
-                            id="clip-1-slider" style='width: 100%;'>
+                        <input name='test_3_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test3_slider_changed_test')"
+                            id="clip_3_slider" style='width: 100%;'>
                     </div>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
                 </div>
@@ -533,16 +610,16 @@
                 Under Test 4
             </div>
             <div class='item item-grid-span-2'>
-                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_8_pitch_4.wav" type="audio/wav" />
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test4_listened_test')"  onplay="playCheck(event)">
+                    <source src="samples/ICLRdata/RNNAudio2/inst_8_pitch_8.wav" type="audio/wav" />
                 </audio>
             </div>
             <div class='item item-grid-span-4'>
                 <div class='slider-grid'>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
                     <div class='slider-grid-item-span-4'>
-                        <input name='test-1-answer' type="range" min="0" max="10" value="0" class="slider"
-                            id="clip-1-slider" style='width: 100%;'>
+                        <input name='test_4_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test4_slider_changed_test')"
+                            id="clip_4_slider" style='width: 100%;'>
                     </div>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
                 </div>
@@ -555,16 +632,16 @@
                 Under Test 5
             </div>
             <div class='item item-grid-span-2'>
-                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                    <source src="samples/ICLRdata/nsynth.64.76.dl/reed_acoustic_000-064-a.90.wav" type="audio/wav" />
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test5_listened_test')"  onplay="playCheck(event)">
+                    <source src="samples/ICLRdata/nsynth.64.76.dl_1sec/reed_acoustic_000-064-a.90.wav" type="audio/wav" />
                 </audio>
             </div>
             <div class='item item-grid-span-4'>
                 <div class='slider-grid'>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
                     <div class='slider-grid-item-span-4'>
-                        <input name='test-1-answer' type="range" min="0" max="10" value="0" class="slider"
-                            id="clip-1-slider" style='width: 100%;'>
+                        <input name='test_5_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test5_slider_changed_test')"
+                            id="clip_5_slider" style='width: 100%;'>
                     </div>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
                 </div>
@@ -576,16 +653,16 @@
                 Under Test 6
             </div>
             <div class='item item-grid-span-2'>
-                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_0_pitch_4.wav" type="audio/wav" />
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test6_listened_test')"  onplay="playCheck(event)">
+                    <source src="samples/ICLRdata/RNNAudio2/inst_0_pitch_8.wav" type="audio/wav" />
                 </audio>
             </div>
             <div class='item item-grid-span-4'>
                 <div class='slider-grid'>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
                     <div class='slider-grid-item-span-4'>
-                        <input name='test-1-answer' type="range" min="0" max="10" value="0" class="slider"
-                            id="clip-1-slider" style='width: 100%;'>
+                        <input name='test_6_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test6_slider_changed_test')"
+                            id="clip_6_slider" style='width: 100%;'>
                     </div>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
                 </div>
@@ -598,16 +675,16 @@
                 Under Test 7
             </div>
             <div class='item item-grid-span-2'>
-                <audio controls="" onended="listenedCheck('test_4_second_sound_listened_test')">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_4_pitch_4.wav" type="audio/wav" />
+                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('test7_listened_test')"  onplay="playCheck(event)">
+                    <source src="samples/ICLRdata/RNNAudio2/inst_4_pitch_8.wav" type="audio/wav" />
                 </audio>
             </div>
             <div class='item item-grid-span-4'>
                 <div class='slider-grid'>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 1</div>
                     <div class='slider-grid-item-span-4'>
-                        <input name='test-1-answer' type="range" min="0" max="10" value="0" class="slider"
-                            id="clip-1-slider" style='width: 100%;'>
+                        <input name='test_7_answer' type="range" min="0" max="20" value="0" class="slider" onchange="sliderChanged('test7_slider_changed_test')"
+                            id="clip_7_slider" style='width: 100%;'>
                     </div>
                     <div style='text-align: center; font-weight: 500;'>Exactly like Reference 2</div>
                 </div>
@@ -634,6 +711,13 @@
     span.onclick = function () {
         modal.style.display = "none";
     }
+
+    var oneAudioOnlyModal = document.getElementById("oneAudioOnlyModal");
+    var oneAudioOnlyCloseSpan = document.getElementsByClassName("oneAudioOnlyClose")[0];
+    oneAudioOnlyCloseSpan.onclick = function () {
+        oneAudioOnlyModal.style.display = "none";
+    }
+    
     document.querySelector('crowd-form').onsubmit = function (e) {
         if (!validateForm()) {
             e.preventDefault();
@@ -644,5 +728,17 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
+        if (event.target == oneAudioOnlyModal) {
+            oneAudioOnlyModal.style.display = "none";
+        }
+    }
+
+    var viewinstructions = document.getElementById('viewinstructions')
+    viewinstructions.onclick = function () {
+        document.getElementById('view_instructions_clicked').value = 'Yes'
+    }
+    var viewconsent = document.getElementById('viewconsent')
+    viewconsent.onclick = function () {
+        document.getElementById('view_consent_clicked').value = 'Yes'
     }
 </script>

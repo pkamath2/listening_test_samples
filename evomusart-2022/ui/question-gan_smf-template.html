@@ -151,14 +151,14 @@
         padding-top: 6%;
     }
 
-    .item-answer{
+    .item-answer {
         grid-column: span 2;
         padding-left: 50%;
         padding-top: 10%;
     }
 
-    .item-answer input[type='radio'] { 
-        transform: scale(1.5); 
+    .item-answer input[type='radio'] {
+        transform: scale(1.5);
     }
 
     .item-teal {
@@ -176,8 +176,6 @@
     .item-drop-location {
         grid-column: span 2;
     }
-
-    
 </style>
 
 <script>
@@ -198,8 +196,8 @@
 
         fieldsUpdated = false
         var radios = document.querySelectorAll('input[type="radio"]:checked');
-        var value = radios.length>0? radios[0].value: null;
-        fieldsUpdated = value!= null
+        var value = radios.length > 0 ? radios[0].value : null;
+        fieldsUpdated = value != null
 
         return listened && fieldsUpdated
     }
@@ -277,7 +275,7 @@
 
     </crowd-instructions>
 
-    <crowd-modal link-text="View Consent Details" link-type="button"  id="viewconsent">
+    <crowd-modal link-text="View Consent Details" link-type="button" id="viewconsent">
         <div id="container" class="container">
             <div>
                 <table>
@@ -383,7 +381,8 @@
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Please listen to all sound clips <b>fully</b> and select atleast <b>one option</b> before submitting the task.</p>
+            <p>Please listen to all sound clips <b>fully</b> and select atleast <b>one option</b> before submitting the
+                task.</p>
         </div>
 
     </div>
@@ -399,7 +398,7 @@
 
     </div>
     <div class="container">
-        <input type="hidden" value="${pitch_under_test}" name="pitch_under_test" id="pitch_under_test" /> 
+        <input type="hidden" value="${pitch_under_test}" name="pitch_under_test" id="pitch_under_test" />
         <input type="hidden" value="${test_type}" name="test_type" id="test_type" />
 
         <!-- listened test -->
@@ -438,9 +437,10 @@
                     timbre (e.g., instrument used to play the note).</li>
             </ul>
             </p>
+            
 
             <p style="padding-left: 10px;">
-                Note: You need to listen to all audio clips and drag all the clips from the column in the center to be
+                Note: You need to listen to all audio clips and select an option to be
                 able to submit this task.
             </p>
             <br />
@@ -451,17 +451,18 @@
                 References
             </div>
             <div class='item-ref item-teal'>
-                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('smf_ref1_listened_test')" onplay="playCheck(event)">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_0_pitch_4.wav"
-                        type="audio/wav" />
+                <audio controls controlsList="nodownload noplaybackrate"
+                    onended="listenedCheck('smf_ref1_listened_test')" onplay="playCheck(event)">
+                    <source src="${smf_ref_1}" type="audio/wav" />
                 </audio>
             </div>
             <div class='item-ref item-teal'>
                 <br />
             </div>
             <div class='item-ref item-teal'>
-                <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('smf_ref2_listened_test')" onplay="playCheck(event)">
-                    <source src="samples/ICLRdata/RNNAudio2/inst_2_pitch_4.wav" type="audio/wav" />
+                <audio controls controlsList="nodownload noplaybackrate"
+                    onended="listenedCheck('smf_ref2_listened_test')" onplay="playCheck(event)">
+                    <source src="${smf_ref_2}" type="audio/wav" />
                 </audio>
             </div>
 
@@ -474,8 +475,9 @@
             </div>
             <div class='item item-audio'>
                 <div id='clip-1'>
-                    <audio controls  controlsList="nodownload noplaybackrate" onended="listenedCheck('gan_ref_listened_test')" onplay="playCheck(event)">
-                        <source src="samples/ICLRdata/GANAudio2/test_spectset2snd_d1.0_d0.4_v.0.wav" type="audio/wav" />
+                    <audio controls controlsList="nodownload noplaybackrate"
+                        onended="listenedCheck('gan_ref_listened_test')" onplay="playCheck(event)">
+                        <source src="${gan_ref}" type="audio/wav" />
                     </audio>
                 </div>
             </div>
@@ -487,7 +489,7 @@
         <br />
 
         <div class="clipbox-noborder">
-            <p style="padding-left: 10px;"><i>Listen to all sound clips fully and select a response 
+            <p style="padding-left: 10px;"><i>Listen to all sound clips fully and select a response
                     before submitting your
                     response.</i></p>
         </div>

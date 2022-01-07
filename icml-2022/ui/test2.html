@@ -1,0 +1,268 @@
+<html>
+
+<head>
+    <style>
+        /* fix too small font-size in both Chrome & Firefox */
+        * {
+            font: inherit;
+        }
+
+        :root {
+            --num_thumbs: 5;
+        }
+
+        audio {
+            width: 100%;
+        }
+
+        #container {
+            display: grid;
+            grid-template-columns: 10% 2% 70% 2% 10%;
+            width: 100%;
+        }
+
+        .wrap {
+            /* --dif: calc(var(--max) - var(--min)); */
+            display: grid;
+            grid-template: repeat(2, -webkit-max-content) 4em/1fr 1fr;
+            grid-template: repeat(2, max-content) 4em/1fr 1fr;
+            overflow: hidden;
+            position: relative;
+            /* margin: 1em auto; */
+            width: 100%;
+            background: linear-gradient(0deg, #ccc 4em, transparent 0);
+            font-family: ubuntu mono, consolas, monaco, monospace;
+        }
+
+        /* .wrap::before,
+        .wrap::after {
+            grid-column: 1/span 2;
+            grid-row: 3;
+            background: #95a;
+            content: "";
+        } */
+
+        /* .wrap::before {
+            margin-left: calc(1em + (var(--a) - var(--min))/var(--dif)*18em);
+            width: calc((var(--b) - var(--a))/var(--dif)*18em);
+        } */
+
+        /* .wrap::after {
+            margin-left: calc(1em + (var(--b) - var(--min))/var(--dif)*18em);
+            width: calc((var(--a) - var(--b))/var(--dif)*18em);
+        } */
+
+        [id=multi-lbl] {
+            grid-column: 1/span 2;
+        }
+
+        .sr-only {
+            position: absolute;
+            -webkit-clip-path: inset(50%);
+            clip-path: inset(50%);
+        }
+
+        input[type=range] {
+            grid-column: 1/span var(--num_thumbs);
+            grid-row: 3;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            margin: 0;
+            background: none;
+            /* get rid of white Chrome background */
+            --col: #000;
+            pointer-events: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track,
+        input[type=range]::-webkit-slider-thumb,
+        input[type=range] {
+            -webkit-appearance: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 100%;
+            background: none;
+        }
+
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 100%;
+            background: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            border: none;
+            /* get rid of Firefox thumb border */
+            width: 2em;
+            height: 4em;
+            border-radius: 0;
+            /* get rid of Firefox corner rounding */
+            /* background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--col) calc(1em - 1px), transparent 1em); */
+            background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em);
+            pointer-events: auto;
+        }
+
+        input[type=range]::-moz-range-thumb {
+            border: none;
+            /* get rid of Firefox thumb border */
+            width: 2em;
+            height: 4em;
+            border-radius: 0;
+            /* get rid of Firefox corner rounding */
+            /* background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--col) calc(1em - 1px), transparent 1em); */
+            background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em);
+            pointer-events: auto;
+        }
+
+        input[type=range]:focus {
+            z-index: 2;
+            outline: dotted 1px currentcolor;
+        }
+
+        /* input[type=range]:focus,
+        input[type=range]:focus+output {
+            --col: darkorange;
+        } */
+
+        #all-inputs{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 11% 2%);
+            width: 95%;
+            padding-left: 17%;
+        }
+
+        #all-outputs {
+            display: grid;
+            grid-template-columns: 30% 10%;
+            width: 80%;
+        }
+
+        output {
+            font-family: ubuntu mono, consolas, monaco, monospace;
+            grid-row: 2;
+            color: var(--col);
+        }
+
+        output:last-child {
+            text-align: right;
+        }
+
+        output::after {
+            counter-reset: c var(--c);
+            content: "--"attr(for) ": "counter(c) ";";
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id='all-inputs'>
+        <!-- <div>&nbsp; </div>
+        <div>&nbsp; </div> -->
+        
+        <div style='--colorbg: #cd2026; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+            <audio id='testaudio' controls controlsList="nodownload noplaybackrate">
+                <source
+                    src="samples/waterfill/ZOOM0050_waterfilling_22secs_8.wav"
+                    type="audio/wav" />
+            </audio>
+        </div>
+        <div>&nbsp; </div>
+        
+
+        <div style='--colorbg: #4aa564; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+            <audio id='testaudio' controls controlsList="nodownload noplaybackrate">
+                <source
+                    src="samples/waterfill/ZOOM0050_waterfilling_22secs_6.wav"
+                    type="audio/wav" />
+            </audio>
+        </div>
+        <div>&nbsp; </div>
+
+        <div style='--colorbg: #f9c642; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+            <audio id='testaudio' controls controlsList="nodownload noplaybackrate">
+                <source
+                    src="samples/waterfill/ZOOM0050_waterfilling_22secs_4.wav"
+                    type="audio/wav" />
+            </audio>
+        </div>
+        <div>&nbsp; </div>
+
+        <div style='--colorbg: #0071bc; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+            <audio id='testaudio' controls controlsList="nodownload noplaybackrate">
+                <source
+                    src="samples/waterfill/ZOOM0050_waterfilling_22secs_2.wav"
+                    type="audio/wav" />
+            </audio>
+        </div>
+        <div>&nbsp; </div>
+
+        <div style='--colorbg: darkorange; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+            <audio id='testaudio' controls controlsList="nodownload noplaybackrate">
+                <source
+                    src="samples/waterfill/ZOOM0050_waterfilling_22secs_7.wav"
+                    type="audio/wav" />
+            </audio>
+        </div>
+        <div>&nbsp; </div>
+
+       
+    </div>
+
+    <div>&nbsp; </div>
+
+    <div id="container">
+        <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+            <audio id='testaudio' controls controlsList="nodownload noplaybackrate">
+                <source
+                    src="samples/waterfill/ZOOM0050_waterfilling_22secs_0.wav"
+                    type="audio/wav" />
+            </audio>
+        </div>
+        <div>&nbsp; </div>
+        <div class="wrap" role="group">
+            <input id="a" type="range" min="0" value="5" max="100" style="--thumbcolor: #0071bc" />
+            <input id="b" type="range" min="0" value="6" max="100" style="--thumbcolor: #f9c642"/>
+            <input id="d" type="range" min="0" value="7" max="100" style="--thumbcolor: #4aa564"/>
+            <input id="e" type="range" min="0" value="8" max="100" style="--thumbcolor: darkorange"/>
+            <input id="f" type="range" min="0" value="9" max="100" style="--thumbcolor: #cd2026"/>
+        </div>
+        <div>&nbsp; </div>
+        <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+            <audio id='testaudio' controls controlsList="nodownload noplaybackrate">
+                <source
+                    src="samples/waterfill/ZOOM0050_waterfilling_22secs_10.wav"
+                    type="audio/wav" />
+            </audio>
+        </div>
+
+    </div>
+    <div>&nbsp; </div>
+    <div id='all-outputs' style="--a: 5; --b: 6; --d: 7; --e: 8; --f: 9;--min: 0; --max: 100">
+        <div>&nbsp; </div>
+        <div>
+            <fieldset>
+                <output style='--c: var(--a); --colorbg: #0071bc; padding: 1px;border: solid black 1px; background-color: var(--colorbg);'for="a"></output><br />
+                <output style='--c: var(--b); --colorbg: #f9c642; padding: 1px;border: solid black 1px; background-color: var(--colorbg);'for="b"></output><br />   
+                <output style='--c: var(--d); --colorbg: #4aa564; padding: 1px;border: solid black 1px; background-color: var(--colorbg);'for="d"></output><br />
+                <output style='--c: var(--e); --colorbg: darkorange; padding: 1px;border: solid black 1px; background-color: var(--colorbg);'for="e"></output><br />
+                <output style='--c: var(--f); --colorbg: #cd2026; padding: 1px;border: solid black 1px; background-color: var(--colorbg);' for="f"></output><br />
+            </fieldset>
+        </div>
+        
+    </div>
+
+</body>
+<script>
+    addEventListener('input', e => {
+        let _t = e.target;
+        // _t.parentNode.style.setProperty(`--${_t.id}`, +_t.value);
+        document.getElementById('all-outputs').style.setProperty(`--${_t.id}`, +_t.value);
+    }, false);
+</script>
+
+</html>

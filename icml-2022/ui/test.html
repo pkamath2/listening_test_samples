@@ -1,0 +1,213 @@
+<html>
+
+<head>
+    <style>
+        body {
+            overflow-y: auto;
+        }
+
+        input[type=range]:focus::-webkit-slider-thumb {
+            outline: 3px solid #369;
+            outline-offset: 2px;
+        }
+
+        input[type=range]:focus::-moz-range-thumb {
+            outline: 3px solid #369;
+            outline-offset: 2px;
+        }
+
+        input[type=range]:focus::-ms-thumb {
+            outline: 3px solid #369;
+            outline-offset: 2px;
+        }
+
+        input[type="range"] {
+            display: block;
+            height: 2em;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        _:-ms-lang(x),
+        input[type="range"] {
+            display: inline;
+            pointer-events: all;
+        }
+
+        input[type="range"]+input[type="range"] {
+            margin-top: -2em;
+        }
+
+        fieldset+fieldset input[type="range"]+input[type="range"] {
+            margin-top: -2em;
+            margin-left: 4em;
+        }
+
+        fieldset+fieldset input[type="range"] {
+            width: 4em;
+        }
+
+
+        input[type="range"]::-webkit-slider-thumb {
+            pointer-events: all;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            pointer-events: all;
+        }
+
+        input[type="range"]::-ms-thumb {
+            pointer-events: all;
+        }
+
+        input[type=range]::-moz-range-thumb {
+            background-color: #999;
+            pointer-events: all;
+        }
+
+        input[type="range"]::-ms-thumb {
+            pointer-events: all;
+        } 
+
+        .label-wrapper,
+        .slider-wrapper {
+            float: left;
+        }
+
+        fieldset p {
+            clear: both;
+        }
+
+
+
+
+
+
+
+
+
+    #testaudio {
+    min-width: 7%;
+    max-width: 10%;
+    padding-bottom: 5%;
+    }
+
+    .audio-player {
+    --animated-sound-icon-size: 10%;
+    width: var(--animated-sound-icon-size);
+    height: var(--animated-sound-icon-size);
+    font-size: var(--animated-sound-icon-size);
+    }
+
+    .audio-player .play-container {
+    width: 30%;
+    height: 60%;
+    padding: 3%;
+    border-radius: 45%;
+    border: solid black 1px;
+    background-color: #2b2d2f;
+    }
+
+    .audio-player .toggle-play.play {
+    cursor: pointer;
+    position: relative;
+    left: 25%;
+    top: 7%;
+    height: 0;
+    width: 0;
+    border: 15em solid #0000;
+    border-left: 21em solid white;
+    }
+
+    .audio-player .toggle-play.play:hover {
+    transform: scale(1.1);
+    }
+
+    .audio-player .toggle-play.pause {
+    height: 60%;
+    width: 30%;
+    cursor: pointer;
+    position: relative;
+    }
+
+    .audio-player .toggle-play.pause:before {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    background: white;
+    content: "";
+    height: 30em;
+    width: 3em;
+    }
+
+    .audio-player .toggle-play.pause:after {
+    position: absolute;
+    top: 10%;
+    right: 10em;
+    background: red;
+    content: "";
+    height: 30em;
+    width: 3em;
+    }
+
+    .audio-player .toggle-play.pause:hover {
+    transform: scale(1.1);
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <audio id='testaudio' controls controlsList="nodownload noplaybackrate">
+        <source
+            src="https://animatedsound.com/amt/sandbox/evomusart-2022/ui/samples/ICLRdata/RNNAudio2/inst_0_pitch_8.wav"
+            type="audio/wav" />
+    </audio>
+
+
+    <!-- <div class="audio-player">
+        <div class="play-container">
+            <div class="toggle-play play" id='audio-1'>
+                &nbsp;
+                <audio onended="listenedCheck('test_4_second_sound_listened_test')">
+                    <source src="samples/ICLRdata/RNNAudio2/inst_0_pitch_4.wav" type="audio/wav" />
+                </audio>
+            </div>
+        </div>
+    </div> -->
+
+    <fieldset>
+        <legend>Number Range</legend>
+        <div>
+            <div class="label-wrapper"><label for="min">Min</label>: <span id="min-value">0</span> </div>
+            <div class="slider-wrapper"><input id="min" type="range" min="0" step="1" max="10" value="1"><input id="max"
+                    type="range" min="0" step="1" max="10" value="9"></div>
+            <div class="label-wrapper"><label for="max"> Max</label>: <span id="max-value">5</span> </div>
+        </div>
+    </fieldset>
+
+</body>
+<script>
+    const audioPlayer = document.querySelector(".audio-player");
+    const playBtn = audioPlayer.querySelector(".toggle-play");
+    playBtn.addEventListener(
+        "click",
+        () => {
+            audio = playBtn.children[0]
+            if (audio.paused) {
+                playBtn.classList.remove("play");
+                playBtn.classList.add("pause");
+                audio.play();
+            } else {
+                playBtn.classList.remove("pause");
+                playBtn.classList.add("play");
+                audio.pause();
+            }
+        },
+        false
+    );
+
+</script>
+
+</html>

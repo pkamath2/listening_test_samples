@@ -51,7 +51,7 @@
 
     #samples-container {
         display: grid;
-        grid-template-columns: 10% 2% 55% 2% 10%;
+        grid-template-columns: 15% 2% 55% 2% 15%;
         width: 100%;
         margin-left: 2%;
     }
@@ -67,20 +67,15 @@
         grid-template: repeat(2, max-content) 4em/1fr 1fr;
         overflow: hidden;
         position: relative;
-        /* margin: 1em auto; */
+        margin: 1em auto;
         width: 100%;
-        background: linear-gradient(0deg, #ccc 4em, transparent 0);
+        /* background: linear-gradient(0deg, #ccc 4em, transparent 0); */
+        background-color: rgb(196, 196, 196);
         font-family: ubuntu mono, consolas, monaco, monospace;
     }
 
     [id=multi-lbl] {
         grid-column: 1/span 2;
-    }
-
-    .sr-only {
-        position: absolute;
-        -webkit-clip-path: inset(50%);
-        clip-path: inset(50%);
     }
 
     input[type=range] {
@@ -103,12 +98,14 @@
     }
 
     input[type=range]::-webkit-slider-runnable-track {
+        padding-bottom: 5em;
         width: 100%;
         height: 100%;
         background: none;
     }
 
     input[type=range]::-moz-range-track {
+        padding-bottom: 5em;
         width: 100%;
         height: 100%;
         background: none;
@@ -118,7 +115,7 @@
         border: none;
         /* get rid of Firefox thumb border */
         width: 2em;
-        height: 4em;
+        height: 5em;
         border-radius: 0;
         /* get rid of Firefox corner rounding */
         background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em);
@@ -129,7 +126,7 @@
         border: none;
         /* get rid of Firefox thumb border */
         width: 2em;
-        height: 4em;
+        height: 5em;
         border-radius: 0;
         /* get rid of Firefox corner rounding */
         background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em);
@@ -143,7 +140,7 @@
 
     #all-inputs {
         display: grid;
-        grid-template-columns: repeat(auto-fill, 11% 2%);
+        grid-template-columns: repeat(auto-fill, 15% 2%);
         width: 100%;
         padding-left: 2%;
     }
@@ -152,21 +149,6 @@
         display: grid;
         grid-template-columns: 30% 20%;
         width: 80%;
-    }
-
-    output {
-        font-family: ubuntu mono, consolas, monaco, monospace;
-        grid-row: 2;
-        color: var(--col);
-    }
-
-    output:last-child {
-        text-align: right;
-    }
-
-    output::after {
-        counter-reset: c var(--c);
-        content: "--"attr(for) ": "counter(c) ";";
     }
 
     .step-content {
@@ -222,6 +204,23 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    #overlay-disabled {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        visibility: hidden;
+        background-color: rgba(0, 0, 0, 0.3)
+    }
+
+    .dotted-border {
+        padding: 5px;
+        border: dashed solid white 2px;
+    }
+    
 </style>
 
 <crowd-form>
@@ -440,56 +439,110 @@
         <div class='step-content'>
             <div>1.</div>
             <div>&nbsp;</div>
-            <div>Listen to all 5 color coded audio samples displayed below.</div>
+            <div>Listen to the 2 reference audio samples displayed below.</div>
         </div>
-
         <div>&nbsp;</div>
         <div id='all-inputs'>
-            <div style='--colorbg: #cd2026; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
-                <audio id='clip_1_audio' controls controlsList="nodownload noplaybackrate"
-                    onended="listenedCheck('clip_1_listened')" onplay="playCheck(event)">
-                    <source src="${clip_1_url}" type="audio/wav" />
+            <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                <audio id='ref_1_audio_step1' controls controlsList="nodownload noplaybackrate"
+                    onended="listenedCheck('ref_1_listened')" onplay="playCheck(event)">
+                    <source src="${ref_1_url}" type="audio/wav" />
                 </audio>
             </div>
             <div>&nbsp; </div>
-            <div style='--colorbg: #4aa564; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
-                <audio id='clip_2_audio' controls controlsList="nodownload noplaybackrate"
-                    onended="listenedCheck('clip_2_listened')" onplay="playCheck(event)">
-                    <source src="${clip_2_url}" type="audio/wav" />
+            <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                <audio id='ref_2_audio_step1' controls controlsList="nodownload noplaybackrate"
+                    onended="listenedCheck('ref_1_listened')" onplay="playCheck(event)">
+                    <source src="${ref_2_url}" type="audio/wav" />
                 </audio>
             </div>
+        </div>
+        <div>&nbsp; </div>
+
+        <div>&nbsp;</div>
+        <div class='step-content'>
+            <div>2.</div>
+            <div>&nbsp;</div>
+            <div>Listen to all 5 color coded audio samples displayed below. Each audio clip below can be perceptually
+                placed 'in-between' the audio clips in Step 1.</div>
+        </div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div id='all-inputs'>
+            <div id='clip-1-surrounding' class="dotted-border">
+                <div
+                    style='--colorbg: #cd2026; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                    <audio id='clip_1_audio' controls controlsList="nodownload noplaybackrate"
+                        onended="listenedCheck('clip_1_listened');removeSpotlight('clip-1-surrounding');"
+                        onplay="playCheck(event);addSpotlight('clip-1-surrounding');"
+                        onpause="removeSpotlight('clip-1-surrounding');">
+                        <source src="${clip_1_url}" type="audio/wav" />
+                    </audio>
+                </div>
+            </div>
+
             <div>&nbsp; </div>
-            <div style='--colorbg: #f9c642; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
-                <audio id='clip_3_audio' controls controlsList="nodownload noplaybackrate"
-                    onended="listenedCheck('clip_3_listened')" onplay="playCheck(event)">
-                    <source src="${clip_3_url}" type="audio/wav" />
-                </audio>
+            <div id='clip-2-surrounding' class="dotted-border">
+                <div
+                    style='--colorbg: #4aa564; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                    <audio id='clip_2_audio' controls controlsList="nodownload noplaybackrate"
+                        onended="listenedCheck('clip_2_listened');removeSpotlight('clip-2-surrounding');"
+                        onplay="playCheck(event);addSpotlight('clip-2-surrounding');"
+                        onpause="removeSpotlight('clip-2-surrounding');">
+                        <source src="${clip_2_url}" type="audio/wav" />
+                    </audio>
+                </div>
             </div>
+
             <div>&nbsp; </div>
-            <div style='--colorbg: #0071bc; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
-                <audio id='clip_4_audio' controls controlsList="nodownload noplaybackrate"
-                    onended="listenedCheck('clip_4_listened')" onplay="playCheck(event)">
-                    <source src="${clip_4_url}" type="audio/wav" />
-                </audio>
+            <div id='clip-3-surrounding' class="dotted-border">
+                <div
+                    style='--colorbg: #f9c642; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                    <audio id='clip_3_audio' controls controlsList="nodownload noplaybackrate"
+                        onended="listenedCheck('clip_3_listened'); removeSpotlight('clip-3-surrounding');"
+                        onplay="playCheck(event); addSpotlight('clip-3-surrounding');"
+                        onpause="removeSpotlight('clip-3-surrounding');">
+                        <source src="${clip_3_url}" type="audio/wav" />
+                    </audio>
+                </div>
             </div>
+
             <div>&nbsp; </div>
-            <div style='--colorbg: darkorange; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
-                <audio id='clip_5_audio' controls controlsList="nodownload noplaybackrate"
-                    onended="listenedCheck('clip_5_listened')" onplay="playCheck(event)">
-                    <source src="${clip_5_url}" type="audio/wav" />
-                </audio>
+            <div id='clip-4-surrounding' class="dotted-border">
+                <div
+                    style='--colorbg: #0071bc; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                    <audio id='clip_4_audio' controls controlsList="nodownload noplaybackrate"
+                        onended="listenedCheck('clip_4_listened'); removeSpotlight('clip-4-surrounding');"
+                        onplay="playCheck(event); addSpotlight('clip-4-surrounding');"
+                        onpause="removeSpotlight('clip-4-surrounding');">
+                        <source src="${clip_4_url}" type="audio/wav" />
+                    </audio>
+                </div>
             </div>
+
+            <div>&nbsp; </div>
+            <div id='clip-5-surrounding' class="dotted-border">
+                <div
+                    style='--colorbg: darkorange; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                    <audio id='clip_5_audio' controls controlsList="nodownload noplaybackrate"
+                        onended="listenedCheck('clip_5_listened'); removeSpotlight('clip-5-surrounding');"
+                        onplay="playCheck(event); addSpotlight('clip-5-surrounding');"
+                        onpause="removeSpotlight('clip-5-surrounding');">
+                        <source src="${clip_5_url}" type="audio/wav" />
+                    </audio>
+                </div>
+            </div>
+
             <div>&nbsp; </div>
         </div>
         <div>&nbsp; </div>
         <div>&nbsp; </div>
 
         <div class='step-content'>
-            <div>2.</div>
+            <div>3.</div>
             <div>&nbsp;</div>
-            <div>Next, listen to the two reference audio clips in grey below.
-                Each audio color coded audio clip in step
-                1 above has a corresponding slider thumb below.<br /><br />
+            <div>Each audio color coded audio clip in step
+                2 above has a corresponding slider thumb below.<br /><br />
                 Move/arrange each audio's corresponding slider to a
                 position between the two reference audio clips.</div>
         </div>
@@ -497,39 +550,54 @@
 
 
         <div id="samples-container">
-            <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
-                <audio id='testaudio' controls controlsList="nodownload noplaybackrate"
-                    onended="listenedCheck('ref_1_listened')" onplay="playCheck(event)">
-                    <source src="${ref_1_url}" type="audio/wav" />
-                </audio>
+            <div id='ref-1-surrounding' class="dotted-border" style="padding-top: 1em;">
+                <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                    <audio id='ref_1_audio' controls controlsList="nodownload noplaybackrate"
+                        onended="listenedCheck('ref_1_listened'); removeSpotlight('ref-1-surrounding');"
+                        onplay="playCheck(event);addSpotlight('ref-1-surrounding');"
+                        onpause="removeSpotlight('ref-1-surrounding');">
+                        <source src="${ref_1_url}" type="audio/wav" />
+                    </audio>
+                </div>
             </div>
+
             <div>&nbsp; </div>
             <div class="wrap" role="group">
-                <input id="clip_1_value" name="clip_1_value" type="range" min="0" value="5" max="100"
-                    style="--thumbcolor: #cd2026" onchange="sliderChanged('clip_1_slider_changed')" />
-                <input id="clip_2_value" name="clip_2_value" type="range" min="0" value="6" max="100"
-                    style="--thumbcolor: #4aa564" onchange="sliderChanged('clip_2_slider_changed')" />
-                <input id="clip_3_value" name="clip_3_value" type="range" min="0" value="7" max="100"
-                    style="--thumbcolor: #f9c642" onchange="sliderChanged('clip_3_slider_changed')" />
-                <input id="clip_4_value" name="clip_4_value" type="range" min="0" value="8" max="100"
-                    style="--thumbcolor: #0071bc" onchange="sliderChanged('clip_4_slider_changed')" />
-                <input id="clip_5_value" name="clip_5_value" type="range" min="0" value="9" max="100"
-                    style="--thumbcolor: darkorange" onchange="sliderChanged('clip_5_slider_changed')" />
+                <input id="clip_1_value" name="clip_1_value" type="range" min="0" value="50" max="100"
+                    style="--thumbcolor: #cd2026" onchange="sliderChanged('clip_1_slider_changed')"
+                    ondblclick="dblclicked('clip_1_audio')" />
+                <input id="clip_2_value" name="clip_2_value" type="range" min="0" value="51" max="100"
+                    style="--thumbcolor: #4aa564" onchange="sliderChanged('clip_2_slider_changed')"
+                    ondblclick="dblclicked('clip_2_audio')" />
+                <input id="clip_3_value" name="clip_3_value" type="range" min="0" value="52" max="100"
+                    style="--thumbcolor: #f9c642" onchange="sliderChanged('clip_3_slider_changed')"
+                    ondblclick="dblclicked('clip_3_audio')" />
+                <input id="clip_4_value" name="clip_4_value" type="range" min="0" value="53" max="100"
+                    style="--thumbcolor: #0071bc" onchange="sliderChanged('clip_4_slider_changed')"
+                    ondblclick="dblclicked('clip_4_audio')" />
+                <input id="clip_5_value" name="clip_5_value" type="range" min="0" value="54" max="100"
+                    style="--thumbcolor: darkorange" onchange="sliderChanged('clip_5_slider_changed')"
+                    ondblclick="dblclicked('clip_5_audio')" />
             </div>
             <div>&nbsp; </div>
-            <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
-                <audio id='testaudio' controls controlsList="nodownload noplaybackrate"
-                    onended="listenedCheck('ref_2_listened')" onplay="playCheck(event)">
-                    <source src="${ref_2_url}" type="audio/wav" />
-                </audio>
+            <div id='ref-2-surrounding' class="dotted-border" style="padding-top: 1em;">
+                <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
+                    <audio id='ref_2_audio' controls controlsList="nodownload noplaybackrate"
+                        onended="listenedCheck('ref_2_listened'); removeSpotlight('ref-2-surrounding');"
+                        onplay="playCheck(event);addSpotlight('ref-2-surrounding');"
+                        onpause="removeSpotlight('ref-2-surrounding');">
+                        <source src="${ref_2_url}" type="audio/wav" />
+                    </audio>
+                </div>
             </div>
+
 
         </div>
         <div>&nbsp; </div>
         <div>&nbsp; </div>
 
         <div class='step-content'>
-            <div>3.</div>
+            <div>4.</div>
             <div>&nbsp;</div>
             <div>Click on the button below to listen to the arrangement to answer steps 4 &amp; 5.</div>
         </div>
@@ -547,7 +615,7 @@
         <div>&nbsp; </div>
 
         <div class='step-content'>
-            <div>4.</div>
+            <div>5.</div>
             <div>&nbsp;</div>
             <div><span style="font-weight: bold;">Adjust Ordering Step</span>: Please redo from Step 2 if the
                 arrangement does not sound to be in some order of sequence.</div>
@@ -557,7 +625,7 @@
             <div>&nbsp;</div>
             <div>&nbsp;</div>
             <div>
-                <input type="checkbox" id="ordering_checkbox" name="ordering_checkbox" value="ordered">
+                <input type="checkbox" id="ordering_checkbox" name="ordering_checkbox" value="ordered" disabled>
                 <label for="ordering_checkbox"> I have listened to all the audio samples and verified that the
                     arrangement is in the correct order of sequence.</label><br>
             </div>
@@ -569,7 +637,7 @@
         <div>&nbsp; </div>
 
         <div class='step-content'>
-            <div>5.</div>
+            <div>6.</div>
             <div>&nbsp;</div>
             <div><span style="font-weight: bold;">Adjust Distance Step</span>: Please adjust the sliders for each audio
                 clip in Step 2 inline with
@@ -580,7 +648,8 @@
             <div>&nbsp;</div>
             <div>&nbsp;</div>
             <div>
-                <input type="checkbox" id="distance_checkbox" name="distance_checkbox" value="distance_ordered">
+                <input type="checkbox" id="distance_checkbox" name="distance_checkbox" value="distance_ordered"
+                    disabled>
                 <label for="distance_checkbox"> I have listened to all the audio samples and verified that the
                     arrangement is in the correct order of sequence.</label><br>
             </div>
@@ -594,17 +663,32 @@
             <div>Submit the HIT.</div>
         </div>
     </div>
+    <div id="overlay-disabled">
+        <div style="padding-top: 15%; font-size:xx-large; font-weight: bolder; transform: rotate(-45deg);">
+            Please attempt this task only if you are on Firefox or Chrome.
+        </div>
+    </div>
     <div>&nbsp; </div>
     <br />
 
 </crowd-form>
 
 <script>
+    isChromeOrFirefox = navigator.userAgent.indexOf('Chrome') > -1 || navigator.userAgent.indexOf('Firefox') > -1
+    if (!isChromeOrFirefox)
+        document.getElementById('overlay-disabled').style.visibility = 'visible'
+    else
+        document.getElementById('overlay-disabled').style.visibility = 'hidden'
+
     const arrangementBtn = document.getElementById('arrangementBtn')
     const disableArrangementBtn = new CustomEvent('arrangement-button-disable');
     const enableArrangementBtn = new CustomEvent('arrangement-button-enable');
     arrangementBtn.addEventListener('arrangement-button-disable', (e) => { arrangementBtn.disabled = true; });
-    arrangementBtn.addEventListener('arrangement-button-enable', (e) => { arrangementBtn.removeAttribute('disabled'); });
+    arrangementBtn.addEventListener('arrangement-button-enable', (e) => {
+        arrangementBtn.removeAttribute('disabled');
+        document.getElementById('ordering_checkbox').removeAttribute('disabled');
+        document.getElementById('distance_checkbox').removeAttribute('disabled');
+    });
 
     let sounds_in_sequence = []
     let sound_index = 0
@@ -625,11 +709,13 @@
         sounds_in_sequence = []
         sound_index = 0
         let arrangement = {
+            "ref_1": -1,
             "clip_1": parseInt(document.getElementById('clip_1_value').value),
             "clip_2": parseInt(document.getElementById('clip_2_value').value),
             "clip_3": parseInt(document.getElementById('clip_3_value').value),
             "clip_4": parseInt(document.getElementById('clip_4_value').value),
-            "clip_5": parseInt(document.getElementById('clip_5_value').value)
+            "clip_5": parseInt(document.getElementById('clip_5_value').value),
+            "ref_2": 10000
         }
 
         arrangement = Object.entries(arrangement)
@@ -666,6 +752,15 @@
         x.value = 'Yes'
     }
 
+    function addSpotlight(contId) {
+        document.getElementById(contId).style.border = 'dashed black 2px';
+    }
+
+    function removeSpotlight(contId) {
+        console.log(contId)
+        document.getElementById(contId).style.border = 'none';
+    }
+
     var viewinstructions = document.getElementById('viewinstructions')
     viewinstructions.onclick = function () {
         document.getElementById('view_instructions_clicked').value = 'Yes'
@@ -673,6 +768,10 @@
     var viewconsent = document.getElementById('viewconsent')
     viewconsent.onclick = function () {
         document.getElementById('view_consent_clicked').value = 'Yes'
+    }
+
+    function dblclicked(audio_id) {
+        document.getElementById(audio_id).play();
     }
 
     function validateForm() {
@@ -703,6 +802,7 @@
             sliderChangedTest = true;
         }
 
+        console.log(listened && sliderChangedTest)
         return listened && sliderChangedTest
     }
 

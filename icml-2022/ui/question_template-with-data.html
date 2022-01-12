@@ -138,6 +138,13 @@
         outline: dotted 1px currentcolor;
     }
 
+    #all-refs {
+        display: grid;
+        grid-template-columns: 15% 59% 15%;
+        width: 100%;
+        padding-left: 2%;
+    }
+
     #all-inputs {
         display: grid;
         grid-template-columns: repeat(auto-fill, 15% 2%);
@@ -445,14 +452,14 @@
             <div>Listen to the 2 reference audio samples displayed below.</div>
         </div>
         <div>&nbsp;</div>
-        <div id='all-inputs'>
+        <div id='all-refs'>
             <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                 <audio id='ref_1_audio_step1' controls controlsList="nodownload noplaybackrate"
                     onended="listenedCheck('ref_1_listened')" onplay="playCheck(event)">
                     <source src="samples/waterfill/ZOOM0050_waterfilling_22secs_0.wav" type="audio/wav" />
                 </audio>
             </div>
-            <div>&nbsp; </div>
+            <div style="margin-top: 3%;"><div style='border: dashed black 1px;width: 100%;'></div></div>
             <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                 <audio id='ref_2_audio_step1' controls controlsList="nodownload noplaybackrate"
                     onended="listenedCheck('ref_2_listened')" onplay="playCheck(event)">
@@ -656,7 +663,7 @@
                 <input type="checkbox" id="distance_checkbox" name="distance_checkbox" value="distance_ordered"
                     disabled>
                 <label for="distance_checkbox"> I have listened to all the audio samples and verified that the
-                    arrangement is in the correct order of sequence.</label><br>
+                    ordering and spacing of the samples is correct.</label><br>
             </div>
         </div>
         <div>&nbsp; </div>
@@ -762,7 +769,7 @@
     }
 
     function removeSpotlight(contId) {
-        console.log(contId)
+        arrangementBtn.dispatchEvent(enableArrangementBtn);
         document.getElementById(contId).style.border = 'none';
     }
 
@@ -807,7 +814,6 @@
             sliderChangedTest = true;
         }
 
-        console.log(listened && sliderChangedTest)
         return listened && sliderChangedTest
     }
 

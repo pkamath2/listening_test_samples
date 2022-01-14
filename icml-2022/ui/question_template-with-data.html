@@ -114,14 +114,17 @@
     input[type=range]::-webkit-slider-thumb {
         border: none;
         /* get rid of Firefox thumb border */
-        width: 2em;
+        width: 2.2em;
         height: 5em;
         border-radius: 0;
         /* get rid of Firefox corner rounding */
-        background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em);
+        background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em)
+        , radial-gradient(circle, transparent 0.7em, var(--thumbborder) 0.7em 1.1em, transparent 1.1em); 
         pointer-events: auto;
     }
 
+    /*var(--thumbborder) calc(1em - 1px), transparent 1em
+    */
     input[type=range]::-moz-range-thumb {
         border: none;
         /* get rid of Firefox thumb border */
@@ -129,8 +132,17 @@
         height: 5em;
         border-radius: 0;
         /* get rid of Firefox corner rounding */
-        background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em);
+        background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em)
+        , radial-gradient(circle, transparent 0.7em, var(--thumbborder) 0.7em 1.1em, transparent 1.1em);
         pointer-events: auto;
+    }
+
+    /* .range-active{
+        pointer-events: auto;
+    } */
+
+    .range-active {
+        border: solid black 1px;
     }
 
     input[type=range]:focus {
@@ -481,9 +493,9 @@
                 <div
                     style='--colorbg: #cd2026; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_1_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_1_listened');removeSpotlight(event, 'clip-1-surrounding');"
-                        onplay="playCheck(event);addSpotlight('clip-1-surrounding');"
-                        onpause="removeSpotlight(event, 'clip-1-surrounding');">
+                        onended="listenedCheck('clip_1_listened');removeSpotlight(event, 'clip-1-surrounding', 'clip_1_value');"
+                        onplay="playCheck(event);addSpotlight('clip-1-surrounding', 'clip_1_value');"
+                        onpause="removeSpotlight(event, 'clip-1-surrounding', 'clip_1_value');">
                         <source src="samples/waterfill/ZOOM0050_waterfilling_22secs_8.wav" type="audio/wav" />
                     </audio>
                 </div>
@@ -494,9 +506,9 @@
                 <div
                     style='--colorbg: #4aa564; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_2_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_2_listened');removeSpotlight(event, 'clip-2-surrounding');"
-                        onplay="playCheck(event);addSpotlight('clip-2-surrounding');"
-                        onpause="removeSpotlight(event, 'clip-2-surrounding');">
+                        onended="listenedCheck('clip_2_listened');removeSpotlight(event, 'clip-2-surrounding', 'clip_2_value');"
+                        onplay="playCheck(event);addSpotlight('clip-2-surrounding', 'clip_2_value');"
+                        onpause="removeSpotlight(event, 'clip-2-surrounding', 'clip_2_value');">
                         <source src="samples/waterfill/ZOOM0050_waterfilling_22secs_6.wav" type="audio/wav" />
                     </audio>
                 </div>
@@ -507,9 +519,9 @@
                 <div
                     style='--colorbg: #f9c642; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_3_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_3_listened'); removeSpotlight(event, 'clip-3-surrounding');"
-                        onplay="playCheck(event); addSpotlight('clip-3-surrounding');"
-                        onpause="removeSpotlight(event, 'clip-3-surrounding');">
+                        onended="listenedCheck('clip_3_listened'); removeSpotlight(event, 'clip-3-surrounding', 'clip_3_value');"
+                        onplay="playCheck(event); addSpotlight('clip-3-surrounding', 'clip_3_value');"
+                        onpause="removeSpotlight(event, 'clip-3-surrounding', 'clip_3_value');">
                         <source src="samples/waterfill/ZOOM0050_waterfilling_22secs_2.wav" type="audio/wav" />
                     </audio>
                 </div>
@@ -520,9 +532,9 @@
                 <div
                     style='--colorbg: #0071bc; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_4_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_4_listened'); removeSpotlight(event, 'clip-4-surrounding');"
-                        onplay="playCheck(event); addSpotlight('clip-4-surrounding');"
-                        onpause="removeSpotlight(event, 'clip-4-surrounding');">
+                        onended="listenedCheck('clip_4_listened'); removeSpotlight(event, 'clip-4-surrounding', 'clip_4_value');"
+                        onplay="playCheck(event); addSpotlight('clip-4-surrounding', 'clip_4_value');"
+                        onpause="removeSpotlight(event, 'clip-4-surrounding', 'clip_4_value');">
                         <source src="samples/waterfill/ZOOM0050_waterfilling_22secs_4.wav" type="audio/wav" />
                     </audio>
                 </div>
@@ -533,9 +545,9 @@
                 <div
                     style='--colorbg: darkorange; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_5_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_5_listened'); removeSpotlight(event, 'clip-5-surrounding');"
-                        onplay="playCheck(event); addSpotlight('clip-5-surrounding');"
-                        onpause="removeSpotlight(event, 'clip-5-surrounding');">
+                        onended="listenedCheck('clip_5_listened'); removeSpotlight(event, 'clip-5-surrounding', 'clip_5_value');"
+                        onplay="playCheck(event); addSpotlight('clip-5-surrounding', 'clip_5_value');"
+                        onpause="removeSpotlight(event, 'clip-5-surrounding', 'clip_5_value');">
                         <source src="samples/waterfill/ZOOM0050_waterfilling_22secs_7.wav" type="audio/wav" />
                     </audio>
                 </div>
@@ -574,19 +586,19 @@
             <div>&nbsp; </div>
             <div class="wrap" role="group">
                 <input id="clip_1_value" name="clip_1_value" type="range" min="0" value="50" max="100"
-                    style="--thumbcolor: #cd2026" onchange="sliderChanged('clip_1_slider_changed')"
+                    style="--thumbcolor: #cd2026; --thumbborder: transparent" onchange="sliderChanged('clip_1_slider_changed')"
                     ondblclick="dblclicked('clip_1_audio')" />
                 <input id="clip_2_value" name="clip_2_value" type="range" min="0" value="51" max="100"
-                    style="--thumbcolor: #4aa564" onchange="sliderChanged('clip_2_slider_changed')"
+                    style="--thumbcolor: #4aa564; --thumbborder: transparent" onchange="sliderChanged('clip_2_slider_changed')"
                     ondblclick="dblclicked('clip_2_audio')" />
                 <input id="clip_3_value" name="clip_3_value" type="range" min="0" value="52" max="100"
-                    style="--thumbcolor: #f9c642" onchange="sliderChanged('clip_3_slider_changed')"
+                    style="--thumbcolor: #f9c642; --thumbborder: transparent" onchange="sliderChanged('clip_3_slider_changed')"
                     ondblclick="dblclicked('clip_3_audio')" />
                 <input id="clip_4_value" name="clip_4_value" type="range" min="0" value="53" max="100"
-                    style="--thumbcolor: #0071bc" onchange="sliderChanged('clip_4_slider_changed')"
+                    style="--thumbcolor: #0071bc; --thumbborder: transparent" onchange="sliderChanged('clip_4_slider_changed')"
                     ondblclick="dblclicked('clip_4_audio')" />
                 <input id="clip_5_value" name="clip_5_value" type="range" min="0" value="54" max="100"
-                    style="--thumbcolor: darkorange" onchange="sliderChanged('clip_5_slider_changed')"
+                    style="--thumbcolor: darkorange; --thumbborder: transparent" onchange="sliderChanged('clip_5_slider_changed')"
                     ondblclick="dblclicked('clip_5_audio')" />
             </div>
             <div>&nbsp; </div>
@@ -761,12 +773,16 @@
         x.value = 'Yes'
     }
 
-    function addSpotlight(contId) {
+    function addSpotlight(contId, thumbId) {
+        if(thumbId !== undefined)
+            document.getElementById(thumbId).style.setProperty('--thumbborder', 'black')
         document.getElementById(contId).style.border = 'dashed black 2px';
     }
 
-    function removeSpotlight(e, contId) {
+    function removeSpotlight(e, contId, thumbId) {
         e.target.currentTime = 0;
+        if(thumbId !== undefined)
+            document.getElementById(thumbId).style.setProperty('--thumbborder', 'transparent')
         document.getElementById(contId).style.border = 'none';
     }
 

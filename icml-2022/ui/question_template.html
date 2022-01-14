@@ -480,9 +480,9 @@
                 <div
                     style='--colorbg: #cd2026; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_1_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_1_listened');removeSpotlight('clip-1-surrounding');"
+                        onended="listenedCheck('clip_1_listened');removeSpotlight(event, 'clip-1-surrounding');"
                         onplay="playCheck(event);addSpotlight('clip-1-surrounding');"
-                        onpause="removeSpotlight('clip-1-surrounding');">
+                        onpause="removeSpotlight(event, 'clip-1-surrounding');">
                         <source src="${clip_1_url}" type="audio/wav" />
                     </audio>
                 </div>
@@ -493,9 +493,9 @@
                 <div
                     style='--colorbg: #4aa564; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_2_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_2_listened');removeSpotlight('clip-2-surrounding');"
+                        onended="listenedCheck('clip_2_listened');removeSpotlight(event, 'clip-2-surrounding');"
                         onplay="playCheck(event);addSpotlight('clip-2-surrounding');"
-                        onpause="removeSpotlight('clip-2-surrounding');">
+                        onpause="removeSpotlight(event, 'clip-2-surrounding');">
                         <source src="${clip_2_url}" type="audio/wav" />
                     </audio>
                 </div>
@@ -506,9 +506,9 @@
                 <div
                     style='--colorbg: #f9c642; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_3_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_3_listened'); removeSpotlight('clip-3-surrounding');"
+                        onended="listenedCheck('clip_3_listened'); removeSpotlight(event, 'clip-3-surrounding');"
                         onplay="playCheck(event); addSpotlight('clip-3-surrounding');"
-                        onpause="removeSpotlight('clip-3-surrounding');">
+                        onpause="removeSpotlight(event, 'clip-3-surrounding');">
                         <source src="${clip_3_url}" type="audio/wav" />
                     </audio>
                 </div>
@@ -519,9 +519,9 @@
                 <div
                     style='--colorbg: #0071bc; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_4_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_4_listened'); removeSpotlight('clip-4-surrounding');"
+                        onended="listenedCheck('clip_4_listened'); removeSpotlight(event, 'clip-4-surrounding');"
                         onplay="playCheck(event); addSpotlight('clip-4-surrounding');"
-                        onpause="removeSpotlight('clip-4-surrounding');">
+                        onpause="removeSpotlight(event, 'clip-4-surrounding');">
                         <source src="${clip_4_url}" type="audio/wav" />
                     </audio>
                 </div>
@@ -532,9 +532,9 @@
                 <div
                     style='--colorbg: darkorange; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='clip_5_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('clip_5_listened'); removeSpotlight('clip-5-surrounding');"
+                        onended="listenedCheck('clip_5_listened'); removeSpotlight(event, 'clip-5-surrounding');"
                         onplay="playCheck(event); addSpotlight('clip-5-surrounding');"
-                        onpause="removeSpotlight('clip-5-surrounding');">
+                        onpause="removeSpotlight(event, 'clip-5-surrounding');">
                         <source src="${clip_5_url}" type="audio/wav" />
                     </audio>
                 </div>
@@ -562,9 +562,9 @@
             <div id='ref-1-surrounding' class="dotted-border" style="padding-top: 1em;">
                 <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='ref_1_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('ref_1_listened'); removeSpotlight('ref-1-surrounding');"
+                        onended="listenedCheck('ref_1_listened'); removeSpotlight(event, 'ref-1-surrounding');"
                         onplay="playCheck(event);addSpotlight('ref-1-surrounding');"
-                        onpause="removeSpotlight('ref-1-surrounding');">
+                        onpause="removeSpotlight(event, 'ref-1-surrounding');">
                         <source src="${ref_1_url}" type="audio/wav" />
                     </audio>
                 </div>
@@ -592,9 +592,9 @@
             <div id='ref-2-surrounding' class="dotted-border" style="padding-top: 1em;">
                 <div style='--colorbg: grey; padding: 5px;border: solid black 1px; background-color: var(--colorbg);'>
                     <audio id='ref_2_audio' controls controlsList="nodownload noplaybackrate"
-                        onended="listenedCheck('ref_2_listened'); removeSpotlight('ref-2-surrounding');"
+                        onended="listenedCheck('ref_2_listened'); removeSpotlight(event, 'ref-2-surrounding');"
                         onplay="playCheck(event);addSpotlight('ref-2-surrounding');"
-                        onpause="removeSpotlight('ref-2-surrounding');">
+                        onpause="removeSpotlight(event, 'ref-2-surrounding');">
                         <source src="${ref_2_url}" type="audio/wav" />
                     </audio>
                 </div>
@@ -765,8 +765,8 @@
         document.getElementById(contId).style.border = 'dashed black 2px';
     }
 
-    function removeSpotlight(contId) {
-        arrangementBtn.dispatchEvent(enableArrangementBtn);
+    function removeSpotlight(e, contId) {
+        e.target.currentTime = 0;
         document.getElementById(contId).style.border = 'none';
     }
 

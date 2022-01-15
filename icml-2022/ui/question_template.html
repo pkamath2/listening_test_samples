@@ -114,24 +114,26 @@
     input[type=range]::-webkit-slider-thumb {
         border: none;
         /* get rid of Firefox thumb border */
-        width: 2em;
+        width: 2.3em;
         height: 5em;
         border-radius: 0;
         /* get rid of Firefox corner rounding */
-        background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em)
-        , radial-gradient(circle, transparent 0.7em, var(--thumbborder) 0.7em 1.1em, transparent 1.1em);
+        background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1.2em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em)
+        , radial-gradient(circle, transparent 0.7em, var(--thumbborder) 0.7em 1.1em, transparent 1.2em); 
         pointer-events: auto;
     }
 
+    /*var(--thumbborder) calc(1em - 1px), transparent 1em
+    */
     input[type=range]::-moz-range-thumb {
         border: none;
         /* get rid of Firefox thumb border */
-        width: 2em;
+        width: 2.3em;
         height: 5em;
         border-radius: 0;
         /* get rid of Firefox corner rounding */
-        background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em)
-        , radial-gradient(circle, transparent 0.7em, var(--thumbborder) 0.7em 1.1em, transparent 1.1em);
+        background: linear-gradient(90deg, #fff 2px, transparent 0) calc(1.2em - 1px), radial-gradient(circle, var(--thumbcolor) calc(1em - 1px), transparent 1em)
+        , radial-gradient(circle, transparent 0.7em, var(--thumbborder) 0.7em 1.1em, transparent 1.2em);
         pointer-events: auto;
     }
 
